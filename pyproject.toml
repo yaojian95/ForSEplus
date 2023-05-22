@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ForSEplus"
+authors = [
+    {name = "Me", email = "xxx"},
+]
+
+description = "My package description"
+readme = "README.md"
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["feed", "reader", "tutorial"]
+dependencies = [
+    "tensorflow >= 2.0",
+    "reproject",
+    "healpy",
+    "astropy",
+    "numpy", 
+    "scipy",
+    "pymaster",
+]
+
+[project.urls]
+Homepage = "https://github.com/realpython/reader"
+
+[project.scripts]
+realpython = "reader.__main__:main"
