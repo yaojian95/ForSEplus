@@ -1,5 +1,6 @@
+# ForSEplus: plus version of https://github.com/ai4cmb/ForSE.
 
-
+# To avoid install this package, we also offer 500 realizations of maps at url...
 ## Dependencies  
 
 - Astropy: https://www.astropy.org
@@ -8,3 +9,5 @@
 - Namaster (to compute power spectra to normalize the small scales from neural networks): https://namaster.readthedocs.io/en/latest/
 - reproject (only to perform projection from Healpix maps to flat patches and viceversa): https://pypi.org/project/reproject/
 - numba (only to accelearte the calculation of Minkowski functionals for a given patch): http://numba.pydata.org/
+
+## Install
