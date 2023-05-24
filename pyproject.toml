@@ -4,8 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ForSEplus"
+version = "1.0.0"
 authors = [
-    {name = "Me", email = "xxx"},
+    {name = "Jian Yao", email = "jyao@sissa.it"},
 ]
 
 description = "My package description"
@@ -17,18 +18,16 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = ["feed", "reader", "tutorial"]
-dependencies = [
-    "tensorflow >= 2.0",
-    "reproject",
-    "healpy",
-    "astropy",
-    "numpy", 
-    "scipy",
-    "pymaster",
-]
+
+#dependencies = [
+#    "tensorflow >= 2.0",
+#    "reproject",
+#    "healpy",
+#    "astropy",
+#    "numpy", 
+#    "scipy",
+#    "pymaster",
+#]
 
 [project.urls]
 Homepage = "https://github.com/realpython/reader"
-
-[project.scripts]
-realpython = "reader.__main__:main"
