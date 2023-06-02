@@ -17,16 +17,31 @@ class post_training(object):
     All processes after the training.
     ss_I: intensity small scales 
     Ls_Q/U:  input training files for the NN, shape:(174*49, 320, 320) in units of uK.
+    patch_id: number between 0-173;
     '''
     
-    def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_20amin, Ls_U_20amin, MF = True, fix_MF = True):
+    def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_20amin, Ls_U_20amin, MF = True, patch_id = False, fix_MF = True):
         
-        self.NNout_Q = NNout_Q.reshape(174,49,320,320);
-        self.NNout_U = NNout_U.reshape(174,49,320,320);
+        if patch_id:
+            assert NNout_Q.shape == (49, 320, 320, 1), "shape should be (49, 320, 320)"
+            
+            self.NNout_Q = NNout_Q.reshape(1,49,320,320);
+            self.NNout_U = NNout_U.reshape(1,49,320,320);
+
+            self.thr = ss_I; 
+            self.Ls_Q = Ls_Q_20amin.reshape(1,49,320,320)
+            self.Ls_U = Ls_U_20amin.reshape(1,49,320,320)
+            self.patch_id = patch_id
         
-        self.thr = ss_I; # intensity small scales at 12amin or 3amin
-        self.Ls_Q = Ls_Q_20amin.reshape(174,49,320,320)
-        self.Ls_U = Ls_U_20amin.reshape(174,49,320,320)
+        else:    
+            self.NNout_Q = NNout_Q.reshape(174,49,320,320);
+            self.NNout_U = NNout_U.reshape(174,49,320,320);
+
+            self.thr = ss_I; # intensity small scales at 12amin or 3amin
+            self.Ls_Q = Ls_Q_20amin.reshape(174,49,320,320)
+            self.Ls_U = Ls_U_20amin.reshape(174,49,320,320)
+            self.patch_id = patch_id
+            
         self.fix_MF = fix_MF
         
         if MF:
@@ -47,13 +62,23 @@ class post_training(object):
         normalized maps.
 
         '''
-        maps_out_3Q, maps_out_3U = self.NNout_Q, self.NNout_U
-        for i in range(174):
-            for j in range(49):
-                maps_out_3Q[i, j] = (maps_out_3Q[i, j] - np.mean(maps_out_3Q[i, j]))/np.std(maps_out_3Q[i, j])*gauss_ss_mean_std[1][i, j] + gauss_ss_mean_std[0][i, j]
-                maps_out_3U[i, j] = (maps_out_3U[i, j] - np.mean(maps_out_3U[i, j]))/np.std(maps_out_3U[i, j])*gauss_ss_mean_std[3][i, j] + gauss_ss_mean_std[2][i, j]
+        maps_out_3Q, maps_out_3U = np.zeros_like(self.NNout_Q), np.zeros_like(self.NNout_U)
+        
+        if self.patch_id:
+            
+            N_patch = 1
+            gauss_ss_mean_std_in = gauss_ss_mean_std[:, self.patch_id:(self.patch_id+1), :]
+            
+        else:
+            N_patch = 174
+            gauss_ss_mean_std_in = gauss_ss_mean_std
 
-        return maps_out_3Q, maps_out_3U
+        for i in range(N_patch):
+            for j in range(49):
+                maps_out_3Q[i, j] = (self.NNout_Q[i, j] - np.mean(self.NNout_Q[i, j]))/np.std(self.NNout_Q[i, j])*gauss_ss_mean_std_in[1][i, j] + gauss_ss_mean_std_in[0][i, j]
+                maps_out_3U[i, j] = (self.NNout_U[i, j] - np.mean(self.NNout_U[i, j]))/np.std(self.NNout_U[i, j])*gauss_ss_mean_std_in[3][i, j] + gauss_ss_mean_std_in[2][i, j]
+
+        return maps_out_3Q, maps_out_3U            
 
     def normalization(self, gauss_ss_ps, gauss_ss_mean_std,  mask_path = 'mask_320*320.npy', lmin = 40*14, lmax = 3500):
         '''
@@ -77,7 +102,7 @@ class post_training(object):
         Ly = np.radians(20.)
         Nx = 320
         Ny = 320
-
+        
         mask = np.load(mask_path)
 
         l0_bins = np.arange(20, lmax, 40)
@@ -88,11 +113,22 @@ class post_training(object):
         f_SSQ = nmt.NmtFieldFlat(Lx, Ly, mask, [np.zeros((320, 320))])
         w00 = nmt.NmtWorkspaceFlat()
         w00.compute_coupling_matrix(f_SSQ, f_SSQ, b)
+        
+        if self.patch_id:
+            
+            N_patch = 1
+            gauss_ss_mean_std_in = gauss_ss_mean_std[:, self.patch_id:(self.patch_id+1), :]
+            gauss_ss_ps_in = gauss_ss_ps[:, self.patch_id:(self.patch_id+1), :]
+            
+        else:
+            N_patch = 174
+            gauss_ss_mean_std_in = gauss_ss_mean_std
+            gauss_ss_ps_in = gauss_ss_ps
+            
+        NNmapQ_corr = np.ones((N_patch, 49, 320, 320))
+        NNmapU_corr = np.ones((N_patch, 49, 320, 320))
 
-        NNmapQ_corr = np.ones((174, 49, 320, 320))
-        NNmapU_corr = np.ones((174, 49, 320, 320))
-
-        for i in range(0, 174):
+        for i in range(N_patch):
             for j in range(49):
 
                 f_NNQ = nmt.NmtFieldFlat(Lx, Ly, mask, [maps_out_3Q[i, j]])
@@ -103,8 +139,8 @@ class post_training(object):
                 cl_NN_uncoupledU = w00.decouple_cell(cl_NN_coupledU)
 
                 ell_s = int(lmin/40)
-                NNmapQ_corr[i,j]=((maps_out_3Q[i,j]-np.mean(maps_out_3Q[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledQ[0][ell_s:]/gauss_ss_ps[0,i,j][0][ell_s:]))+ gauss_ss_mean_std[0][i, j])*self.Ls_Q[i, j] 
-                NNmapU_corr[i,j]=((maps_out_3U[i,j]-np.mean(maps_out_3U[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledU[0][ell_s:]/gauss_ss_ps[1,i,j][0][ell_s:]))+ gauss_ss_mean_std[2][i, j])*self.Ls_U[i, j]
+                NNmapQ_corr[i,j]=((maps_out_3Q[i,j]-np.mean(maps_out_3Q[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledQ[0][ell_s:]/gauss_ss_ps[0,i,j][0][ell_s:]))+ gauss_ss_mean_std_in[0][i, j])*self.Ls_Q[i, j] 
+                NNmapU_corr[i,j]=((maps_out_3U[i,j]-np.mean(maps_out_3U[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledU[0][ell_s:]/gauss_ss_ps[1,i,j][0][ell_s:]))+ gauss_ss_mean_std_in[2][i, j])*self.Ls_U[i, j]
         
         self.NNmapQ_corr, self.NNmapU_corr = NNmapQ_corr, NNmapU_corr
     
@@ -180,7 +216,7 @@ class post_training(object):
         rhos_Y, f_nn_Q, u_nn_Q, chi_nn_Q = MF_Q
         rhos_Y, f_nn_U, u_nn_U, chi_nn_U = MF_U
         
-        f_nn_all = [[f_nn_Q, u_nn_Q, chi_nn_Q],[f_nn_Q, u_nn_Q, chi_nn_Q]]
+        f_nn_all = [[f_nn_Q, u_nn_Q, chi_nn_Q],[f_nn_U, u_nn_U, chi_nn_U]]
         f_i = [f_t, u_t, chi_t]
         fig, axes = plt.subplots(2,3, figsize=(24, 10))
         S = ['Q', 'U']
@@ -249,7 +285,12 @@ class post_training(object):
         maps_ren2_3Q = mapQ;
         maps_ren2_3U = mapU;
 
-        for i in range(174):  
+        if self.patch_id:            
+            N_patch = 1            
+        else:
+            N_patch = 174
+            
+        for i in range(N_patch):  
 
             # angle masks
             maps_msk_3Q[i,0,:,:] = maps_ren2_3Q[i,0,:,:]*mask_nw
@@ -291,10 +332,10 @@ class post_training(object):
                 maps_msk_3U[i,j+28,:,:] = maps_ren2_3U[i,j+28,:,:]*mask_cc
 
         # Recompose 20°x20° maps together
-        maps_big_3Q = np.zeros([174,1280,1280])
-        maps_big_3U = np.zeros([174,1280,1280])
+        maps_big_3Q = np.zeros([N_patch,1280,1280])
+        maps_big_3U = np.zeros([N_patch,1280,1280])
 
-        for i in range(174): 
+        for i in range(N_patch): 
             for j in range(0,1120,160):
                 for k in range(0,1120,160):
                     maps_big_3Q[i,j:(j+320),k:(k+320)] += maps_msk_3Q[i,int(j/160)*7+int(k/160),:,:]
@@ -438,70 +479,5 @@ class post_training(object):
         axes[0].legend(fontsize = 15)
         if save_dir:
             plt.savefig(save_dir, format = 'pdf')
-            
-        return fig
-    
-    def cl_anafast(self, map_QU, lmax):
-        '''
-        Return the full-sky power spetra, except monopole and dipole
-        '''
-        
-        map_I = np.ones_like(map_QU[0])
-        maps = np.row_stack((map_I, map_QU))
-        cls_all = hp.anafast(maps, lmax = lmax)
-        ells = np.arange(lmax+1)
-        
-        return ells[2:], cls_all[:, 2:]
-    
-    def cl_nmt(self, nside, msk_apo, map_QU, lmax, nlbins, w22_file = 'w22_2048_80_sky.fits'):
-        '''
-        nside:
-        msk_apo: apodized mask
-        nlbins: ell-number in each bin
-        '''
-
-        binning = nmt.NmtBin(nside=nside, nlb=nlbins, lmax=lmax, is_Dell=False)
-        f2 = nmt.NmtField(msk_apo, [map_QU[0], map_QU[1]], purify_b=True)
-
-        w22 = nmt.NmtWorkspace()
-        try:
-            w22.read_from(w22_file)
-            print('weights loaded from %s' % w22_file)
-        except:
-            w22.compute_coupling_matrix(f2, f2, binning)
-            w22.write_to(w22_file)
-            print('weights writing to disk')
-
-        cl22 = nmt.compute_full_master(f2, f2, binning, workspace = w22)
-
-        return binning.get_effective_ells(), cl22
-    
-    def plot_spectra(self, cls_all, names, save_dir):
-        '''
-        cls_80p_80amin = {'ells':ell_80p_80amin, 'spectra':cl_80p_80amin, 'color':'r-', 'label':'80amin'}
-        cls_80p_12amin = {'ells':ell_80p_12amin, 'spectra':cl_80p_12amin, 'color':'g-', 'label':'12amin'}
-        '''
-        names = ['EE', 'BB']
-        fig, axes = plt.subplots(1,2, figsize = (30, 10))
-
-        for i in range(len(cls_all)):
-            ells = cls_all[i]['ells']; cl = cls_all[i]['spectra']; color = cls_all[i]['color']; label = cls_all[i]['label']
-            axes[0].loglog(ells, abs(cl[0]), color, label = label)
-            axes[1].loglog(ells, abs(cl[3]), color)
-
-        line1 = Line2D([],[],linestyle='-', color='r')
-        line2 = Line2D([],[],linestyle='-.', color='r')
-        line3 = Line2D([],[],linestyle='--', color='r')
-        axes[0].legend(fontsize = 25, loc = 'lower left')
-        axes[1].legend([line1, line2, line3],['full sky', '80% sky', '40% sky'], fontsize = 25, loc = 'lower left')
-
-        for j in range(2):
-            axes[j].set_ylim(1e-9, 1e3)
-            axes[j].set_title('%s'%names[j], fontsize = 25)
-            axes[j].set_ylabel(r'C$\ell$', fontsize = 25)
-            axes[j].set_xlabel(r'$\ell$', fontsize = 25)
-
-        if save_dir:
-            plt.savefig(save_dir, format = 'pdf')  
             
         return fig

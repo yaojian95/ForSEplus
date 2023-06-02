@@ -379,69 +379,87 @@ def flat_ps(maps, mask_path, w22_file):
     
     return ells_uncoupled, cl_NN_uncoupled
 
-def from_12to13(maps_ren2_12Q, maps_ren2_12U):
+def from_12to13(maps_ren2_12Q, maps_ren2_12U, only_one = False):
+    
+    if only_one:
+        N_patch = 1
+    else:
+        N_patch = 174
+    maps_upx_12Q = np.zeros([N_patch,1280,1280])
+    maps_upx_12U = np.zeros([N_patch,1280,1280])
 
-    maps_upx_12Q = np.zeros([174,1280,1280])
-    maps_upx_12U = np.zeros([174,1280,1280])
-
-    for i in range(174):
+    for i in range(N_patch):
         maps_upx_12Q[i] = maps_ren2_12Q[i].repeat(4, axis = 1).repeat(4, axis = 0)
         maps_upx_12U[i] = maps_ren2_12U[i].repeat(4, axis = 1).repeat(4, axis = 0)
 
-    maps_smth_20Q = np.zeros([174,1280,1280])
-    maps_smth_20U = np.zeros([174,1280,1280])
+    maps_smth_20Q = np.zeros([N_patch,1280,1280])
+    maps_smth_20U = np.zeros([N_patch,1280,1280])
 
     sigma = 2.123/4
 
-    for i in range(174):
+    for i in range(N_patch):
         maps_smth_20Q[i] = scipy.ndimage.gaussian_filter(maps_upx_12Q[i], sigma = sigma*4, order = 0, mode = 'reflect')
         maps_smth_20U[i] = scipy.ndimage.gaussian_filter(maps_upx_12U[i], sigma = sigma*4, order = 0, mode = 'reflect')
 
-    maps_sub_20Q = np.zeros([174,49,320,320])
-    maps_sub_20U = np.zeros([174,49,320,320])
+    maps_sub_20Q = np.zeros([N_patch,49,320,320])
+    maps_sub_20U = np.zeros([N_patch,49,320,320])
 
-    for i in range(174):
+    for i in range(N_patch):
         for j in range(0,1120,160):
             for k in range(0,1120,160):
                 maps_sub_20Q[i,int(j/160)*7+int(k/160),:,:] = maps_smth_20Q[i,j:(j+320),k:(k+320)]
                 maps_sub_20U[i,int(j/160)*7+int(k/160),:,:] = maps_smth_20U[i,j:(j+320),k:(k+320)]
 
-    maps_sub_20Q_train = maps_sub_20Q.reshape(174*49, 320, 320)
-    maps_sub_20U_train = maps_sub_20U.reshape(174*49, 320, 320)
+    maps_sub_20Q_train = maps_sub_20Q.reshape(N_patch*49, 320, 320)
+    maps_sub_20U_train = maps_sub_20U.reshape(N_patch*49, 320, 320)
     
     return maps_sub_20Q_train, maps_sub_20U_train
 
-def from_12to20(maps_ren2_12Q, maps_ren2_12U):
+def from_12to20(maps_ren2_12Q, maps_ren2_12U, random_noise = None, only_one = False):
+    '''
+    random_noise: add random noise at the last step.
+    '''
+    if only_one:
+        N_patch = 1
+    else:
+        N_patch = 174
+        
+    maps_upx_12Q = np.zeros([N_patch,1280,1280])
+    maps_upx_12U = np.zeros([N_patch,1280,1280])
 
-    maps_upx_12Q = np.zeros([174,1280,1280])
-    maps_upx_12U = np.zeros([174,1280,1280])
-
-    for i in range(174):
+    for i in range(N_patch):
         maps_upx_12Q[i] = maps_ren2_12Q[i].repeat(4, axis = 1).repeat(4, axis = 0)
         maps_upx_12U[i] = maps_ren2_12U[i].repeat(4, axis = 1).repeat(4, axis = 0)
 
-    maps_smth_20Q = np.zeros([174,1280,1280])
-    maps_smth_20U = np.zeros([174,1280,1280])
+    maps_smth_20Q = np.zeros([N_patch,1280,1280])
+    maps_smth_20U = np.zeros([N_patch,1280,1280])
 
     sigma = 1.81
 
-    for i in range(174):
+    for i in range(N_patch):
         maps_smth_20Q[i] = scipy.ndimage.gaussian_filter(maps_upx_12Q[i], sigma = sigma*4, order = 0, mode = 'reflect')
         maps_smth_20U[i] = scipy.ndimage.gaussian_filter(maps_upx_12U[i], sigma = sigma*4, order = 0, mode = 'reflect')
 
-    maps_sub_20Q = np.zeros([174,49,320,320])
-    maps_sub_20U = np.zeros([174,49,320,320])
+    maps_sub_20Q = np.zeros([N_patch,49,320,320])
+    maps_sub_20U = np.zeros([N_patch,49,320,320])
 
-    for i in range(174):
+    for i in range(N_patch):
         for j in range(0,1120,160):
             for k in range(0,1120,160):
                 maps_sub_20Q[i,int(j/160)*7+int(k/160),:,:] = maps_smth_20Q[i,j:(j+320),k:(k+320)]
                 maps_sub_20U[i,int(j/160)*7+int(k/160),:,:] = maps_smth_20U[i,j:(j+320),k:(k+320)]
 
-    maps_sub_20Q_train = maps_sub_20Q.reshape(174*49, 320, 320)
-    maps_sub_20U_train = maps_sub_20U.reshape(174*49, 320, 320)
+    maps_sub_20Q_train = maps_sub_20Q.reshape(N_patch*49, 320, 320)
+    maps_sub_20U_train = maps_sub_20U.reshape(N_patch*49, 320, 320)
     
-    return maps_sub_20Q_train, maps_sub_20U_train
+    if random_noise is not None:
+        
+        assert random_noise.shape == maps_sub_20Q_train.shape
+        return maps_sub_20Q_train + random_noise, maps_sub_20U_train + random_noise
+    
+    else:
+        return maps_sub_20Q_train, maps_sub_20U_train
+
 
 def cl_anafast(map_QU, lmax):
     '''

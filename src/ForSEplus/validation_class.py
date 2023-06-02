@@ -115,5 +115,67 @@ class validate_3amin(object):
         plt.legend()
         plt.title('E/B ratio, %s sky'%f)
 
+
+
+    def plot_maps_modify_20(self, center, Nico_20amin, maps_out_3_348, NNmap_corr_348, 
+                            titles = ['GNILC 80\'', 'ForSEv1, 12\'', 'ForSE+D, 3\''], 
+                            save_dir = False, 
+                            show_3 = False):
+        
+        '''
+        QU for three columns. (QU 80, 12, 3)
+        
+        '''
+        left, width = -.35, .7
+        bottom, height = .25, .5
+        right = left + width
+        top = bottom + height
+
+        fig, axes = plt.subplots(2, 3, figsize = (14, 7))
+        min_vs = [-30, -60]; max_vs = [30, 60]
+        for l in range(2):
+            if l == 0:
+                axes[l][0].set_title(titles[0])
+                axes[l][1].set_title(titles[1])
+                axes[l][2].set_title(titles[2])
+                
+            min_v = min_vs[l]; max_v = max_vs[l]
+            axes[l][0].imshow((Nico_20amin[l]), vmin = min_v, vmax = max_v)
+            axes[l][1].imshow((maps_out_3_348[l]), vmin = min_v, vmax = max_v)
+            im = axes[l][2].imshow((NNmap_corr_348[l]), vmin = min_v, vmax = max_v)
+
+            cbar = fig.colorbar(im, ax=axes[l, :], location='right', shrink=0.85)
+            cbar.ax.set_ylabel(r'$\mathrm{\mu K}$')
+
+            lon_c = center[0]; lat_c = center[1];
+            for j in range(3):
+
+                axes[l][j].set_xticks((0, 160, 320))
+                axes[l][j].set_yticks((0, 160, 320))
+                
+                if show_3 and j > 1:
+                    axes[l][j].set_xticks((0, 640, 1280))
+                    axes[l][j].set_yticks((0, 640, 1280))
+
+                axes[l][j].set_xticklabels(('%.f°'%(lon_c - 10), '%.f°'%lon_c, '%.f°'%(lon_c+10)), fontsize = 12)    
+                if j == 0:
+                    axes[l][j].set_yticklabels(('%.f°'%(lat_c + 10), '%.f°'%lat_c, '%.f°'%(lat_c-10)), fontsize =12)
+                else: 
+                    axes[l][j].set_yticklabels((None, None, None), fontsize = 12)
+
+        axes[0,0].text(left, 0.5*(bottom+top), '$M^{Q, 20^\circ}$', fontsize = 18,
+                horizontalalignment='right',
+                verticalalignment='center',
+                rotation='vertical',
+                transform=axes[0,0].transAxes)
+        axes[1,0].text(left, 0.5*(bottom+top), '$M^{U, 20^\circ}$', fontsize = 18,
+                horizontalalignment='right',
+                verticalalignment='center',
+                rotation='vertical',
+                transform=axes[1,0].transAxes)
+        if save_dir:
+            plt.savefig(save_dir, format = 'pdf', bbox_inches = 'tight')
+
+        return fig
         
     

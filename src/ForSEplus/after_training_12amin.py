@@ -187,7 +187,7 @@ class post_training(object):
         rhos_Y, f_nn_Q, u_nn_Q, chi_nn_Q = MF_Q
         rhos_Y, f_nn_U, u_nn_U, chi_nn_U = MF_U    
         
-        f_nn_all = [[f_nn_Q, u_nn_Q, chi_nn_Q],[f_nn_Q, u_nn_Q, chi_nn_Q]]
+        f_nn_all = [[f_nn_Q, u_nn_Q, chi_nn_Q],[f_nn_U, u_nn_U, chi_nn_U]]
         f_i = [f_t, u_t, chi_t]
         fig, axes = plt.subplots(2,3, figsize=(24, 10))
         S = ['Q', 'U']
@@ -216,60 +216,7 @@ class post_training(object):
         plt.tight_layout()
         if savedir:
             plt.savefig(savedir, format = save_format)
-
-    
-    def visualization(self, n, fig_title = False, save_dir = False, formats = 'pdf'):
-    
-        '''
-        map visualization; maps at 80 amin; ss_only output from NN; renormalize the NN output and combine with the large scales
-        n: patch_position 
-        
-        needs to set the color scale fixed
-        '''
-        
-        Qmaps = [self.Ls_Q[n], self.NNout_Q[n], self.NNmapQ_corr[n]];
-        Umaps = [self.Ls_U[n], self.NNout_U[n], self.NNmapU_corr[n]];
-        Pmaps = [np.sqrt(Qmaps[0]**2 + Umaps[0]**2), np.sqrt(Qmaps[1]**2 + Umaps[1]**2), np.sqrt(Qmaps[2]**2 + Umaps[2]**2)];
-        q_min, q_max = np.min(Qmaps), np.max(Qmaps);
-        u_min, u_max = np.min(Umaps), np.max(Umaps)
-        p_min, p_max = np.min(Pmaps), np.max(Pmaps)
-        
-        Lsmaps = [self.Ls_Q[n], self.Ls_U[n], np.sqrt(self.Ls_Q[n]**2 + self.Ls_U[n]**2)]
-        Ssmaps = [self.NNout_Q[n], self.NNout_U[n], np.sqrt(self.NNout_Q[n]**2 + self.NNout_U[n]**2)]
-        Allmaps = [self.NNmapQ_corr[n], self.NNmapU_corr[n], np.sqrt(self.NNmapQ_corr[n]**2 + self.NNmapU_corr[n]**2)]
             
-        self.plot_maps_modify(Lsmaps, Ssmaps, Allmaps, 0, fig_title = fig_title, save_dir = save_dir, formats = formats)
-            
-    def plot_maps_modify(self, Nico_20amin, maps_out_3_348, NNmap_corr_348, m = 0, fig_title = False, save_dir = False, formats = 'pdf'):
-
-        '''
-        map visualization; maps at 20 amin; output from NN; renormalize the NN output and combine with the large scales
-        m: sky_position. 0-174
-        n: patch_position in the 7*7 square
-        '''
-        
-        fig, axes = plt.subplots(3, 3, figsize = (12, 12))
-        names = ['Q', 'U', 'P']
-        for l in range(3):
-            if l == 0:
-                axes[l][0].set_title(r'$M_{LS}$')
-                axes[l][1].set_title(r'$M_{SS}$')
-                axes[l][2].set_title(r'$M_{LS} + M_{SS}$')
-            min_v = np.min(Nico_20amin[m+l]); max_v = np.max(Nico_20amin[m+l])
-            axes[l][0].imshow(Nico_20amin[m+l], vmin = min_v, vmax = max_v)
-            axes[l][1].imshow(maps_out_3_348[m+l])
-            im = axes[l][2].imshow(NNmap_corr_348[m+l], vmin = min_v, vmax = max_v)
-
-            cax = fig.add_axes([0.05, 0.654 - l*0.267, 0.02, 0.234])
-            fig.colorbar(im,cax = cax, ticks = [round(min_v), round(max_v)], extend = 'both', extendfrac = [0.1,0.05], extendrect = True)
-            cax.yaxis.set_ticks_position('left')
-
-            plt.text(-0.5, 0.5, r'%s, $\mu$K'%names[l], rotation='vertical', transform=axes[l][0].transAxes)
-        if fig_title:
-            fig.suptitle(fig_title)
-            
-        if save_dir:
-            plt.savefig(save_dir, format = formats)
     
     def reproject_to_fullsky(self, ):
         
@@ -347,67 +294,3 @@ class post_training(object):
             
         if return_cls:
             return cls_all
-            
-            
-    def cl_anafast(self, map_QU, lmax):
-        '''
-        Return the full-sky power spetra, except monopole and dipole
-        '''
-        
-        map_I = np.ones_like(map_QU[0])
-        maps = np.row_stack((map_I, map_QU))
-        cls_all = hp.anafast(maps, lmax = lmax)
-        ells = np.arange(lmax+1)
-        
-        return ells[2:], cls_all[:, 2:]
-    
-    def cl_nmt(self, nside, msk_apo, map_QU, lmax, nlbins, w22_file = 'w22_2048_80_sky.fits'):
-        '''
-        nside:
-        msk_apo: apodized mask
-        nlbins: ell-number in each bin
-        '''
-
-        binning = nmt.NmtBin(nside=nside, nlb=nlbins, lmax=lmax, is_Dell=False)
-        f2 = nmt.NmtField(msk_apo, [map_QU[0], map_QU[1]], purify_b=True)
-
-        w22 = nmt.NmtWorkspace()
-        try:
-            w22.read_from(w22_file)
-            print('weights loaded from %s' % w22_file)
-        except:
-            w22.compute_coupling_matrix(f2, f2, binning)
-            w22.write_to(w22_file)
-            print('weights writing to disk')
-
-        cl22 = nmt.compute_full_master(f2, f2, binning, workspace = w22)
-
-        return binning.get_effective_ells(), cl22
-    
-    def plot_spectra(self, cls_all, names, save_dir):
-        '''
-        cls_80p_80amin = {'ells':ell_80p_80amin, 'spectra':cl_80p_80amin, 'color':'r-', 'label':'80amin'}
-        cls_80p_12amin = {'ells':ell_80p_12amin, 'spectra':cl_80p_12amin, 'color':'g-', 'label':'12amin'}
-        '''
-        names = ['EE', 'BB']
-        fig, axes = plt.subplots(1,2, figsize = (30, 10))
-
-        for i in range(len(cls_all)):
-            ells = cls_all[i]['ells']; cl = cls_all[i]['spectra']; color = cls_all[i]['color']; label = cls_all[i]['label']
-            axes[0].loglog(ells, abs(cl[0]), color, label = label)
-            axes[1].loglog(ells, abs(cl[3]), color)
-
-        line1 = Line2D([],[],linestyle='-', color='r')
-        line2 = Line2D([],[],linestyle='-.', color='r')
-        line3 = Line2D([],[],linestyle='--', color='r')
-        axes[0].legend(fontsize = 25, loc = 'lower left')
-        axes[1].legend([line1, line2, line3],['full sky', '80% sky', '40% sky'], fontsize = 25, loc = 'lower left')
-
-        for j in range(2):
-            axes[j].set_ylim(1e-9, 1e3)
-            axes[j].set_title('%s'%names[j], fontsize = 25)
-            axes[j].set_ylabel(r'C$\ell$', fontsize = 25)
-            axes[j].set_xlabel(r'$\ell$', fontsize = 25)
-
-        if save_dir:
-            plt.savefig(save_dir, format = 'pdf')
