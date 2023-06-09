@@ -10,8 +10,7 @@ Welcome to ForSEplus's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   usage
-   api
+    modules
 
 
 Indices and tables
