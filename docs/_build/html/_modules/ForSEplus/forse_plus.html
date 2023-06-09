@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ForSEplus.forse_plus &mdash; ForSEplus 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ForSEplus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ForSEplus</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ForSEplus.forse_plus</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ForSEplus.forse_plus</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+<span class="n">physical_devices</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">set_memory_growth</span><span class="p">(</span><span class="n">physical_devices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.after_training_12amin</span> <span class="kn">import</span> <span class="n">post_training</span> <span class="k">as</span> <span class="n">post_training_12</span>
+<span class="kn">from</span> <span class="nn">.after_training_3amin</span> <span class="kn">import</span> <span class="n">post_training</span> <span class="k">as</span> <span class="n">post_training3</span>
+<span class="kn">from</span> <span class="nn">.utility</span> <span class="kn">import</span> <span class="n">from_12to13</span><span class="p">,</span> <span class="n">from_12to20</span><span class="p">,</span> <span class="n">rescale_input</span><span class="p">,</span> <span class="n">rescale_min_max</span><span class="p">,</span> <span class="n">correct_EB</span>
+<span class="kn">from</span> <span class="nn">.recompose_class</span> <span class="kn">import</span> <span class="n">recom</span>
+
+<div class="viewcode-block" id="forsev2"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.forse_plus.forsev2">[docs]</a><span class="k">class</span> <span class="nc">forsev2</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Generate polarized thermal dust emission with random realizations of small scales.</span>
+<span class="sd">    Small scales can reach resolution of 12 arcminutes and 3 arcminutes.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">snr</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">go_three</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">three_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">correct_EB</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">validation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        
+        <span class="n">maps_dir</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;ForSE_plus_data/maps/&#39;</span>
+        <span class="n">models_dir</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;ForSE_plus_data/models/&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geometry_dir</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;ForSE_plus_data/geometry/&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask_dir</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;ForSE_plus_data/masks/&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correct_EB</span> <span class="o">=</span> <span class="n">correct_EB</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">go_three</span> <span class="o">=</span> <span class="n">go_three</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snr</span> <span class="o">=</span> <span class="n">snr</span>
+        
+        <span class="k">if</span> <span class="n">three_only</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">go_three</span> <span class="o">==</span> <span class="kc">True</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">three_only</span> <span class="o">=</span> <span class="n">three_only</span>
+        
+        <span class="k">if</span> <span class="n">validation</span><span class="p">:</span>
+            <span class="k">pass</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ss_I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span><span class="o">+</span><span class="s1">&#39;GNILC_Thr12_Qlr80_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">348</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ls_Q80amin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;GNILC_Thr12_Qlr80_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">174</span><span class="p">]</span><span class="o">*</span><span class="mf">1e6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ls_U80amin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;GNILC_Thr12_Ulr80_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">174</span><span class="p">]</span><span class="o">*</span><span class="mf">1e6</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_ps_12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;gauss_small_scales_12_over_80_power_spectra.npy&#39;</span><span class="p">)</span> <span class="c1">#[2, 174, 49, 1, 25] Q, U</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_mean_std_12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;gauss_small_scales_12_over_80_mean_and_std.npy&#39;</span><span class="p">)</span> <span class="c1">#[4, 174, 49] Q_mean, Q_std, U_mean, U_std</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ori_train_Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;GNILC_Thr12_Qlr80_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">174</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ori_train_U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;GNILC_Thr12_Ulr80_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">174</span><span class="p">]</span>
+        
+        <span class="c1"># load model first, then can be used to generate realizations for many times</span>
+        <span class="k">if</span> <span class="n">snr</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="mi">10</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_Q_12amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_all_h5_snr_10_Q9&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_U_12amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_all_h5_snr_10_U6&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">snr</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_Q_12amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_all_h5_snr_1_Q11&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_U_12amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_all_h5_snr_1_U12&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">snr</span> <span class="o">==</span> <span class="mf">0.1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_Q_12amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_all_h5_snr_0p1_Q22&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_U_12amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_all_h5_snr_0p1_U296&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">go_three</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_ps_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;gauss_small_scales_3_over_20_power_spectra_lmax_3500.npy&#39;</span><span class="p">)</span> <span class="c1">#[2, 174, 49, 1, 25] Q, U</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_mean_std_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">maps_dir</span> <span class="o">+</span> <span class="s1">&#39;gauss_small_scales_3_over_20_mean_and_std.npy&#39;</span><span class="p">)</span> <span class="c1">#[4, 174, 49] Q_mean, Q_std, U_mean, U_std</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_Q_3amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_3amin_Q154&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_U_3amin</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">models_dir</span> <span class="o">+</span> <span class="s1">&#39;model_3amin_U256&#39;</span><span class="p">)</span>
+            
+            <span class="c1"># model_Q_3 = tf.keras.models.load_model(self.model_Q_3amin)</span>
+            <span class="c1"># model_U_3 = tf.keras.models.load_model(self.model_U_3amin)           </span>
+    
+<div class="viewcode-block" id="forsev2.generate_maps_12"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.forse_plus.forsev2.generate_maps_12">[docs]</a>    <span class="k">def</span> <span class="nf">generate_maps_12</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        Return </span>
+<span class="sd">        </span>
+<span class="sd">        (when self.three_only is not True) maps_12amin: numpy.array with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;</span>
+<span class="sd">        patches_12amin: normalized square patches of QU before reprojecting to full sky.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: Start!&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: Generating input random noise with model SNR = </span><span class="si">%s</span><span class="s1">...&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">snr</span><span class="p">)</span>
+        <span class="c1"># np.random.seed(2048)</span>
+        <span class="n">Ls_Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ori_train_Q</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">Ls_U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ori_train_U</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">174</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">174</span><span class="p">):</span>
+            <span class="n">Ls_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rescale_min_max</span><span class="p">(</span><span class="n">Ls_Q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">noise</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span>
+            <span class="n">Ls_U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rescale_min_max</span><span class="p">(</span><span class="n">Ls_U</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">noise</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio</span>
+
+        <span class="n">Ls_rescaled_Q</span> <span class="o">=</span> <span class="n">rescale_input</span><span class="p">(</span><span class="n">Ls_Q</span><span class="p">)</span>
+        <span class="n">Ls_rescaled_U</span> <span class="o">=</span> <span class="n">rescale_input</span><span class="p">(</span><span class="n">Ls_U</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin Generating patches...&#39;</span><span class="p">)</span>
+        <span class="c1"># model_Q = tf.keras.models.load_model(self.model_Q_12amin)</span>
+        <span class="c1"># model_U = tf.keras.models.load_model(self.model_Q_12amin)</span>
+
+        <span class="n">NNout_Q_12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_Q_12amin</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Ls_rescaled_Q</span><span class="p">)</span>
+        <span class="n">NNout_U_12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_U_12amin</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Ls_rescaled_U</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: Renormalize patches...&#39;</span><span class="p">)</span>
+        <span class="n">output12</span> <span class="o">=</span> <span class="n">post_training_12</span><span class="p">(</span><span class="n">NNout_Q_12</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">NNout_U_12</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ss_I</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ls_Q80amin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ls_U80amin</span><span class="p">,</span> <span class="n">MF</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">output12</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_ps_12</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_mean_std_12</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_dir</span> <span class="o">+</span> <span class="s1">&#39;mask_320*320.npy&#39;</span><span class="p">)</span>
+        <span class="n">output12</span><span class="o">.</span><span class="n">plot_MF</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">three_only</span><span class="p">:</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: Finishing without reprojecting to full-sky&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">output12</span><span class="o">.</span><span class="n">NNmapQ_corr</span><span class="p">,</span> <span class="n">output12</span><span class="o">.</span><span class="n">NNmapU_corr</span><span class="p">))</span>
+        
+        <span class="n">recom_12</span> <span class="o">=</span> <span class="n">recom</span><span class="p">(</span><span class="n">npix</span> <span class="o">=</span> <span class="mi">320</span><span class="p">,</span> <span class="n">pixelsize</span> <span class="o">=</span> <span class="mf">3.75</span><span class="p">,</span> <span class="n">overlap</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nside</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">,</span> 
+                         <span class="n">apodization_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_dir</span> <span class="o">+</span> <span class="s1">&#39;mask_320*320.npy&#39;</span><span class="p">,</span> 
+                         <span class="n">xy_inds_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_dir</span> <span class="o">+</span> <span class="s1">&#39;recompose_xinds_yinds_2048&#39;</span><span class="p">,</span> 
+                         <span class="n">index_sphere_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_dir</span> <span class="o">+</span> <span class="s1">&#39;recompose_footprint_healpix_index_2048&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: reproject to full sky ...&#39;</span><span class="p">)</span>
+        <span class="n">full_Q_12</span> <span class="o">=</span> <span class="n">recom_12</span><span class="o">.</span><span class="n">recompose_fast</span><span class="p">(</span><span class="n">output12</span><span class="o">.</span><span class="n">NNmapQ_corr</span><span class="p">)</span>
+        <span class="n">full_U_12</span> <span class="o">=</span> <span class="n">recom_12</span><span class="o">.</span><span class="n">recompose_fast</span><span class="p">(</span><span class="n">output12</span><span class="o">.</span><span class="n">NNmapU_corr</span><span class="p">)</span> 
+        
+        <span class="n">maps_12amin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">full_Q_12</span><span class="p">,</span> <span class="n">full_U_12</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">correct_EB</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: correct the E/B ratio&#39;</span><span class="p">)</span>
+            <span class="n">maps_12amin</span> <span class="o">=</span> <span class="n">correct_EB</span><span class="p">(</span><span class="n">full_Q_12</span><span class="p">,</span> <span class="n">full_U_12</span><span class="p">,</span> <span class="n">reso</span> <span class="o">=</span> <span class="s1">&#39;12amin&#39;</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;12amin: Finishing after reprojecting to full-sky&#39;</span><span class="p">)</span>
+        <span class="n">end_12</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time cost to 12amin is: </span><span class="si">%.02f</span><span class="s1"> minutes!&#39;</span><span class="o">%</span><span class="p">((</span><span class="n">end_12</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">maps_12amin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">output12</span><span class="o">.</span><span class="n">NNmapQ_corr</span><span class="p">,</span> <span class="n">output12</span><span class="o">.</span><span class="n">NNmapU_corr</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="forsev2.generate_maps_3"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.forse_plus.forsev2.generate_maps_3">[docs]</a>    <span class="k">def</span> <span class="nf">generate_maps_3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QU_patches_12</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Input</span>
+<span class="sd">        QU patches at 12amin</span>
+<span class="sd">        Return </span>
+<span class="sd">        maps_3amin: numpy.array with shape (2, 12*4096**2). Healpix maps of QU at NSIDE = 4096;</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;3amin: Start!&#39;</span><span class="p">)</span>
+        <span class="n">Ls_13aminQ</span><span class="p">,</span> <span class="n">Ls_13aminU</span> <span class="o">=</span> <span class="n">from_12to13</span><span class="p">(</span><span class="n">QU_patches_12</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">QU_patches_12</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># to normalize the output from 3amin</span>
+
+        <span class="n">Ls_20aminQ</span><span class="p">,</span> <span class="n">Ls_20aminU</span> <span class="o">=</span> <span class="n">from_12to20</span><span class="p">(</span><span class="n">QU_patches_12</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">QU_patches_12</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># to be the input for the 3amin</span>
+
+        <span class="n">Ls_rescaled_Q</span><span class="p">,</span> <span class="n">Ls_rescaled_U</span> <span class="o">=</span> <span class="n">rescale_input</span><span class="p">(</span><span class="n">Ls_20aminQ</span><span class="p">),</span> <span class="n">rescale_input</span><span class="p">(</span><span class="n">Ls_20aminU</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;3amin: Generating patches...&#39;</span><span class="p">)</span>
+
+        <span class="n">NNout_Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_Q_3amin</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Ls_rescaled_Q</span><span class="p">)</span>
+        <span class="n">NNout_U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_U_3amin</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Ls_rescaled_U</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;3amin: renormalize patches ...&#39;</span><span class="p">)</span>
+        <span class="n">output3</span> <span class="o">=</span> <span class="n">post_training3</span><span class="p">(</span><span class="n">NNout_Q</span><span class="p">,</span> <span class="n">NNout_U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ss_I</span><span class="p">,</span> <span class="n">Ls_13aminQ</span><span class="p">,</span> <span class="n">Ls_13aminU</span><span class="p">,</span> <span class="n">MF</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">output3</span><span class="o">.</span><span class="n">normalization</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_ps_3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gauss_ss_mean_std_3</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_dir</span> <span class="o">+</span> <span class="s1">&#39;mask_320*320.npy&#39;</span><span class="p">)</span>
+        <span class="n">output3</span><span class="o">.</span><span class="n">combine_to_20by20</span><span class="p">(</span><span class="n">output3</span><span class="o">.</span><span class="n">NNmapQ_corr</span><span class="p">,</span> <span class="n">output3</span><span class="o">.</span><span class="n">NNmapU_corr</span><span class="p">,</span> <span class="n">maps</span> <span class="o">=</span> <span class="s1">&#39;ss_norm&#39;</span><span class="p">)</span>
+        <span class="n">output3</span><span class="o">.</span><span class="n">combine_to_20by20</span><span class="p">(</span><span class="n">NNout_Q</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">174</span><span class="p">,</span><span class="mi">49</span><span class="p">,</span><span class="mi">320</span><span class="p">,</span><span class="mi">320</span><span class="p">),</span> <span class="n">NNout_U</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">174</span><span class="p">,</span><span class="mi">49</span><span class="p">,</span><span class="mi">320</span><span class="p">,</span><span class="mi">320</span><span class="p">),</span> <span class="n">maps</span> <span class="o">=</span> <span class="s1">&#39;ss&#39;</span><span class="p">)</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">output3</span><span class="o">.</span><span class="n">plot_MF</span><span class="p">(</span><span class="n">patch_N</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">savedir</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">recom_3</span> <span class="o">=</span> <span class="n">recom</span><span class="p">(</span><span class="n">npix</span> <span class="o">=</span> <span class="mi">1280</span><span class="p">,</span> <span class="n">pixelsize</span> <span class="o">=</span> <span class="mf">0.9375</span><span class="p">,</span> <span class="n">overlap</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nside</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">,</span> 
+                         <span class="n">apodization_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_dir</span> <span class="o">+</span> <span class="s1">&#39;mask_1280*1280.npy&#39;</span><span class="p">,</span> 
+                         <span class="n">xy_inds_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_dir</span> <span class="o">+</span> <span class="s1">&#39;recompose_xinds_yinds_4096&#39;</span><span class="p">,</span> 
+                         <span class="n">index_sphere_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometry_dir</span> <span class="o">+</span> <span class="s1">&#39;recompose_footprint_healpix_index_4096&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;3amin: reproject to full sky ...&#39;</span><span class="p">)</span>
+        <span class="n">full_Q</span> <span class="o">=</span> <span class="n">recom_3</span><span class="o">.</span><span class="n">recompose_fast</span><span class="p">(</span><span class="n">output3</span><span class="o">.</span><span class="n">NN_20by20_Q_norm</span><span class="p">)</span>
+        <span class="n">full_U</span> <span class="o">=</span> <span class="n">recom_3</span><span class="o">.</span><span class="n">recompose_fast</span><span class="p">(</span><span class="n">output3</span><span class="o">.</span><span class="n">NN_20by20_U_norm</span><span class="p">)</span> 
+        <span class="n">maps_3amin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">full_Q</span><span class="p">,</span> <span class="n">full_U</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">correct_EB</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;3amin: correct the E/B ratio&#39;</span><span class="p">)</span>
+            <span class="n">maps_3amin</span> <span class="o">=</span> <span class="n">correct_EB</span><span class="p">(</span><span class="n">full_Q</span><span class="p">,</span> <span class="n">full_U</span><span class="p">,</span> <span class="n">reso</span> <span class="o">=</span> <span class="s1">&#39;3amin&#39;</span><span class="p">)</span> <span class="c1"># takes about 4 mins.</span>
+
+        <span class="k">del</span> <span class="n">output3</span>
+        
+        <span class="k">return</span> <span class="n">maps_3amin</span></div>
+    
+<div class="viewcode-block" id="forsev2.run"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.forse_plus.forsev2.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">three_only</span><span class="p">:</span>
+            
+            <span class="n">maps_12_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nsim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="o">*</span><span class="mi">2048</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">go_three</span><span class="p">:</span>
+            
+            <span class="n">maps_3_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nsim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="o">*</span><span class="mi">4096</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+            
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsim</span><span class="p">):</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">three_only</span><span class="p">:</span>
+                
+                <span class="n">QU_patches_12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_maps_12</span><span class="p">()</span>
+                <span class="n">maps_3_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_maps_3</span><span class="p">(</span><span class="n">QU_patches_12</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">go_three</span><span class="p">:</span>
+                
+                <span class="n">maps_12_all</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">QU_patches_12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_maps_12</span><span class="p">()</span>
+                <span class="n">maps_3_all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_maps_3</span><span class="p">(</span><span class="n">QU_patches_12</span><span class="p">)</span>
+            
+            <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">go_three</span><span class="p">:</span>
+                
+                <span class="n">maps_12_all</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">QU_patches_12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_maps_12</span><span class="p">()</span>
+
+                
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total time cost is: </span><span class="si">%.02f</span><span class="s1"> minutes!&#39;</span><span class="o">%</span><span class="p">((</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">three_only</span><span class="p">:</span>
+            
+            <span class="k">return</span> <span class="n">maps_3_all</span>
+        
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">go_three</span><span class="p">:</span>
+            
+            <span class="k">return</span> <span class="n">maps_12_all</span><span class="p">,</span> <span class="n">maps_3_all</span>
+        
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">go_three</span><span class="p">:</span>
+            
+            <span class="k">return</span> <span class="n">maps_12_all</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, Jian Yao.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

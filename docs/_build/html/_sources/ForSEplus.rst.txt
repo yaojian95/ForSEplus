@@ -68,6 +68,14 @@ ForSEplus.recompose\_class module
    :undoc-members:
    :show-inheritance:
 
+ForSEplus.test\_import module
+-----------------------------
+
+.. automodule:: ForSEplus.test_import
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ForSEplus.utility module
 ------------------------
 

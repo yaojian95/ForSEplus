@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ForSEplus.after_training_12amin &mdash; ForSEplus 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ForSEplus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ForSEplus</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ForSEplus.after_training_12amin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ForSEplus.after_training_12amin</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="kn">import</span> <span class="n">Line2D</span>
+<span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
+<span class="kn">import</span> <span class="nn">pymaster</span> <span class="k">as</span> <span class="nn">nmt</span>
+
+<span class="kn">from</span> <span class="nn">.utility</span> <span class="kn">import</span> <span class="n">rescale_min_max</span><span class="p">,</span> <span class="n">compute_intersection</span><span class="p">,</span> <span class="n">get_functionals_fix</span> <span class="c1"># fix the bug of calculating the MFs</span>
+
+<span class="c1">### load output (small scales only at 12amin) from the neural network </span>
+<span class="c1"># :shape: (174, 320, 320)</span>
+
+<div class="viewcode-block" id="post_training"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training">[docs]</a><span class="k">class</span> <span class="nc">post_training</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    All processes after the training.</span>
+<span class="sd">    NNout_Q/U: small scales from NN, with shape (174, 320, 320)</span>
+<span class="sd">    ss_I: intensity small scales </span>
+<span class="sd">    Ls_Q/U:  input training files for the NN, shape (2, 348, 320, 320) in units of uK. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NNout_Q</span><span class="p">,</span> <span class="n">NNout_U</span><span class="p">,</span> <span class="n">ss_I</span><span class="p">,</span> <span class="n">Ls_Q_20amin</span><span class="p">,</span> <span class="n">Ls_U_20amin</span><span class="p">,</span> <span class="n">MF</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fix_MF</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">NNout_Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">NNout_Q</span><span class="p">);</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NNout_U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">NNout_U</span><span class="p">);</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">thr</span> <span class="o">=</span> <span class="n">ss_I</span><span class="p">;</span> <span class="c1"># intensity small scales at 12amin or 3amin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ls_Q</span> <span class="o">=</span> <span class="n">Ls_Q_20amin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ls_U</span> <span class="o">=</span> <span class="n">Ls_U_20amin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fix_MF</span> <span class="o">=</span> <span class="n">fix_MF</span>
+        
+        <span class="k">if</span> <span class="n">MF</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">MF_I</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_one_MF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thr</span><span class="p">,</span> <span class="n">npatches</span> <span class="o">=</span> <span class="mi">174</span><span class="p">,</span> <span class="n">patch_N</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+            
+<div class="viewcode-block" id="post_training.first_normalization"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.first_normalization">[docs]</a>    <span class="k">def</span> <span class="nf">first_normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gauss_ss_mean_std</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Normalize the small scales w.r.t. Gaussian case in the map level;</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        maps_out_12Q/U: small scales generated from the Neural Network. With shape: (174, 320, 320);</span>
+<span class="sd">        gauss_ss_mean_std: mean and std for each patch of small scales of Gaussian realization, defined by the ratio: </span>
+<span class="sd">        Gaussian_maps_12amin/Gaussian_maps_80amin; 4 in 1: Q_mean, Q_std, U_mean, U_std. With shape (4, 174).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        </span>
+<span class="sd">        normalized maps.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">NNout_normed_Q</span><span class="p">,</span> <span class="n">NNout_normed_U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNout_Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNout_U</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">174</span><span class="p">):</span>
+            <span class="n">NNout_normed_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">NNout_normed_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">NNout_normed_Q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">NNout_normed_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">NNout_normed_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">NNout_normed_Q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">+</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">NNout_normed_U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">NNout_normed_U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">NNout_normed_U</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">NNout_normed_U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">NNout_normed_U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">NNout_normed_U</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">+</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    
+        <span class="k">return</span> <span class="n">NNout_normed_Q</span><span class="p">,</span> <span class="n">NNout_normed_U</span></div>
+
+<div class="viewcode-block" id="post_training.normalization"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.normalization">[docs]</a>    <span class="k">def</span> <span class="nf">normalization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gauss_ss_ps</span><span class="p">,</span> <span class="n">gauss_ss_mean_std</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="s1">&#39;mask_320*320.npy&#39;</span><span class="p">,</span> <span class="n">lmax</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">save_path</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ss_only</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Normalize the small scales w.r.t. Gaussian case in the power spectra level and multiply with the large scales to get a full-resolution maps, after the first normalization.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        </span>
+<span class="sd">        maps_out_12Q/U: small scales after the first normalization; With shape: (174, 320, 320);</span>
+<span class="sd">        gauss_ss_ps: power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape: (2, 174, 1, 25).</span>
+<span class="sd">        Ls_Q/U: large scales, same as the input for the training; with shape (174,320,320).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        </span>
+<span class="sd">        patches of full resolution maps with physical units.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">maps_out_3Q</span><span class="p">,</span> <span class="n">maps_out_3U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_normalization</span><span class="p">(</span><span class="n">gauss_ss_mean_std</span><span class="p">)</span>
+        <span class="n">Lx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">20.</span><span class="p">);</span> <span class="n">Ly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">20.</span><span class="p">)</span>
+        <span class="n">Nx</span> <span class="o">=</span> <span class="mi">320</span><span class="p">;</span> <span class="n">Ny</span> <span class="o">=</span> <span class="mi">320</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mask_path</span><span class="p">)</span>
+
+        <span class="n">l0_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">lmax</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="n">lf_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">lmax</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span><span class="o">+</span><span class="mi">39</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtBinFlat</span><span class="p">(</span><span class="n">l0_bins</span><span class="p">,</span> <span class="n">lf_bins</span><span class="p">)</span>
+        <span class="n">ells_uncoupled</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_effective_ells</span><span class="p">()</span>
+
+        <span class="n">f_SSQ</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtFieldFlat</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))])</span>
+        <span class="n">w00</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtWorkspaceFlat</span><span class="p">()</span>
+        <span class="n">w00</span><span class="o">.</span><span class="n">compute_coupling_matrix</span><span class="p">(</span><span class="n">f_SSQ</span><span class="p">,</span> <span class="n">f_SSQ</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        
+        <span class="n">NNmapQ_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">174</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>
+        <span class="n">NNmapU_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">174</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="n">ss_only</span><span class="p">:</span>
+            <span class="n">NNmapQ_corr_ssonly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">174</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>
+            <span class="n">NNmapU_corr_ssonly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">174</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>    
+            
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">174</span><span class="p">):</span>
+            
+            <span class="n">f_NNQ</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtFieldFlat</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="n">maps_out_3Q</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="n">cl_NN_coupledQ</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">compute_coupled_cell_flat</span><span class="p">(</span><span class="n">f_NNQ</span><span class="p">,</span> <span class="n">f_NNQ</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">cl_NN_uncoupledQ</span> <span class="o">=</span> <span class="n">w00</span><span class="o">.</span><span class="n">decouple_cell</span><span class="p">(</span><span class="n">cl_NN_coupledQ</span><span class="p">)</span>
+            <span class="n">f_NNU</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtFieldFlat</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="n">maps_out_3U</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="n">cl_NN_coupledU</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">compute_coupled_cell_flat</span><span class="p">(</span><span class="n">f_NNU</span><span class="p">,</span> <span class="n">f_NNU</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">cl_NN_uncoupledU</span> <span class="o">=</span> <span class="n">w00</span><span class="o">.</span><span class="n">decouple_cell</span><span class="p">(</span><span class="n">cl_NN_coupledU</span><span class="p">)</span>
+
+            <span class="n">newQ</span> <span class="o">=</span> <span class="n">maps_out_3Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cl_NN_uncoupledQ</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">:]</span><span class="o">/</span><span class="n">gauss_ss_ps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">:]))</span>
+            <span class="n">newU</span> <span class="o">=</span> <span class="n">maps_out_3U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cl_NN_uncoupledU</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">:]</span><span class="o">/</span><span class="n">gauss_ss_ps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">:]))</span>
+            
+            <span class="k">if</span> <span class="n">ss_only</span><span class="p">:</span>
+                <span class="n">NNmapQ_corr_ssonly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">newQ</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">newQ</span><span class="p">)</span><span class="o">+</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">NNmapU_corr_ssonly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">newU</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">newU</span><span class="p">)</span><span class="o">+</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                
+            <span class="n">NNmapQ_corr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">newQ</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">newQ</span><span class="p">)</span><span class="o">+</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ls_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">NNmapU_corr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">newU</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">newU</span><span class="p">)</span><span class="o">+</span><span class="n">gauss_ss_mean_std</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ls_U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">NNmapQ_corr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNmapU_corr</span> <span class="o">=</span> <span class="n">NNmapQ_corr</span><span class="p">,</span> <span class="n">NNmapU_corr</span>
+        
+        <span class="k">if</span> <span class="n">ss_only</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">NNmapQ_corr_ssonly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNmapU_corr_ssonly</span> <span class="o">=</span> <span class="n">NNmapQ_corr_ssonly</span><span class="p">,</span> <span class="n">NNmapU_corr_ssonly</span>
+        <span class="c1"># return NNmapQ_corr, NNmapU_corr</span>
+    
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">NNmapQ_corr</span><span class="p">)</span> <span class="c1"># .replace(&#39;U&#39;, &#39;&#39;)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_path</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">NNmapU_corr</span><span class="p">)</span></div>
+            
+<div class="viewcode-block" id="post_training.get_one_MF"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.get_one_MF">[docs]</a>    <span class="k">def</span> <span class="nf">get_one_MF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_maps</span><span class="p">,</span> <span class="n">npatches</span> <span class="o">=</span> <span class="mi">174</span><span class="p">,</span> <span class="n">patch_N</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Defined for output at 12amin, [174, 320, 320] or for ordinary maps with shape [174, 320, 320]</span>
+<span class="sd">        for nn output at 12amin, npatches = 174; for intensity small scales, npatch = 174;</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+
+<span class="sd">        rhos: threshold values, normally [-1, 1]</span>
+<span class="sd">        f, u, chi : three kinds of MFs for each patch</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">rhos</span><span class="p">,</span> <span class="n">f_all</span><span class="p">,</span> <span class="n">u_all</span><span class="p">,</span> <span class="n">chi_all</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">maps_MF</span> <span class="o">=</span> <span class="n">input_maps</span> <span class="c1"># for intensity small scales with shape (174, 320, 320)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_MF</span><span class="p">:</span>
+            <span class="n">get_functionals</span> <span class="o">=</span> <span class="n">get_functionals_fix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;You should set self.fix_MF = True&quot;</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">npatches</span><span class="p">):</span>
+    
+            <span class="n">mT</span> <span class="o">=</span> <span class="n">rescale_min_max</span><span class="p">(</span><span class="n">maps_MF</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">return_min_max</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">rhos</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">chi</span><span class="o">=</span> <span class="n">get_functionals</span><span class="p">(</span><span class="n">mT</span><span class="p">)</span>
+
+            <span class="n">f_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>  <span class="n">u_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">);</span> <span class="n">chi_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+
+        <span class="n">f_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_all</span><span class="p">);</span> <span class="n">u_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">u_all</span><span class="p">);</span> <span class="n">chi_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">chi_all</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">f_all</span><span class="p">,</span> <span class="n">u_all</span><span class="p">,</span> <span class="n">chi_all</span></div>
+    
+<div class="viewcode-block" id="post_training.compute_overlapping"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.compute_overlapping">[docs]</a>    <span class="k">def</span> <span class="nf">compute_overlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MF_P</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        compute the MFs overlapping fraction w.r.t. small scales of intensity maps</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">rhos_T</span><span class="p">,</span> <span class="n">f_t</span><span class="p">,</span> <span class="n">u_t</span><span class="p">,</span> <span class="n">chi_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MF_I</span><span class="p">;</span>
+        <span class="n">rho_NN</span><span class="p">,</span> <span class="n">f_nn</span><span class="p">,</span> <span class="n">u_nn</span><span class="p">,</span> <span class="n">chi_nn</span> <span class="o">=</span> <span class="n">MF_P</span><span class="p">;</span>
+        
+        <span class="n">m1_nnq</span> <span class="o">=</span> <span class="n">compute_intersection</span><span class="p">(</span><span class="n">rhos_T</span><span class="p">,</span> 
+                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> 
+                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> <span class="n">npt</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+        <span class="n">m2_nnq</span> <span class="o">=</span> <span class="n">compute_intersection</span><span class="p">(</span><span class="n">rhos_T</span><span class="p">,</span> 
+                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">u_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">u_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> 
+                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">u_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">u_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> <span class="n">npt</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+        <span class="n">m3_nnq</span> <span class="o">=</span> <span class="n">compute_intersection</span><span class="p">(</span><span class="n">rhos_T</span><span class="p">,</span> 
+                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">chi_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">chi_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">chi_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">chi_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> 
+                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">chi_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">chi_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">chi_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">chi_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span> <span class="n">npt</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">m1_nnq</span><span class="p">,</span> <span class="n">m2_nnq</span><span class="p">,</span><span class="n">m3_nnq</span></div>
+    
+<div class="viewcode-block" id="post_training.plot_MF"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.plot_MF">[docs]</a>    <span class="k">def</span> <span class="nf">plot_MF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">savedir</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_format</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        
+        <span class="n">rhos_Y</span><span class="p">,</span> <span class="n">f_t</span><span class="p">,</span> <span class="n">u_t</span><span class="p">,</span> <span class="n">chi_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MF_I</span>
+        <span class="n">MF_Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_one_MF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NNout_Q</span><span class="p">);</span>
+        <span class="n">MF_U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_one_MF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NNout_U</span><span class="p">);</span>
+        
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_overlapping</span><span class="p">(</span><span class="n">MF_Q</span><span class="p">))</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_overlapping</span><span class="p">(</span><span class="n">MF_U</span><span class="p">))</span>
+        
+        <span class="n">rhos_Y</span><span class="p">,</span> <span class="n">f_nn_Q</span><span class="p">,</span> <span class="n">u_nn_Q</span><span class="p">,</span> <span class="n">chi_nn_Q</span> <span class="o">=</span> <span class="n">MF_Q</span>
+        <span class="n">rhos_Y</span><span class="p">,</span> <span class="n">f_nn_U</span><span class="p">,</span> <span class="n">u_nn_U</span><span class="p">,</span> <span class="n">chi_nn_U</span> <span class="o">=</span> <span class="n">MF_U</span>    
+        
+        <span class="n">f_nn_all</span> <span class="o">=</span> <span class="p">[[</span><span class="n">f_nn_Q</span><span class="p">,</span> <span class="n">u_nn_Q</span><span class="p">,</span> <span class="n">chi_nn_Q</span><span class="p">],[</span><span class="n">f_nn_U</span><span class="p">,</span> <span class="n">u_nn_U</span><span class="p">,</span> <span class="n">chi_nn_U</span><span class="p">]]</span>
+        <span class="n">f_i</span> <span class="o">=</span> <span class="p">[</span><span class="n">f_t</span><span class="p">,</span> <span class="n">u_t</span><span class="p">,</span> <span class="n">chi_t</span><span class="p">]</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Q&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="n">f_nn</span> <span class="o">=</span> <span class="n">f_nn_all</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">];</span> <span class="n">f_t</span> <span class="o">=</span> <span class="n">f_i</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                
+                <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">rhos_Y</span><span class="p">,</span> 
+                                     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+                                     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+                                     <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$m_</span><span class="si">{ss}</span><span class="s1">^{NN, </span><span class="si">%s</span><span class="s1">}$&#39;</span><span class="o">%</span><span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#F87217&#39;</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rhos_Y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_nn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#D04A00&#39;</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">rhos_Y</span><span class="p">,</span> 
+                                     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+                                     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> 
+                                     <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$m_</span><span class="si">{ss}</span><span class="s1">^{real, I}$&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rhos_Y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_t</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+                <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathcal</span><span class="si">{V}</span><span class="s1">_{</span><span class="si">%s</span><span class="s1">}(\rho$) </span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">results</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+                    
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">savedir</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">savedir</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="n">save_format</span><span class="p">)</span></div>
+            
+    
+<div class="viewcode-block" id="post_training.reproject_to_fullsky"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.reproject_to_fullsky">[docs]</a>    <span class="k">def</span> <span class="nf">reproject_to_fullsky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        salloc --nodes 4 --qos interactive --time 00:30:00 --constraint cpu --account=mp107</span>
+<span class="sd">        module load tensorflow/2.6.0</span>
+<span class="sd">        srun -n 16 python reproject2fullsky_mpi.py --pixelsize 3.75 --npix 320 --overlap 2   --verbose  --flat-projection /pscratch/sd/j/jianyao/forse_processed_data/NN_out_Q_12amin_physical_units_from_real_Nico.npy --flat2hpx --nside 2048 --apodization-file /global/homes/j/jianyao/Small_Scale_Foreground/mask_320*320.npy --adaptive-reprojection</span>
+<span class="sd">        </span>
+<span class="sd">        srun -n 16 python reproject2fullsky_mpi.py --pixelsize 0.9375 --npix 1280 --overlap 2   --verbose  --flat-projection  /pscratch/sd/j/jianyao/forse_output/Nico_Q_20amin_20x20_1280.npy --flat2hpx --nside 4096 --apodization-file /global/homes/j/jianyao/Small_Scale_Foreground/mask_1280*1280.npy --adaptive-reprojection</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="post_training.power_spectra_patch"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.power_spectra_patch">[docs]</a>    <span class="k">def</span> <span class="nf">power_spectra_patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">lmax</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">w22_file</span> <span class="o">=</span> <span class="s2">&quot;w22_flat_320_320.fits&quot;</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="s1">&#39;mask_320*320.npy&#39;</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">return_cls</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        plot EE/BB power spectra for each flat patch of sky. For Large scales only, Large scales with gaussian small scales; </span>
+<span class="sd">        Large scales with ForSE small scales. </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">Lx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">20.</span><span class="p">);</span> <span class="n">Ly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">20.</span><span class="p">)</span>
+        <span class="n">Nx</span> <span class="o">=</span> <span class="mi">320</span><span class="p">;</span> <span class="n">Ny</span> <span class="o">=</span> <span class="mi">320</span>
+
+        <span class="n">gaussian_pathQ</span> <span class="o">=</span><span class="s1">&#39;/global/cfs/cdirs/sobs/www/users/ForSE/NN_datautils/datasets/GNILC_gaussian_ss_Q_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span>
+        <span class="n">gaussian_pathU</span> <span class="o">=</span><span class="s1">&#39;/global/cfs/cdirs/sobs/www/users/ForSE/NN_datautils/datasets/GNILC_gaussian_ss_U_20x20deg_Npix320_full_sky_adaptive.npy&#39;</span>
+        
+        <span class="n">gaussian_mapsQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">gaussian_pathQ</span><span class="p">,</span> <span class="n">allow_pickle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">*</span><span class="mf">1e6</span>
+        <span class="n">gaussian_mapsU</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">gaussian_pathU</span><span class="p">,</span> <span class="n">allow_pickle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">*</span><span class="mf">1e6</span>
+        
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mask_path</span><span class="p">)</span>
+        <span class="n">l0_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">lmax</span><span class="p">,</span> <span class="mi">40</span><span class="p">);</span> <span class="n">lf_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">lmax</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span><span class="o">+</span><span class="mi">39</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtBinFlat</span><span class="p">(</span><span class="n">l0_bins</span><span class="p">,</span> <span class="n">lf_bins</span><span class="p">)</span>
+        <span class="n">ells_uncoupled</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_effective_ells</span><span class="p">()</span>
+        
+        <span class="n">w22</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtWorkspaceFlat</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">w22</span><span class="o">.</span><span class="n">read_from</span><span class="p">(</span><span class="n">w22_file</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;weights loaded from </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">w22_file</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            
+            <span class="n">f_2</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtFieldFlat</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">320</span><span class="p">,</span> <span class="mi">320</span><span class="p">))],</span> <span class="n">purify_b</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">w22</span><span class="o">.</span><span class="n">compute_coupling_matrix</span><span class="p">(</span><span class="n">f2</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">w22</span><span class="o">.</span><span class="n">write_to</span><span class="p">(</span><span class="n">w22_file</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;weights writing to disk&#39;</span><span class="p">)</span>
+        
+        <span class="n">Qmaps</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Ls_Q</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">gaussian_mapsQ</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNmapQ_corr</span><span class="p">[</span><span class="n">n</span><span class="p">]];</span>
+        <span class="n">Umaps</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Ls_U</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">gaussian_mapsU</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">NNmapU_corr</span><span class="p">[</span><span class="n">n</span><span class="p">]];</span>
+        
+        <span class="n">cls_all</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+
+            <span class="n">f_NN</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">NmtFieldFlat</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="n">Qmaps</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Umaps</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">purify_b</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">cl_NN_coupled</span> <span class="o">=</span> <span class="n">nmt</span><span class="o">.</span><span class="n">compute_coupled_cell_flat</span><span class="p">(</span><span class="n">f_NN</span><span class="p">,</span> <span class="n">f_NN</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">cl_NN_uncoupled</span> <span class="o">=</span> <span class="n">w22</span><span class="o">.</span><span class="n">decouple_cell</span><span class="p">(</span><span class="n">cl_NN_coupled</span><span class="p">)</span>
+            <span class="n">cls_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cl_NN_uncoupled</span><span class="p">)</span>    
+            
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>                  
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EE&#39;</span><span class="p">,</span> <span class="s1">&#39;BB&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cls_all</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span>  <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;GNILC 80 amin&#39;</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cls_all</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GNILC+Gauss 12 amin&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#569A62&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cls_all</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GNILC+NN 12 amin&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#F87217&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">2e-1</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Multipole $\ell$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$C_\ell$ [$\mu K^2$]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>  
+
+            <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">save_dir</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="s1">&#39;pdf&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">return_cls</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cls_all</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, Jian Yao.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

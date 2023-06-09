@@ -91,16 +91,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">ForSEplus package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-after-training-12amin-module">ForSEplus.after_training_12amin module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-after-training-3amin-module">ForSEplus.after_training_3amin module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-check-model-module">ForSEplus.check_model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-forse-plus-module">ForSEplus.forse_plus module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-my-forse-class-module">ForSEplus.my_forse_class module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-nn-tools-module">ForSEplus.nn_tools module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-projection-tools-module">ForSEplus.projection_tools module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-recompose-class-module">ForSEplus.recompose_class module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-utility-module">ForSEplus.utility module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forseplus-validation-class-module">ForSEplus.validation_class module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.after_training_12amin">ForSEplus.after_training_12amin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.after_training_3amin">ForSEplus.after_training_3amin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.check_model">ForSEplus.check_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.forse_plus">ForSEplus.forse_plus module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.my_forse_class">ForSEplus.my_forse_class module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.nn_tools">ForSEplus.nn_tools module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.projection_tools">ForSEplus.projection_tools module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.recompose_class">ForSEplus.recompose_class module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.test_import">ForSEplus.test_import module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.utility">ForSEplus.utility module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus.validation_class">ForSEplus.validation_class module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ForSEplus">Module contents</a></li>
 </ul>
 </li>
@@ -180,35 +181,734 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="forseplus-after-training-12amin-module">
-<h2>ForSEplus.after_training_12amin module<a class="headerlink" href="#forseplus-after-training-12amin-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.after_training_12amin">
+<span id="forseplus-after-training-12amin-module"></span><h2>ForSEplus.after_training_12amin module<a class="headerlink" href="#module-ForSEplus.after_training_12amin" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.after_training_12amin.</span></span><span class="sig-name descname"><span class="pre">post_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NNout_Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NNout_U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss_I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_Q_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_U_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_MF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>training.</strong> (<em>All processes after the</em>) – </p></li>
+<li><p><strong>NNout_Q/U</strong> (<em>small scales from NN</em><em>, </em><em>with shape</em><em> (</em><em>174</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em>) – </p></li>
+<li><p><strong>ss_I</strong> (<em>intensity small scales</em>) – </p></li>
+<li><p><strong>Ls_Q/U</strong> (<em>input training files for the NN</em><em>, </em><em>shape</em><em> (</em><em>2</em><em>, </em><em>348</em><em>, </em><em>320</em><em>, </em><em>320</em><em>) </em><em>in units of uK.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.compute_overlapping">
+<span class="sig-name descname"><span class="pre">compute_overlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MF_P</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.compute_overlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.compute_overlapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute the MFs overlapping fraction w.r.t. small scales of intensity maps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.first_normalization">
+<span class="sig-name descname"><span class="pre">first_normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gauss_ss_mean_std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.first_normalization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.first_normalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the small scales w.r.t. Gaussian case in the map level;</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps_out_12Q/U</strong> (<em>small scales generated from the Neural Network. With shape:</em><em> (</em><em>174</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em><em>;</em>) – </p></li>
+<li><p><strong>gauss_ss_mean_std</strong> (<em>mean and std for each patch of small scales of Gaussian realization</em><em>, </em><em>defined by the ratio:</em>) – </p></li>
+<li><p><strong>1</strong> (<em>Gaussian_maps_12amin/Gaussian_maps_80amin; 4 in</em>) – </p></li>
+<li><p><strong>Returns</strong> – </p></li>
+<li><p><strong>maps.</strong> (<em>normalized</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.get_one_MF">
+<span class="sig-name descname"><span class="pre">get_one_MF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_maps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npatches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">174</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patch_N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.get_one_MF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.get_one_MF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defined for output at 12amin, [174, 320, 320] or for ordinary maps with shape [174, 320, 320]
+for nn output at 12amin, npatches = 174; for intensity small scales, npatch = 174;</p>
+<p>Returns</p>
+<p>rhos: threshold values, normally [-1, 1]
+f, u, chi : three kinds of MFs for each patch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.normalization">
+<span class="sig-name descname"><span class="pre">normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gauss_ss_ps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_ss_mean_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mask_320*320.npy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.normalization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.normalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the small scales w.r.t. Gaussian case in the power spectra level and multiply with the large scales to get a full-resolution maps, after the first normalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps_out_12Q/U</strong> (<em>small scales after the first normalization; With shape:</em><em> (</em><em>174</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em><em>;</em>) – </p></li>
+<li><p><strong>gauss_ss_ps</strong> (<em>power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape:</em><em> (</em><em>2</em><em>, </em><em>174</em><em>, </em><em>1</em><em>, </em><em>25</em><em>)</em><em></em>) – </p></li>
+<li><p><strong>Ls_Q/U</strong> (<em>large scales</em><em>, </em><em>same as the input for the training; with shape</em><em> (</em><em>174</em><em>,</em><em>320</em><em>,</em><em>320</em><em>)</em><em></em>) – </p></li>
+<li><p><strong>Returns</strong> – </p></li>
+<li><p><strong>units.</strong> (<em>patches of full resolution maps with physical</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.plot_MF">
+<span class="sig-name descname"><span class="pre">plot_MF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">savedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.plot_MF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.plot_MF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.power_spectra_patch">
+<span class="sig-name descname"><span class="pre">power_spectra_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w22_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w22_flat_320_320.fits'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mask_320*320.npy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_cls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.power_spectra_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.power_spectra_patch" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot EE/BB power spectra for each flat patch of sky. For Large scales only, Large scales with gaussian small scales;
+Large scales with ForSE small scales.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.reproject_to_fullsky">
+<span class="sig-name descname"><span class="pre">reproject_to_fullsky</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.reproject_to_fullsky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.reproject_to_fullsky" title="Permalink to this definition">¶</a></dt>
+<dd><p>salloc –nodes 4 –qos interactive –time 00:30:00 –constraint cpu –account=mp107
+module load tensorflow/2.6.0
+srun -n 16 python reproject2fullsky_mpi.py –pixelsize 3.75 –npix 320 –overlap 2   –verbose  –flat-projection /pscratch/sd/j/jianyao/forse_processed_data/NN_out_Q_12amin_physical_units_from_real_Nico.npy –flat2hpx –nside 2048 –apodization-file /global/homes/j/jianyao/Small_Scale_Foreground/mask_320*320.npy –adaptive-reprojection</p>
+<p>srun -n 16 python reproject2fullsky_mpi.py –pixelsize 0.9375 –npix 1280 –overlap 2   –verbose  –flat-projection  /pscratch/sd/j/jianyao/forse_output/Nico_Q_20amin_20x20_1280.npy –flat2hpx –nside 4096 –apodization-file /global/homes/j/jianyao/Small_Scale_Foreground/mask_1280*1280.npy –adaptive-reprojection</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-after-training-3amin-module">
-<h2>ForSEplus.after_training_3amin module<a class="headerlink" href="#forseplus-after-training-3amin-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.after_training_3amin">
+<span id="forseplus-after-training-3amin-module"></span><h2>ForSEplus.after_training_3amin module<a class="headerlink" href="#module-ForSEplus.after_training_3amin" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.after_training_3amin.</span></span><span class="sig-name descname"><span class="pre">post_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NNout_Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NNout_U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss_I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_Q_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_U_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patch_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_MF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>training.</strong> (<em>All processes after the</em>) – </p></li>
+<li><p><strong>ss_I</strong> (<em>intensity small scales</em>) – </p></li>
+<li><p><strong>Ls_Q/U</strong> (<em>input training files for the NN</em><em>, </em><em>shape:</em><em>(</em><em>174*49</em><em>, </em><em>320</em><em>, </em><em>320</em><em>) </em><em>in units of uK.</em>) – </p></li>
+<li><p><strong>patch_id</strong> (<em>number between 0-173;</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.combine_to_20by20">
+<span class="sig-name descname"><span class="pre">combine_to_20by20</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapQ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ss_norm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.combine_to_20by20"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.combine_to_20by20" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recompose 5°x5° maps together to form 20°x20° maps.
+Both for normalized small scales and small scales only maps.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.compute_overlapping">
+<span class="sig-name descname"><span class="pre">compute_overlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MF_P</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.compute_overlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.compute_overlapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute the MFs overlapping fraction w.r.t. small scales of intensity maps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.first_normalization">
+<span class="sig-name descname"><span class="pre">first_normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gauss_ss_mean_std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.first_normalization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.first_normalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the small scales w.r.t. Gaussian case in the map level;</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps_out_3Q/U</strong> (<em>small scales generated from the Neural Network. With shape:</em><em> (</em><em>174</em><em>, </em><em>49</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em><em>;</em>) – </p></li>
+<li><p><strong>gauss_ss_mean_std</strong> (<em>mean and std for each patch of small scales of Gaussian realization</em><em>, </em><em>defined by the ratio:</em>) – </p></li>
+<li><p><strong>1</strong> (<em>Gaussian_maps_3amin/Gaussian_maps_20amin; 4 in</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>normalized maps.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.get_one_MF">
+<span class="sig-name descname"><span class="pre">get_one_MF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_maps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npatches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">348</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patch_N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.get_one_MF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.get_one_MF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defined for output at 3amin, [174,49, 320, 320] or for ordinary maps with shape [348, 320, 320]
+for nn output at 3amin, npatches = 174; for intensity small scales, npatch = 348;</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>rhos</strong> (<em>threshold values, normally [-1, 1]</em>)</p></li>
+<li><p><strong>f, u, chi</strong> (<em>three kinds of MFs for each patch</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.load_w22">
+<span class="sig-name descname"><span class="pre">load_w22</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w22_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.load_w22"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.load_w22" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.normalization">
+<span class="sig-name descname"><span class="pre">normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gauss_ss_ps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauss_ss_mean_std</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mask_320*320.npy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">560</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.normalization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.normalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the small scales w.r.t. Gaussian case in the power spectra level and multiply with the large scales to get a full-resolution maps, after the first normalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps_out_3Q/U</strong> (<em>small scales after the first normalization; With shape:</em><em> (</em><em>174</em><em>, </em><em>49</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em><em>;</em>) – </p></li>
+<li><p><strong>gauss_ss_ps</strong> (<em>power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape:</em><em> (</em><em>2</em><em>, </em><em>174</em><em>, </em><em>49</em><em>, </em><em>1</em><em>, </em><em>25</em><em>)</em><em></em>) – </p></li>
+<li><p><strong>Nico_20amin_Q/U</strong> (<em>large scales</em><em>, </em><em>same as the input for the training; with shape</em><em> (</em><em>174</em><em>,</em><em>49</em><em>,</em><em>320</em><em>,</em><em>320</em><em>)</em><em></em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>full resolution maps with physical units.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.plot_MF">
+<span class="sig-name descname"><span class="pre">plot_MF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.plot_MF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.plot_MF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return fig to html.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.plot_external">
+<span class="sig-name descname"><span class="pre">plot_external</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reso</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_80amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_12amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_3amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unify</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pdf'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.plot_external"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.plot_external" title="Permalink to this definition">¶</a></dt>
+<dd><p>center = [0,50]
+unify: use the min and max of maps at 12amin as the lower and upper limit for plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.plot_maps_modify">
+<span class="sig-name descname"><span class="pre">plot_maps_modify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Nico_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_out_3_348</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NNmap_corr_348</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">36</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.plot_maps_modify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.plot_maps_modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>map visualization; maps at 20 amin; output from NN; renormalize the NN output and combine with the large scales
+m: sky_position. 0-174
+n: patch_position in the 7*7 square</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.power_spectra_patch">
+<span class="sig-name descname"><span class="pre">power_spectra_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ls_80Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_80U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_12Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_12U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GaussQ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">GaussU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NN_combined_Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NN_combined_U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_320</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_1280</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w22_320</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w22_1280</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.power_spectra_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.power_spectra_patch" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot EE/BB power spectra for each flat patch with area 20x20deg2 and shape (174, 1280, 1280), which is recomposed from 5x5deg^2 patches.
+For Large scales only, Large scales with gaussian small scales; Large scales with ForSE small scales.</p>
+<blockquote>
+<div><p>w22_file = “w22_flat_1280_1280.fits”
+mask_path = ‘mask_1280*1280.npy’</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.after_training_3amin.post_training.reproject_to_fullsky">
+<span class="sig-name descname"><span class="pre">reproject_to_fullsky</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_3amin.html#post_training.reproject_to_fullsky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_3amin.post_training.reproject_to_fullsky" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-check-model-module">
-<h2>ForSEplus.check_model module<a class="headerlink" href="#forseplus-check-model-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.check_model">
+<span id="forseplus-check-model-module"></span><h2>ForSEplus.check_model module<a class="headerlink" href="#module-ForSEplus.check_model" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.check_model.get_MFs_fix">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.check_model.</span></span><span class="sig-name descname"><span class="pre">get_MFs_fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_patches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">348</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/pscratch/sd/j/jianyao/forse_output/training_data_Nico_T12amin_U20amin_348.npy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/pscratch/sd/j/jianyao/forse_output/3_arcmin_8000_models_MY_lr_5e-5_U/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MF_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MFs/3_arcmin_MY_U_jupyter_348_MFs_lr_5e-5.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">find_best</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_NN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/check_model.html#get_MFs_fix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.check_model.get_MFs_fix" title="Permalink to this definition">¶</a></dt>
+<dd><p>input_patches: the number of patches of input large scales</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.check_model.plot_MF">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.check_model.</span></span><span class="sig-name descname"><span class="pre">plot_MF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/check_model.html#plot_MF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.check_model.plot_MF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.check_model.plot_Overlapping">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.check_model.</span></span><span class="sig-name descname"><span class="pre">plot_Overlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/check_model.html#plot_Overlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.check_model.plot_Overlapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="forseplus-forse-plus-module">
-<h2>ForSEplus.forse_plus module<a class="headerlink" href="#forseplus-forse-plus-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.forse_plus">
+<span id="forseplus-forse-plus-module"></span><h2>ForSEplus.forse_plus module<a class="headerlink" href="#module-ForSEplus.forse_plus" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ForSEplus.forse_plus.forsev2">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.forse_plus.</span></span><span class="sig-name descname"><span class="pre">forsev2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">go_three</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">three_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correct_EB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/forse_plus.html#forsev2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.forse_plus.forsev2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate polarized thermal dust emission with random realizations of small scales.
+Small scales can reach resolution of 12 arcminutes and 3 arcminutes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.forse_plus.forsev2.generate_maps_12">
+<span class="sig-name descname"><span class="pre">generate_maps_12</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/forse_plus.html#forsev2.generate_maps_12"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.forse_plus.forsev2.generate_maps_12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return</p>
+<p>(when self.three_only is not True) maps_12amin: numpy.array with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;
+patches_12amin: normalized square patches of QU before reprojecting to full sky.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.forse_plus.forsev2.generate_maps_3">
+<span class="sig-name descname"><span class="pre">generate_maps_3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">QU_patches_12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/forse_plus.html#forsev2.generate_maps_3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.forse_plus.forsev2.generate_maps_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input
+QU patches at 12amin
+Return
+maps_3amin: numpy.array with shape (2, 12*4096**2). Healpix maps of QU at NSIDE = 4096;</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.forse_plus.forsev2.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nsim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/forse_plus.html#forsev2.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.forse_plus.forsev2.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-my-forse-class-module">
-<h2>ForSEplus.my_forse_class module<a class="headerlink" href="#forseplus-my-forse-class-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.my_forse_class">
+<span id="forseplus-my-forse-class-module"></span><h2>ForSEplus.my_forse_class module<a class="headerlink" href="#module-ForSEplus.my_forse_class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.my_forse_class.</span></span><span class="sig-name descname"><span class="pre">forse_my</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>forse of tensorflow version</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.build_discriminator">
+<span class="sig-name descname"><span class="pre">build_discriminator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.build_discriminator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.build_discriminator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.build_gan">
+<span class="sig-name descname"><span class="pre">build_gan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.build_gan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.build_gan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.build_generator">
+<span class="sig-name descname"><span class="pre">build_generator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.build_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.build_generator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.check_point">
+<span class="sig-name descname"><span class="pre">check_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">best_epoch_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.check_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.check_point" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.discriminator_loss">
+<span class="sig-name descname"><span class="pre">discriminator_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">real_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fake_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.discriminator_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.discriminator_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.generator_loss">
+<span class="sig-name descname"><span class="pre">generator_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fake_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.generator_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.generator_loss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patches_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4324</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/my_forse_class.html#forse_my.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.train" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.my_forse_class.forse_my.train_step">
+<span class="sig-name descname"><span class="pre">train_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ForSEplus.my_forse_class.forse_my.train_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-nn-tools-module">
-<h2>ForSEplus.nn_tools module<a class="headerlink" href="#forseplus-nn-tools-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.nn_tools">
+<span id="forseplus-nn-tools-module"></span><h2>ForSEplus.nn_tools module<a class="headerlink" href="#module-ForSEplus.nn_tools" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.nn_tools.load_training_set">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.nn_tools.</span></span><span class="sig-name descname"><span class="pre">load_training_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patches_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reshape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/nn_tools.html#load_training_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.nn_tools.load_training_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.nn_tools.split_training_set">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.nn_tools.</span></span><span class="sig-name descname"><span class="pre">split_training_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reshape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/nn_tools.html#split_training_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.nn_tools.split_training_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="forseplus-projection-tools-module">
-<h2>ForSEplus.projection_tools module<a class="headerlink" href="#forseplus-projection-tools-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.projection_tools">
+<span id="forseplus-projection-tools-module"></span><h2>ForSEplus.projection_tools module<a class="headerlink" href="#module-ForSEplus.projection_tools" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.f2h">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">f2h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_header</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nside</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'C'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#f2h"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.f2h" title="Permalink to this definition">¶</a></dt>
+<dd><p>#project flatsky-&gt;healpix
+Interface to the <cite>reproject.reproject_to_healpix</cite></p>
+<blockquote>
+<div><p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>flat</cite>: {2D array}</p></li>
+</ul>
+<p>map in flat coordinate
+- <cite>target_header</cite>: {FITS header}
+the output of <cite>set_header</cite>
+- <cite>coord_in</cite> :{string}
+coordinate frame for  the output map, ‘C’ for Celestial, ‘E’ for ecliptical,
+<cite>G</cite> for Galactic
+- <cite>nside</cite>:{int}
+the output healpix pixelization parameter</p>
+<p><strong>Returns</strong></p>
+<ul class="simple">
+<li><p><cite>pr</cite>:The reprojected map in a healpix  pixelization</p></li>
+<li><p><cite>footprint</cite>:  the footprint of the repojected map as a binary healpix mask</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.get_lonlat">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">get_lonlat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size_patch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#get_lonlat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.get_lonlat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the whole sphere into patches with sizes given by <a href="#id1"><span class="problematic" id="id2">`</span></a>size_patch`(in degrees) and with a certain overlap
+given in units of degrees. Notice that the number of patches overlapping increases at the poles and decreases at
+the equator.</p>
+<p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>size_patch</cite> :{astropy. quantity [u.deg]}</p></li>
+<li><p><cite>overlap</cite> :{astropy. quantity [u.deg]}</p></li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul class="simple">
+<li><p><cite>lon</cite>:{np.array}</p></li>
+</ul>
+<p>the longitudinal coordinates of the patches
+-<cite>lat</cite>:{np.array}
+the latitudinal coordinate of the patches</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.get_lonlat_adaptive">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">get_lonlat_adaptive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size_patch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#get_lonlat_adaptive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.get_lonlat_adaptive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the whole sphere into patches with sizes given by <a href="#id3"><span class="problematic" id="id4">`</span></a>size_patch`(in degrees) and with a certain overlap
+given in units of degrees. To avoid the fact that the number of patches overlapping increases at the poles and decreases at
+the equator, we implemented an adaptive division of the sphere having less overlapping patches  at the poles.</p>
+<p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>size_patch</cite> :{astropy. quantity [u.deg]}</p></li>
+<li><p><cite>overlap</cite> :{astropy. quantity [u.deg]}</p></li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul class="simple">
+<li><p><cite>lon</cite>:{np.array}</p></li>
+</ul>
+<p>the longitudinal coordinates of the patches
+- <cite>lat</cite>:{np.array}
+the latitudinal coordinate of the patches</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.h2f">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">h2f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_header</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'C'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#h2f"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.h2f" title="Permalink to this definition">¶</a></dt>
+<dd><p>project healpix map  -&gt; flatsky</p>
+<p>Interface to the <cite>reproject.reproject_from_healpix</cite></p>
+<p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>hmap</cite>: {array}</p></li>
+</ul>
+<p>healpix map
+- <cite>target_header</cite>: {FITS header}
+the output of <cite>set_header</cite>
+- <cite>coord_in</cite> :{string}
+coordinate frame of the input map, ‘C’ for Celestial, ‘E’ for ecliptical,
+<cite>G</cite> for Galactic</p>
+<p><strong>Returns</strong>
+- The reprojected map in a flat pixelization</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.make_mosaic_from_healpix">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">make_mosaic_from_healpix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hpxmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Npix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#make_mosaic_from_healpix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.make_mosaic_from_healpix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a mosaic of patches from a healpix map.</p>
+<p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>hpxmap</cite>:{array}</p></li>
+</ul>
+<p>the map to project to flat
+- <cite>Npix</cite> : {int}
+the number of pixels in the flat image side
+- <cite>pixel_size</cite>: {astropy.unit.arcmin }
+the pixel size in the flat projection
+- <cite>overlap</cite>:  {float  }
+the overlap in degrees between two neighbour patches; [=5 <a href="#id5"><span class="problematic" id="id6">*</span></a>u.deg]
+- <cite>adaptive</cite>: {bool}
+if <cite>True</cite> performs the projection in an adaptive way, to reduce overlaps at the poles.</p>
+<p><strong>Returns</strong></p>
+<ul class="simple">
+<li><p><cite>patches</cite>: {array}</p></li>
+</ul>
+<p>the patches in the format of an array of 2D patches, <cite>shape= (Npatches, Npix,Npix )</cite>
+- <cite>lon</cite> :{array}
+the longitudinal coordinate of all the projected patches
+- <cite>lat</cite>:{array}
+the latitudinal coordinate of all the projected patches</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.make_patches_from_healpix">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">make_patches_from_healpix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Npatches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_hres</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_lres</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Npix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patch_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#make_patches_from_healpix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.make_patches_from_healpix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.reproject2fullsky">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">reproject2fullsky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nside_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Npix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apodization_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#reproject2fullsky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.reproject2fullsky" title="Permalink to this definition">¶</a></dt>
+<dd><p>Project  square  patches into  a healpix map. When reprojected back to healpix,
+to ensure continuity between neighboring patches  an apodization window can be applied
+to the square patches to smooth a bit the edge features .</p>
+<p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>patches</cite>: {array}</p></li>
+</ul>
+<p>the patches in the format of an array of 2D patches, <cite>shape= (Npatches, Npix,Npix )</cite>
+- <cite>lon</cite> :{array}
+the longitudinal coordinate of all the projected patches
+- <cite>lat</cite>:{array}
+the latitudinal coordinate of all the projected patches
+- <cite>nside_out</cite>:{int}
+the map to project to flat
+- <cite>Npix</cite> : {int}
+the number of pixels in the flat image side
+- <cite>pixel_size</cite>: {astropy.unit.arcmin }
+the pixel size in the flat projection
+- <cite>apodization_file</cite>:  {string}
+path to the apodization window function <cite>.npy</cite> file, the dimension must be <cite>Npix x Npix</cite>.
+- <cite>verbose</cite>: {bool}
+to include verbosity in the run
+- <cite>comm</cite> : {MPI communicator}
+the MPI communicator needed only for debugging issues</p>
+<p><strong>Returns</strong></p>
+<ul class="simple">
+<li><p><cite>newmap</cite>:{array}</p></li>
+</ul>
+<p>HEALPIX map reprojected
+- <cite>weightsmap</cite>:{array}
+the healpix map accounting for how many times each location in the sky have been
+projected into a healpix pixel.</p>
+<p>the final healpix map needs to be  divided by the weights which are variable for each location in the sky,
+as  :</p>
+<blockquote>
+<div><p><cite>reprojected_healpix_map = newmap/weightsmap</cite></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.projection_tools.set_header">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.projection_tools.</span></span><span class="sig-name descname"><span class="pre">set_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ra</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_patch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Npix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/projection_tools.html#set_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.projection_tools.set_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the header of a fits file. This is useful for the reprojection.
+We assume to reproject square patches.</p>
+<p><strong>Parameters</strong></p>
+<ul class="simple">
+<li><p><cite>ra</cite> : {float}</p></li>
+</ul>
+<p>longitudinal coordinate of the patch we want to reproject
+- <cite>dec</cite> : {float}
+latitudinal coordinate of the patch we want to reproject
+- <cite>size_patch</cite> :{astropy. quantity [u.deg]}
+size of the  patch  side  in degrees
+- <cite>Npix</cite> :{int}
+number of pixel on one side of the patch</p>
+<p><strong>Returns</strong></p>
+<ul class="simple">
+<li><p>Fits header related to the coordinates of the centroid</p></li>
+</ul>
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-recompose-class-module">
-<h2>ForSEplus.recompose_class module<a class="headerlink" href="#forseplus-recompose-class-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.recompose_class">
+<span id="forseplus-recompose-class-module"></span><h2>ForSEplus.recompose_class module<a class="headerlink" href="#module-ForSEplus.recompose_class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ForSEplus.recompose_class.recom">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.recompose_class.</span></span><span class="sig-name descname"><span class="pre">recom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixelsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nside</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apodization_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_inds_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_sphere_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/recompose_class.html#recom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.recompose_class.recom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>reproject flat patches back to a healpix map</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.recompose_class.recom.recompose_fast">
+<span class="sig-name descname"><span class="pre">recompose_fast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patches174_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/recompose_class.html#recom.recompose_fast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.recompose_class.recom.recompose_fast" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-utility-module">
-<h2>ForSEplus.utility module<a class="headerlink" href="#forseplus-utility-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.test_import">
+<span id="forseplus-test-import-module"></span><h2>ForSEplus.test_import module<a class="headerlink" href="#module-ForSEplus.test_import" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.test_import.add_nums">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.test_import.</span></span><span class="sig-name descname"><span class="pre">add_nums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/test_import.html#add_nums"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.test_import.add_nums" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will be used to add two numbers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num1</strong> (<em>int</em>) – The first number</p></li>
+<li><p><strong>num2</strong> (<em>int</em>) – The second number</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The sum of two numbers</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="forseplus-validation-class-module">
-<h2>ForSEplus.validation_class module<a class="headerlink" href="#forseplus-validation-class-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ForSEplus.utility">
+<span id="forseplus-utility-module"></span><h2>ForSEplus.utility module<a class="headerlink" href="#module-ForSEplus.utility" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.bin_array">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">bin_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#bin_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.bin_array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.cl_anafast">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">cl_anafast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map_QU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#cl_anafast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.cl_anafast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the full-sky power spetra, except monopole and dipole</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.cl_nmt">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">cl_nmt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nside</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msk_apo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_QU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlbins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w22_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w22_2048_80_sky.fits'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#cl_nmt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.cl_nmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>nside:
+msk_apo: apodized mask
+nlbins: ell-number in each bin</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.combine_to_20by20">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">combine_to_20by20</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NNmapQ_corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NNmapU_corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#combine_to_20by20"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.combine_to_20by20" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recompose 5°x5° maps together to form 20°x20° maps</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.compute_intersection">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">compute_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cont2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#compute_intersection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.compute_intersection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.correct_EB">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">correct_EB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reso</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3amin'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#correct_EB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.correct_EB" title="Permalink to this definition">¶</a></dt>
+<dd><p>set E/B ratio to 2;</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Q and U maps</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.divide">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">divide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps_smth_20Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_smth_20U</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#divide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.divide" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.estimate_marchingsquare_fix">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">estimate_marchingsquare_fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ForSEplus.utility.estimate_marchingsquare_fix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.flat_ps">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">flat_ps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w22_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#flat_ps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.flat_ps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.from_12to13">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">from_12to13</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps_ren2_12Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_ren2_12U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_one</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#from_12to13"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.from_12to13" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.from_12to20">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">from_12to20</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps_ren2_12Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_ren2_12U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_one</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#from_12to20"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.from_12to20" title="Permalink to this definition">¶</a></dt>
+<dd><p>random_noise: add random noise at the last step.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.get_functionals_fix">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">get_functionals_fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nevals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#get_functionals_fix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.get_functionals_fix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.plot_spectra">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">plot_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1e-09,</span> <span class="pre">1000.0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#plot_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.plot_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>cls_80p_80amin = {‘ells’:ell_80p_80amin, ‘spectra’:cl_80p_80amin, ‘color’:’r-‘, ‘label’:‘80amin’}
+cls_80p_12amin = {‘ells’:ell_80p_12amin, ‘spectra’:cl_80p_12amin, ‘color’:’g-‘, ‘label’:‘12amin’}</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.rescale_input">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">rescale_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#rescale_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.rescale_input" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.rescale_min_max">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">rescale_min_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_min_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#rescale_min_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.rescale_min_max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.sigmoid">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#sigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sigmoid function given start point and width
+:param x: input x axis
+:type x: array
+:param x0: value of x where the sigmoid starts (not the center)
+:type x0: float
+:param width: width of the transition region in unit of x
+:type width: float
+:param power: tweak the steepness of the curve
+:type power: float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>sigmoid</strong> – sigmoid, same length of x</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.smoothing_20">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">smoothing_20</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps_upx_12Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_upx_12U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.81</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#smoothing_20"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.smoothing_20" title="Permalink to this definition">¶</a></dt>
+<dd><p>smoothing with a Gaussian kernal for the pixelized image.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ForSEplus.utility.upsampling">
+<span class="sig-prename descclassname"><span class="pre">ForSEplus.utility.</span></span><span class="sig-name descname"><span class="pre">upsampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps_ren2_12Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_ren2_12U</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/utility.html#upsampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.utility.upsampling" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-ForSEplus.validation_class">
+<span id="forseplus-validation-class-module"></span><h2>ForSEplus.validation_class module<a class="headerlink" href="#module-ForSEplus.validation_class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.validation_class.</span></span><span class="sig-name descname"><span class="pre">validate_3amin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps_80amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_3amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poltens_3amin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin.cls_check_patch">
+<span class="sig-name descname"><span class="pre">cls_check_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maskbk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin.cls_check_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin.cls_check_patch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin.cls_check_sky">
+<span class="sig-name descname"><span class="pre">cls_check_sky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">planck_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4096</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;ForSE-3'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_pt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin.cls_check_sky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin.cls_check_sky" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin.plot_maps_modify_20">
+<span class="sig-name descname"><span class="pre">plot_maps_modify_20</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nico_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maps_out_3_348</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NNmap_corr_348</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[&quot;GNILC</span> <span class="pre">80'&quot;,</span> <span class="pre">&quot;ForSEv1,</span> <span class="pre">12'&quot;,</span> <span class="pre">&quot;ForSE+D,</span> <span class="pre">3'&quot;]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin.plot_maps_modify_20"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin.plot_maps_modify_20" title="Permalink to this definition">¶</a></dt>
+<dd><p>QU for three columns. (QU 80, 12, 3)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin.show_EB_ratio">
+<span class="sig-name descname"><span class="pre">show_EB_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ells</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'80%'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin.show_EB_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin.show_EB_ratio" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin.show_fullsky">
+<span class="sig-name descname"><span class="pre">show_fullsky</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin.show_fullsky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin.show_fullsky" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ForSEplus.validation_class.validate_3amin.show_patch">
+<span class="sig-name descname"><span class="pre">show_patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">-</span> <span class="pre">60]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'coolwarm'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/validation_class.html#validate_3amin.show_patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.validation_class.validate_3amin.show_patch" title="Permalink to this definition">¶</a></dt>
+<dd><p>BK center is [0, -60]</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-ForSEplus">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ForSEplus" title="Permalink to this headline">¶</a></h2>

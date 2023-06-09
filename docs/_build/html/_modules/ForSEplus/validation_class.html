@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ForSEplus.validation_class &mdash; ForSEplus 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ForSEplus
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ForSEplus</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ForSEplus.validation_class</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ForSEplus.validation_class</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
+<span class="kn">from</span> <span class="nn">.utility</span> <span class="kn">import</span> <span class="n">cl_nmt</span><span class="p">,</span> <span class="n">plot_spectra</span><span class="p">,</span> <span class="n">cl_anafast</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<div class="viewcode-block" id="validate_3amin"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin">[docs]</a><span class="k">class</span> <span class="nc">validate_3amin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maps_80amin</span><span class="p">,</span> <span class="n">input_3amin</span><span class="p">,</span> <span class="n">poltens_3amin</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        maps only contain QU</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span> <span class="o">=</span> <span class="n">maps_80amin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span> <span class="o">=</span> <span class="n">input_3amin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span> <span class="o">=</span> <span class="n">poltens_3amin</span>
+        
+        
+<div class="viewcode-block" id="validate_3amin.show_fullsky"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin.show_fullsky">[docs]</a>    <span class="k">def</span> <span class="nf">show_fullsky</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">mollview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">321</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;GNILC Q&#39;</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">mollview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">322</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;GNILC U&#39;</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">mollview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">323</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;ForSE Q 3amin&#39;</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">mollview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">324</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;ForSE U 3amin&#39;</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">mollview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">325</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;GNILC Q - Q 3amin&#39;</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">mollview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">326</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;GNILC Q - Q 3amin&#39;</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="validate_3amin.show_patch"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin.show_patch">[docs]</a>    <span class="k">def</span> <span class="nf">show_patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">60</span><span class="p">],</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;coolwarm&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        BK center is [0, -60]</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">gnomview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">reso</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xsize</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">rot</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">131</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Q_GNILC_unires_80amin&#39;</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">gnomview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">reso</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xsize</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">rot</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">132</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">30.3</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">164</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Forse_3amin&#39;</span><span class="p">,</span> <span class="n">notext</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">gnomview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">reso</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xsize</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">rot</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">133</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">30.3</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mi">164</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Poltens_3amin&#39;</span><span class="p">,</span> <span class="n">notext</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">gnomview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">reso</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xsize</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">rot</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">131</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;U_GNILC_unires_80amin&#39;</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">gnomview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">reso</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xsize</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">rot</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">132</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">86.2</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mf">71.3</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Forse_3amin&#39;</span><span class="p">,</span> <span class="n">notext</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">hp</span><span class="o">.</span><span class="n">gnomview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">reso</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xsize</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="p">,</span><span class="n">rot</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="mi">133</span><span class="p">,</span> <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">86.2</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="mf">71.3</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Poltens_3amin&#39;</span><span class="p">,</span> <span class="n">notext</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="validate_3amin.cls_check_sky"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin.cls_check_sky">[docs]</a>    <span class="k">def</span> <span class="nf">cls_check_sky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maps</span><span class="p">,</span> <span class="n">planck_mask</span><span class="p">,</span> <span class="n">lmax</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;ForSE-3</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cls_pt</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        
+        <span class="n">maps_3amin_2048</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">),</span> <span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="n">maps</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">)))</span>
+
+        <span class="n">ells_full_3amin</span><span class="p">,</span> <span class="n">cl_full_3amin</span> <span class="o">=</span> <span class="n">cl_anafast</span><span class="p">(</span><span class="n">maps_3amin_2048</span><span class="p">,</span> <span class="n">lmax</span> <span class="o">=</span> <span class="n">lmax</span><span class="p">)</span>
+        <span class="n">cl_full_3amin_na</span> <span class="o">=</span> <span class="p">[</span><span class="n">cl_full_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cl_full_3amin</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">cl_full_3amin</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">cl_full_3amin</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+
+        <span class="n">w22_file_80p</span> <span class="o">=</span> <span class="s1">&#39;/pscratch/sd/j/jianyao/w22_2048_80_sky_lmax_4096_nbins_40.fits&#39;</span>
+        <span class="n">ell_80p_3amin</span><span class="p">,</span> <span class="n">cl_80p_3amin</span> <span class="o">=</span> <span class="n">cl_nmt</span><span class="p">(</span><span class="mi">2048</span><span class="p">,</span> <span class="n">planck_mask</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">maps_3amin_2048</span><span class="p">,</span><span class="n">lmax</span> <span class="o">=</span> <span class="n">lmax</span><span class="p">,</span> <span class="n">nlbins</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span> <span class="n">w22_file</span> <span class="o">=</span> <span class="n">w22_file_80p</span><span class="p">)</span>
+
+        <span class="n">w22_file_40p</span> <span class="o">=</span> <span class="s1">&#39;/pscratch/sd/j/jianyao/w22_2048_40_sky_lmax_4096_nbins_40.fits&#39;</span>
+        <span class="n">ell_40p_3amin</span><span class="p">,</span> <span class="n">cl_40p_3amin</span> <span class="o">=</span> <span class="n">cl_nmt</span><span class="p">(</span><span class="mi">2048</span><span class="p">,</span> <span class="n">planck_mask</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">maps_3amin_2048</span><span class="p">,</span><span class="n">lmax</span> <span class="o">=</span> <span class="n">lmax</span><span class="p">,</span> <span class="n">nlbins</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span> <span class="n">w22_file</span> <span class="o">=</span> <span class="n">w22_file_40p</span><span class="p">)</span>
+        
+        <span class="n">cls_full_3amin</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ells&#39;</span><span class="p">:</span><span class="n">ells_full_3amin</span><span class="p">,</span> <span class="s1">&#39;spectra&#39;</span><span class="p">:</span><span class="n">cl_full_3amin_na</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-&#39;</span><span class="o">%</span><span class="n">color</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="n">label</span><span class="p">}</span>
+        <span class="n">cls_80p_3amin</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ells&#39;</span><span class="p">:</span><span class="n">ell_80p_3amin</span><span class="p">,</span> <span class="s1">&#39;spectra&#39;</span><span class="p">:</span><span class="n">cl_80p_3amin</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">-.&#39;</span><span class="o">%</span><span class="n">color</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
+        <span class="n">cls_40p_3amin</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ells&#39;</span><span class="p">:</span><span class="n">ell_40p_3amin</span><span class="p">,</span> <span class="s1">&#39;spectra&#39;</span><span class="p">:</span><span class="n">cl_40p_3amin</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">--&#39;</span><span class="o">%</span><span class="n">color</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">cls_maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls_full_3amin</span><span class="p">,</span> <span class="n">cls_80p_3amin</span><span class="p">,</span> <span class="n">cls_40p_3amin</span><span class="p">]</span>
+        <span class="c1"># cls_full_pt, cls_80p_pt, cls_40p_pt</span>
+        <span class="n">cls_all</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls_pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cls_pt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cls_pt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cls_full_3amin</span><span class="p">,</span> <span class="n">cls_80p_3amin</span><span class="p">,</span> <span class="n">cls_40p_3amin</span><span class="p">]</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EE&#39;</span><span class="p">,</span> <span class="s1">&#39;BB&#39;</span><span class="p">]</span>
+        <span class="n">fig1</span> <span class="o">=</span> <span class="n">plot_spectra</span><span class="p">(</span><span class="n">cls_all</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span><span class="n">lim</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">5e4</span><span class="p">])</span></div>
+    
+<div class="viewcode-block" id="validate_3amin.cls_check_patch"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin.cls_check_patch">[docs]</a>    <span class="k">def</span> <span class="nf">cls_check_patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maskbk</span><span class="p">):</span>
+        
+        <span class="n">maps_80amin_512</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">512</span><span class="p">),</span> <span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps_80amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">512</span><span class="p">)))</span>
+        <span class="n">maps_3amin_512</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">512</span><span class="p">),</span> <span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">512</span><span class="p">)))</span>
+        <span class="n">poltens_3amin_512</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">512</span><span class="p">),</span> <span class="n">hp</span><span class="o">.</span><span class="n">ud_grade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_3amin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nside_out</span> <span class="o">=</span> <span class="mi">512</span><span class="p">)))</span>
+
+        <span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_80amin_bk</span> <span class="o">=</span> <span class="n">cl_nmt</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">maskbk</span><span class="p">,</span> <span class="n">maps_80amin_512</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">dl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">w22_file</span> <span class="o">=</span> <span class="s1">&#39;/pscratch/sd/j/jianyao/w22_512_bicep.fits&#39;</span><span class="p">)</span>
+        <span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_3amin_bk</span> <span class="o">=</span> <span class="n">cl_nmt</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">maskbk</span><span class="p">,</span> <span class="n">maps_3amin_512</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">dl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">w22_file</span> <span class="o">=</span> <span class="s1">&#39;/pscratch/sd/j/jianyao/w22_512_bicep.fits&#39;</span><span class="p">)</span>
+        <span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_3amin_pt_bk</span> <span class="o">=</span> <span class="n">cl_nmt</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">maskbk</span><span class="p">,</span> <span class="n">poltens_3amin_512</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">dl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">w22_file</span> <span class="o">=</span> <span class="s1">&#39;/pscratch/sd/j/jianyao/w22_512_bicep.fits&#39;</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">ell</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="p">(</span><span class="n">ell</span><span class="o">/</span><span class="mi">80</span><span class="p">)</span> <span class="o">**</span> <span class="n">gamma</span>
+            <span class="k">return</span> <span class="n">out</span>
+        
+        <span class="n">fig1</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>                
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EE&#39;</span><span class="p">,</span> <span class="s1">&#39;BB&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_80amin_bk</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span>  <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;GNILC 80 amin&#39;</span><span class="p">)</span>
+                <span class="c1"># axes[i].loglog(ells_uncoupled, cl_12amin_bk[i*3], &#39;--&#39;, label=&#39;GNILC+ NN 12 amin&#39;, lw=3, color=&#39;#569A62&#39;, alpha=0.5)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_3amin_bk</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ForSE 3 amin&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_3amin_pt_bk</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;poltens 3amin&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_80amin_bk</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span>  <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="c1"># axes[i].loglog(ells_uncoupled, cl_12amin_bk[i*3], &#39;--&#39;, lw=3, color=&#39;#569A62&#39;, alpha=0.5)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_3amin_bk</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="c1">##F87217</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_3amin_pt_bk</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>       
+
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Multipole $\ell$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$D_\ell$ [$\mu K_</span><span class="si">{CMB}</span><span class="s1">^2$]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>  
+            <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="mf">1e3</span><span class="p">)</span> 
+
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">model</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="mf">4.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">),</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;BICEP/KECK power law, $\alpha$ = - 0.4&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">model</span><span class="p">(</span><span class="n">ells_uncoupled</span><span class="p">,</span> <span class="mf">4.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;BICEP/KECK power law&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mf">80.</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.25</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$A_d$_BK2021 @353GHz = 4.25 ${\mu K}^2$&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">ells_uncoupled</span><span class="p">,</span> <span class="n">cl_80amin_bk</span><span class="p">,</span> <span class="n">cl_3amin_bk</span><span class="p">,</span> <span class="n">cl_3amin_pt_bk</span></div>
+    
+<div class="viewcode-block" id="validate_3amin.show_EB_ratio"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin.show_EB_ratio">[docs]</a>    <span class="k">def</span> <span class="nf">show_EB_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ells</span><span class="p">,</span> <span class="n">cls_p</span><span class="p">,</span> <span class="n">cls_f</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="s1">&#39;80%&#39;</span><span class="p">):</span>
+        
+        <span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ells</span><span class="p">,</span>  <span class="n">cls_p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">cls_p</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;poltens-3amin&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ells</span><span class="p">,</span>  <span class="n">cls_f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">cls_f</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Forse-3amin&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">ls</span>  <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;E/B ratio, </span><span class="si">%s</span><span class="s1"> sky&#39;</span><span class="o">%</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="validate_3amin.plot_maps_modify_20"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.validation_class.validate_3amin.plot_maps_modify_20">[docs]</a>    <span class="k">def</span> <span class="nf">plot_maps_modify_20</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">Nico_20amin</span><span class="p">,</span> <span class="n">maps_out_3_348</span><span class="p">,</span> <span class="n">NNmap_corr_348</span><span class="p">,</span> 
+                            <span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GNILC 80</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;ForSEv1, 12</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;ForSE+D, 3</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">],</span> 
+                            <span class="n">save_dir</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+                            <span class="n">show_3</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        QU for three columns. (QU 80, 12, 3)</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="o">-.</span><span class="mi">35</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span>
+        <span class="n">bottom</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="o">.</span><span class="mi">25</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="n">width</span>
+        <span class="n">top</span> <span class="o">=</span> <span class="n">bottom</span> <span class="o">+</span> <span class="n">height</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="n">min_vs</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">];</span> <span class="n">max_vs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                
+            <span class="n">min_v</span> <span class="o">=</span> <span class="n">min_vs</span><span class="p">[</span><span class="n">l</span><span class="p">];</span> <span class="n">max_v</span> <span class="o">=</span> <span class="n">max_vs</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">Nico_20amin</span><span class="p">[</span><span class="n">l</span><span class="p">]),</span> <span class="n">vmin</span> <span class="o">=</span> <span class="n">min_v</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">max_v</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">maps_out_3_348</span><span class="p">[</span><span class="n">l</span><span class="p">]),</span> <span class="n">vmin</span> <span class="o">=</span> <span class="n">min_v</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">max_v</span><span class="p">)</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">NNmap_corr_348</span><span class="p">[</span><span class="n">l</span><span class="p">]),</span> <span class="n">vmin</span> <span class="o">=</span> <span class="n">min_v</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">max_v</span><span class="p">)</span>
+
+            <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">,</span> <span class="p">:],</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+            <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathrm{\mu K}$&#39;</span><span class="p">)</span>
+
+            <span class="n">lon_c</span> <span class="o">=</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">lat_c</span> <span class="o">=</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+
+                <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">320</span><span class="p">))</span>
+                
+                <span class="k">if</span> <span class="n">show_3</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">1280</span><span class="p">))</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">1280</span><span class="p">))</span>
+
+                <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">((</span><span class="s1">&#39;%.f°&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">lon_c</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;%.f°&#39;</span><span class="o">%</span><span class="n">lon_c</span><span class="p">,</span> <span class="s1">&#39;%.f°&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">lon_c</span><span class="o">+</span><span class="mi">10</span><span class="p">)),</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>    
+                <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">((</span><span class="s1">&#39;%.f°&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">lat_c</span> <span class="o">+</span> <span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;%.f°&#39;</span><span class="o">%</span><span class="n">lat_c</span><span class="p">,</span> <span class="s1">&#39;%.f°&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">lat_c</span><span class="o">-</span><span class="mi">10</span><span class="p">)),</span> <span class="n">fontsize</span> <span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> 
+                    <span class="n">axes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bottom</span><span class="o">+</span><span class="n">top</span><span class="p">),</span> <span class="s1">&#39;$M^{Q, 20^\circ}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bottom</span><span class="o">+</span><span class="n">top</span><span class="p">),</span> <span class="s1">&#39;$M^{U, 20^\circ}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_dir</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div></div>
+        
+    
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, Jian Yao.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

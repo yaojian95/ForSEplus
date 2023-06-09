@@ -206,7 +206,7 @@ def get_lonlat_adaptive  ( size_patch ,  overlap   ):
     return lonj, latj
 
 
-def make_mosaic_from_healpix( hpxmap , Npix, pixel_size , overlap=5 *u.deg , adaptive=False  ):
+def make_mosaic_from_healpix( hpxmap , Npix, pixel_size , overlap, adaptive=False  ):
     """
     Make a mosaic of patches from a healpix map.
 
@@ -219,7 +219,7 @@ def make_mosaic_from_healpix( hpxmap , Npix, pixel_size , overlap=5 *u.deg , ada
     - `pixel_size`: {astropy.unit.arcmin }
     the pixel size in the flat projection
     - `overlap`:  {float  }
-    the overlap in degrees between two neighbour patches
+    the overlap in degrees between two neighbour patches; [=5 *u.deg]
     - `adaptive`: {bool}
     if `True` performs the projection in an adaptive way, to reduce overlaps at the poles.
 

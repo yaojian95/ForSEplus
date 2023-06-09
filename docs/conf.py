@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src/'))
+sys.path.insert(0, os.path.abspath('../src'))
 
 
 # -- Project information -----------------------------------------------------
@@ -35,6 +35,8 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon'
 ]
+
+autodoc_mock_imports = ['numpy', 'matplotlib', 'reproject', 'healpy', 'tensorflow', 'scipy', 'pymaster', 'pylab', 'numba', 'astropy']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
