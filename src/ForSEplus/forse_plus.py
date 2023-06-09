@@ -16,7 +16,10 @@ class forsev2(object):
     
     '''
     Generate polarized thermal dust emission with random realizations of small scales.
-    Small scales can reach resolution of 12 arcminutes and 3 arcminutes.
+    Small scales can reach resolution of 12 arcminutes and 3 arcminutes.   
+    
+    Parameters
+    ----------
     '''
     
     def __init__(self, data_dir, snr = 1, go_three = True, three_only = True, correct_EB = True, validation = False):
@@ -76,11 +79,17 @@ class forsev2(object):
     def generate_maps_12(self):
         
         '''
+    
+        Parameters
+        ----------
+    
+        Returns
+        -------
         
-        Return 
-        
-        (when self.three_only is not True) maps_12amin: numpy.array with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;
-        patches_12amin: normalized square patches of QU before reprojecting to full sky.
+        (when self.three_only is not True) maps_12amin: numpy.array.
+            with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;
+        patches_12amin: 
+            normalized square patches of QU before reprojecting to full sky.
         
         '''
         start = time.time()
@@ -140,10 +149,17 @@ class forsev2(object):
     def generate_maps_3(self, QU_patches_12):
 
         '''
-        Input
-        QU patches at 12amin
-        Return 
-        maps_3amin: numpy.array with shape (2, 12*4096**2). Healpix maps of QU at NSIDE = 4096;
+    
+        Parameters
+        ----------
+
+        QU_patches_12: 
+            QU patches at 12amin
+        
+        Returns
+        -------
+        maps_3amin: numpy.array
+            with shape (2, 12*4096**2). Healpix maps of QU at NSIDE = 4096
         
         '''
         

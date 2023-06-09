@@ -167,13 +167,20 @@
 
 <div class="viewcode-block" id="post_training"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training">[docs]</a><span class="k">class</span> <span class="nc">post_training</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    All processes after the training.</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    </span>
-<span class="sd">    All processes after the training.</span>
-<span class="sd">    NNout_Q/U: small scales from NN, with shape (174, 320, 320)</span>
-<span class="sd">    ss_I: intensity small scales </span>
-<span class="sd">    Ls_Q/U:  input training files for the NN, shape (2, 348, 320, 320) in units of uK. </span>
+<span class="sd">    NNout_Q/U: ndarray</span>
+<span class="sd">        small scales from NN, with shape (174, 320, 320)</span>
+<span class="sd">    ss_I: ndarray</span>
+<span class="sd">        intensity small scales </span>
+<span class="sd">    Ls_Q/U:  ndarray</span>
+<span class="sd">        input training files for the NN, shape (2, 348, 320, 320) in units of uK. </span>
+<span class="sd">    MF: Bool</span>
+<span class="sd">    fix_MF: Bool</span>
+<span class="sd">        Set it to be `True` to use the corrected algorithm to calculate the Minkowski functionals.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NNout_Q</span><span class="p">,</span> <span class="n">NNout_U</span><span class="p">,</span> <span class="n">ss_I</span><span class="p">,</span> <span class="n">Ls_Q_20amin</span><span class="p">,</span> <span class="n">Ls_U_20amin</span><span class="p">,</span> <span class="n">MF</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fix_MF</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -200,6 +207,7 @@
 <span class="sd">        Gaussian_maps_12amin/Gaussian_maps_80amin; 4 in 1: Q_mean, Q_std, U_mean, U_std. With shape (4, 174).</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        </span>
 <span class="sd">        normalized maps.</span>
 
@@ -226,6 +234,7 @@
 <span class="sd">        Ls_Q/U: large scales, same as the input for the training; with shape (174,320,320).</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        </span>
 <span class="sd">        patches of full resolution maps with physical units.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -285,7 +294,11 @@
 <span class="sd">        Defined for output at 12amin, [174, 320, 320] or for ordinary maps with shape [174, 320, 320]</span>
 <span class="sd">        for nn output at 12amin, npatches = 174; for intensity small scales, npatch = 174;</span>
 <span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------      </span>
+<span class="sd">        </span>
 <span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 
 <span class="sd">        rhos: threshold values, normally [-1, 1]</span>
 <span class="sd">        f, u, chi : three kinds of MFs for each patch</span>
@@ -312,7 +325,15 @@
     
 <div class="viewcode-block" id="post_training.compute_overlapping"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.compute_overlapping">[docs]</a>    <span class="k">def</span> <span class="nf">compute_overlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MF_P</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------      </span>
+<span class="sd">        </span>
 <span class="sd">        compute the MFs overlapping fraction w.r.t. small scales of intensity maps</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">rhos_T</span><span class="p">,</span> <span class="n">f_t</span><span class="p">,</span> <span class="n">u_t</span><span class="p">,</span> <span class="n">chi_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MF_I</span><span class="p">;</span>
@@ -331,6 +352,15 @@
         <span class="k">return</span> <span class="n">m1_nnq</span><span class="p">,</span> <span class="n">m2_nnq</span><span class="p">,</span><span class="n">m3_nnq</span></div>
     
 <div class="viewcode-block" id="post_training.plot_MF"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.after_training_12amin.post_training.plot_MF">[docs]</a>    <span class="k">def</span> <span class="nf">plot_MF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">savedir</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_format</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;  </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------      </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
         
         <span class="n">rhos_Y</span><span class="p">,</span> <span class="n">f_t</span><span class="p">,</span> <span class="n">u_t</span><span class="p">,</span> <span class="n">chi_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MF_I</span>
         <span class="n">MF_Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_one_MF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NNout_Q</span><span class="p">);</span>

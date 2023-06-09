@@ -172,7 +172,10 @@
     
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Generate polarized thermal dust emission with random realizations of small scales.</span>
-<span class="sd">    Small scales can reach resolution of 12 arcminutes and 3 arcminutes.</span>
+<span class="sd">    Small scales can reach resolution of 12 arcminutes and 3 arcminutes.   </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">snr</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">go_three</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">three_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">correct_EB</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">validation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -232,8 +235,12 @@
 <div class="viewcode-block" id="forsev2.generate_maps_12"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.forse_plus.forsev2.generate_maps_12">[docs]</a>    <span class="k">def</span> <span class="nf">generate_maps_12</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        </span>
-<span class="sd">        Return </span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        </span>
 <span class="sd">        (when self.three_only is not True) maps_12amin: numpy.array with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;</span>
 <span class="sd">        patches_12amin: normalized square patches of QU before reprojecting to full sky.</span>
@@ -296,9 +303,14 @@
 <div class="viewcode-block" id="forsev2.generate_maps_3"><a class="viewcode-back" href="../../ForSEplus.html#ForSEplus.forse_plus.forsev2.generate_maps_3">[docs]</a>    <span class="k">def</span> <span class="nf">generate_maps_3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QU_patches_12</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Input</span>
-<span class="sd">        QU patches at 12amin</span>
-<span class="sd">        Return </span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        QU_patches_12: QU patches at 12amin</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        maps_3amin: numpy.array with shape (2, 12*4096**2). Healpix maps of QU at NSIDE = 4096;</span>
 <span class="sd">        </span>
 <span class="sd">        &#39;&#39;&#39;</span>

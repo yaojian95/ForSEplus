@@ -11,13 +11,20 @@ from .utility import rescale_min_max, compute_intersection, get_functionals_fix 
 
 class post_training(object):
     '''
+    All processes after the training.
+    
     Parameters
     ----------
     
-    All processes after the training.
-    NNout_Q/U: small scales from NN, with shape (174, 320, 320)
-    ss_I: intensity small scales 
-    Ls_Q/U:  input training files for the NN, shape (2, 348, 320, 320) in units of uK. 
+    NNout_Q/U: ndarray
+        small scales from NN, with shape (174, 320, 320)
+    ss_I: ndarray
+        intensity small scales 
+    Ls_Q/U:  ndarray
+        input training files for the NN, shape (2, 348, 320, 320) in units of uK. 
+    MF: Bool
+    fix_MF: Bool
+        Set it to be `True` to use the corrected algorithm to calculate the Minkowski functionals.
     '''
     
     def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_20amin, Ls_U_20amin, MF = True, fix_MF = True):
@@ -39,11 +46,14 @@ class post_training(object):
         
         Parameters
         ----------
-        maps_out_12Q/U: small scales generated from the Neural Network. With shape: (174, 320, 320);
-        gauss_ss_mean_std: mean and std for each patch of small scales of Gaussian realization, defined by the ratio: 
-        Gaussian_maps_12amin/Gaussian_maps_80amin; 4 in 1: Q_mean, Q_std, U_mean, U_std. With shape (4, 174).
+        maps_out_12Q/U: ndarray
+            small scales generated from the Neural Network. With shape: (174, 320, 320)
+        gauss_ss_mean_std: ndarray
+            mean and std for each patch of small scales of Gaussian realization, defined by the ratio: 
+            `Gaussian_maps_12amin/Gaussian_maps_80amin`. Including 4 files\: Q_mean, Q_std, U_mean, U_std. With shape (4, 174)
         
         Returns
+        -------
         
         normalized maps.
 
@@ -65,11 +75,15 @@ class post_training(object):
         Parameters
         ----------
         
-        maps_out_12Q/U: small scales after the first normalization; With shape: (174, 320, 320);
-        gauss_ss_ps: power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape: (2, 174, 1, 25).
-        Ls_Q/U: large scales, same as the input for the training; with shape (174,320,320).
+        maps_out_12Q/U:ndarray
+            small scales after the first normalization; With shape: (174, 320, 320);
+        gauss_ss_ps: ndarray
+            power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape: (2, 174, 1, 25).
+        Ls_Q/U: ndarray
+            large scales, same as the input for the training; with shape (174,320,320).
         
         Returns
+        -------
         
         patches of full resolution maps with physical units.
         '''
@@ -129,10 +143,17 @@ class post_training(object):
         Defined for output at 12amin, [174, 320, 320] or for ordinary maps with shape [174, 320, 320]
         for nn output at 12amin, npatches = 174; for intensity small scales, npatch = 174;
         
+        Parameters
+        ----------      
+        
         Returns
+        -------
 
-        rhos: threshold values, normally [-1, 1]
-        f, u, chi : three kinds of MFs for each patch
+        rhos: ndarray
+            threshold values, normally [-1, 1]
+        f:
+        u:
+        chi: three kinds of MFs for each patch
         
         '''
         rhos, f_all, u_all, chi_all = [], [], [], []
@@ -156,7 +177,15 @@ class post_training(object):
     
     def compute_overlapping(self, MF_P):
         '''
+        
+        Parameters
+        ----------      
+        
         compute the MFs overlapping fraction w.r.t. small scales of intensity maps
+        
+        
+        Returns
+        -------
         '''
         
         rhos_T, f_t, u_t, chi_t = self.MF_I;
@@ -175,6 +204,15 @@ class post_training(object):
         return m1_nnq, m2_nnq,m3_nnq
     
     def plot_MF(self, savedir = False, save_format = False):
+        '''  
+        
+        Parameters
+        ----------      
+        
+        Returns
+        -------
+        
+        '''
         
         rhos_Y, f_t, u_t, chi_t = self.MF_I
         MF_Q = self.get_one_MF(self.NNout_Q);

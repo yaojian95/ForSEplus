@@ -187,20 +187,26 @@
 <dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ForSEplus.after_training_12amin.</span></span><span class="sig-name descname"><span class="pre">post_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">NNout_Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NNout_U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss_I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_Q_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ls_U_20amin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_MF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>All processes after the training.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>training.</strong> (<em>All processes after the</em>) – </p></li>
-<li><p><strong>NNout_Q/U</strong> (<em>small scales from NN</em><em>, </em><em>with shape</em><em> (</em><em>174</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em>) – </p></li>
-<li><p><strong>ss_I</strong> (<em>intensity small scales</em>) – </p></li>
-<li><p><strong>Ls_Q/U</strong> (<em>input training files for the NN</em><em>, </em><em>shape</em><em> (</em><em>2</em><em>, </em><em>348</em><em>, </em><em>320</em><em>, </em><em>320</em><em>) </em><em>in units of uK.</em>) – </p></li>
+<li><p><strong>NNout_Q/U</strong> (<em>ndarray</em>) – small scales from NN, with shape (174, 320, 320)</p></li>
+<li><p><strong>ss_I</strong> (<em>ndarray</em>) – intensity small scales</p></li>
+<li><p><strong>Ls_Q/U</strong> (<em>ndarray</em>) – input training files for the NN, shape (2, 348, 320, 320) in units of uK.</p></li>
+<li><p><strong>MF</strong> (<em>Bool</em>) – </p></li>
+<li><p><strong>fix_MF</strong> (<em>Bool</em>) – Set it to be <cite>True</cite> to use the corrected algorithm to calculate the Minkowski functionals.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="ForSEplus.after_training_12amin.post_training.compute_overlapping">
 <span class="sig-name descname"><span class="pre">compute_overlapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MF_P</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.compute_overlapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.compute_overlapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>compute the MFs overlapping fraction w.r.t. small scales of intensity maps</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>maps</strong> (<em>compute the MFs overlapping fraction w.r.t. small scales of intensity</em>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -213,9 +219,13 @@
 <li><p><strong>maps_out_12Q/U</strong> (<em>small scales generated from the Neural Network. With shape:</em><em> (</em><em>174</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em><em>;</em>) – </p></li>
 <li><p><strong>gauss_ss_mean_std</strong> (<em>mean and std for each patch of small scales of Gaussian realization</em><em>, </em><em>defined by the ratio:</em>) – </p></li>
 <li><p><strong>1</strong> (<em>Gaussian_maps_12amin/Gaussian_maps_80amin; 4 in</em>) – </p></li>
-<li><p><strong>Returns</strong> – </p></li>
-<li><p><strong>maps.</strong> (<em>normalized</em>) – </p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>normalized maps.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -225,9 +235,15 @@
 <span class="sig-name descname"><span class="pre">get_one_MF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_maps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npatches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">174</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patch_N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/after_training_12amin.html#post_training.get_one_MF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.after_training_12amin.post_training.get_one_MF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defined for output at 12amin, [174, 320, 320] or for ordinary maps with shape [174, 320, 320]
 for nn output at 12amin, npatches = 174; for intensity small scales, npatch = 174;</p>
-<p>Returns</p>
-<p>rhos: threshold values, normally [-1, 1]
-f, u, chi : three kinds of MFs for each patch</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>rhos</strong> (<em>threshold values, normally [-1, 1]</em>)</p></li>
+<li><p><strong>f, u, chi</strong> (<em>three kinds of MFs for each patch</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -240,9 +256,13 @@ f, u, chi : three kinds of MFs for each patch</p>
 <li><p><strong>maps_out_12Q/U</strong> (<em>small scales after the first normalization; With shape:</em><em> (</em><em>174</em><em>, </em><em>320</em><em>, </em><em>320</em><em>)</em><em>;</em>) – </p></li>
 <li><p><strong>gauss_ss_ps</strong> (<em>power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape:</em><em> (</em><em>2</em><em>, </em><em>174</em><em>, </em><em>1</em><em>, </em><em>25</em><em>)</em><em></em>) – </p></li>
 <li><p><strong>Ls_Q/U</strong> (<em>large scales</em><em>, </em><em>same as the input for the training; with shape</em><em> (</em><em>174</em><em>,</em><em>320</em><em>,</em><em>320</em><em>)</em><em></em>) – </p></li>
-<li><p><strong>Returns</strong> – </p></li>
-<li><p><strong>units.</strong> (<em>patches of full resolution maps with physical</em>) – </p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>patches of full resolution maps with physical units.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -433,18 +453,31 @@ Small scales can reach resolution of 12 arcminutes and 3 arcminutes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ForSEplus.forse_plus.forsev2.generate_maps_12">
 <span class="sig-name descname"><span class="pre">generate_maps_12</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/forse_plus.html#forsev2.generate_maps_12"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.forse_plus.forsev2.generate_maps_12" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return</p>
-<p>(when self.three_only is not True) maps_12amin: numpy.array with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;
-patches_12amin: normalized square patches of QU before reprojecting to full sky.</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>(when self.three_only is not True) maps_12amin</strong> (<em>numpy.array with shape (2, 12*2048**2). Healpix maps of QU at NSIDE = 2048;</em>)</p></li>
+<li><p><strong>patches_12amin</strong> (<em>normalized square patches of QU before reprojecting to full sky.</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ForSEplus.forse_plus.forsev2.generate_maps_3">
 <span class="sig-name descname"><span class="pre">generate_maps_3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">QU_patches_12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ForSEplus/forse_plus.html#forsev2.generate_maps_3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ForSEplus.forse_plus.forsev2.generate_maps_3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input
-QU patches at 12amin
-Return
-maps_3amin: numpy.array with shape (2, 12*4096**2). Healpix maps of QU at NSIDE = 4096;</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>QU_patches_12</strong> (<em>QU patches at 12amin</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>maps_3amin</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array with shape (2, 12*4096**2) Healpix maps of QU at NSIDE = 4096;</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
