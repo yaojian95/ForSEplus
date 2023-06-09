@@ -1,6 +1,6 @@
 # ForSEplus: plus version of https://github.com/ai4cmb/ForSE.
 
-# To avoid install this package, we also offer 500 realizations of maps at url...
+# To avoid the installation this package (which is a bit complex), we also offer 500 realizations of maps at url...
 ## Dependencies  
 
 - Astropy: https://www.astropy.org
@@ -10,4 +10,8 @@
 - reproject (only to perform projection from Healpix maps to flat patches and viceversa): https://pypi.org/project/reproject/
 - numba (only to accelearte the calculation of Minkowski functionals for a given patch): http://numba.pydata.org/
 
-## Install
+## Installations
+
+- pymaster
+
+- tensorflow
