@@ -17,13 +17,13 @@ class post_training(object):
     All processes after the training.
     ss_I: intensity small scales 
     Ls_Q/U:  input training files for the NN, shape:(174*49, 320, 320) in units of uK.
-    patch_id: number between 0-173;
+    patch_id: number between 0-173; ## k = 0;if k not k
     '''
     
     def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_20amin, Ls_U_20amin, MF = True, patch_id = False, fix_MF = True):
         
-        if patch_id:
-            assert NNout_Q.shape == (49, 320, 320, 1), "shape should be (49, 320, 320)"
+        if patch_id is not False:
+            assert NNout_Q.shape == (49, 320, 320, 1), "shape should be (49, 320, 320, 1)"
             
             self.NNout_Q = NNout_Q.reshape(1,49,320,320);
             self.NNout_U = NNout_U.reshape(1,49,320,320);
@@ -64,7 +64,7 @@ class post_training(object):
         '''
         maps_out_3Q, maps_out_3U = np.zeros_like(self.NNout_Q), np.zeros_like(self.NNout_U)
         
-        if self.patch_id:
+        if self.patch_id is not False:
             
             N_patch = 1
             gauss_ss_mean_std_in = gauss_ss_mean_std[:, self.patch_id:(self.patch_id+1), :]
@@ -80,7 +80,7 @@ class post_training(object):
 
         return maps_out_3Q, maps_out_3U            
 
-    def normalization(self, gauss_ss_ps, gauss_ss_mean_std,  mask_path = 'mask_320*320.npy', lmin = 40*14, lmax = 3500):
+    def normalization(self, gauss_ss_ps, gauss_ss_mean_std,  mask_path = 'mask_320x320.npy', lmin = 40*14, lmax = 3500):
         '''
         Normalize the small scales w.r.t. Gaussian case in the power spectra level and multiply with the large scales to get a full-resolution maps, after the first normalization.
         
@@ -114,7 +114,7 @@ class post_training(object):
         w00 = nmt.NmtWorkspaceFlat()
         w00.compute_coupling_matrix(f_SSQ, f_SSQ, b)
         
-        if self.patch_id:
+        if self.patch_id is not False:
             
             N_patch = 1
             gauss_ss_mean_std_in = gauss_ss_mean_std[:, self.patch_id:(self.patch_id+1), :]
@@ -246,7 +246,7 @@ class post_training(object):
             plt.savefig(savedir, format = 'pdf')
             
         return fig
-    
+        
     def combine_to_20by20(self, mapQ, mapU, maps = 'ss_norm', save_dir = False):
         '''
         Recompose 5°x5° maps together to form 20°x20° maps.
@@ -285,7 +285,7 @@ class post_training(object):
         maps_ren2_3Q = mapQ;
         maps_ren2_3U = mapU;
 
-        if self.patch_id:            
+        if self.patch_id is not False:            
             N_patch = 1            
         else:
             N_patch = 174

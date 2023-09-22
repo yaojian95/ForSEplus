@@ -62,8 +62,6 @@ def rescale_min_max(img, a=-1, b=1, return_min_max=False):
     else:
         return img_resc
     
-
-    
 def upsampling(maps_ren2_12Q, maps_ren2_12U):
     maps_upx_12Q = np.zeros([174,1280,1280])
     maps_upx_12U = np.zeros([174,1280,1280])
