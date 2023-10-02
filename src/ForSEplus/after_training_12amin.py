@@ -12,7 +12,7 @@ from .utility import rescale_min_max, compute_intersection, get_functionals_fix 
 class post_training(object):
 
     
-    def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_20amin, Ls_U_20amin, MF = True, patch_id = False, fix_MF = True):
+    def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_80amin, Ls_U_80amin, MF = True, patch_id = False, fix_MF = True):
         '''
         All processes after the training.
 
@@ -32,22 +32,23 @@ class post_training(object):
         '''        
         
         if patch_id is not False:
-            assert NNout_Q.shape == (320, 320, 1), "shape should be (320, 320, 1)"
+            assert NNout_Q.shape == (1, 320, 320, 1), "shape should be (320, 320, 1)"
             
             self.NNout_Q = np.copy(NNout_Q).reshape(1, 320, 320);
             self.NNout_U = np.copy(NNout_U).reshape(1, 320, 320);
 
             self.thr = ss_I; # intensity small scales at 12amin or 3amin
-            self.Ls_Q = Ls_Q_20amin[patch_id].reshape(1, 320, 320)
-            self.Ls_U = Ls_U_20amin[patch_id].reshape(1, 320, 320)
+            self.Ls_Q = Ls_Q_80amin[patch_id].reshape(1, 320, 320)
+            self.Ls_U = Ls_U_80amin[patch_id].reshape(1, 320, 320)
             self.patch_id = patch_id
 
         else:
             self.NNout_Q = np.copy(NNout_Q);
             self.NNout_U = np.copy(NNout_U);
             self.thr = ss_I; # intensity small scales at 12amin or 3amin
-            self.Ls_Q = Ls_Q_20amin
-            self.Ls_U = Ls_U_20amin
+            self.Ls_Q = Ls_Q_80amin
+            self.Ls_U = Ls_U_80amin
+            self.patch_id = patch_id
             
         self.fix_MF = fix_MF
         

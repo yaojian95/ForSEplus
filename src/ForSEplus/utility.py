@@ -6,10 +6,19 @@ import pymaster as nmt
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-def rescale_input(Ls):
+def rescale_input(Ls, random_noise = None):
     Ls_rescaled = np.zeros_like(Ls)
-    for i in range(Ls.shape[0]):
-            Ls_rescaled[i] = rescale_min_max(Ls[i])
+    
+    if random_noise is not None:
+        assert random_noise.shape == Ls.shape
+        
+        for i in range(Ls.shape[0]):
+            Ls_rescaled[i] = rescale_min_max(rescale_min_max(Ls[i]) + random_noise[i])
+            
+    else:   
+        for i in range(Ls.shape[0]):
+                Ls_rescaled[i] = rescale_min_max(Ls[i])
+                
     Ls_rescaled = Ls_rescaled.reshape((Ls.shape[0], Ls.shape[1], Ls.shape[1], 1)) 
     return Ls_rescaled
 
