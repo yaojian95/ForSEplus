@@ -241,57 +241,66 @@ class post_training(object):
     
     def plot_MF(self, savedir = False, save_format = False):
         '''  
-        
+
         Parameters
         ----------      
-        
+
         Returns
         -------
-        
+
         '''
-        
+
         rhos_Y, f_t, u_t, chi_t = self.MF_I
         MF_Q = self.get_one_MF(self.NNout_Q);
         MF_U = self.get_one_MF(self.NNout_U);
-        
+
         results = [];
         results.append(self.compute_overlapping(MF_Q))
         results.append(self.compute_overlapping(MF_U))
-        
+
         rhos_Y, f_nn_Q, u_nn_Q, chi_nn_Q = MF_Q
         rhos_Y, f_nn_U, u_nn_U, chi_nn_U = MF_U    
-        
+
         f_nn_all = [[f_nn_Q, u_nn_Q, chi_nn_Q],[f_nn_U, u_nn_U, chi_nn_U]]
         f_i = [f_t, u_t, chi_t]
         fig, axes = plt.subplots(2,3, figsize=(24, 10))
         S = ['Q', 'U']
         for i in range(3):
             for j in range(2):
+
+                axes[j, i].ticklabel_format(axis='y', style='sci', scilimits=(4, 4))
+
+                if i == 0:
+                    label_nn = r'$\tilde{m}^{%s, 20^{\circ}}_{12^\prime}$'%S[j]
+                    label_ii = r'$\tilde{m}^{I, 20^{\circ}}_{12^\prime}$'
+                else:
+                    label_nn = None
+                    label_ii = None
+
                 f_nn = f_nn_all[j][i]; f_t = f_i[i];
-                
+
                 axes[j, i].fill_between(rhos_Y, 
                                      np.mean(f_nn, axis=0)-np.std(f_nn, axis=0), 
                                      np.mean(f_nn, axis=0)+np.std(f_nn, axis=0), 
-                                     lw=1, label=r'$m_{ss}^{NN, %s}$'%S[j], alpha=0.5, color='#F87217')
+                                     lw=1, label = label_nn, alpha=0.5, color='#F87217')
                 axes[j, i].plot(rhos_Y, np.mean(f_nn, axis=0), lw=3, ls='--', color='#D04A00')
                 axes[j, i].fill_between(rhos_Y, 
                                      np.mean(f_t, axis=0)-np.std(f_t, axis=0), 
                                      np.mean(f_t, axis=0)+np.std(f_t, axis=0), 
-                                     lw=2, label = r'$m_{ss}^{real, I}$', edgecolor='black', facecolor='None')
+                                     lw=2, label = label_ii, edgecolor='black', facecolor='None')
                 axes[j, i].plot(rhos_Y, np.mean(f_t, axis=0), lw=2, ls='--', color='black')
 
-                axes[j, i].set_ylabel(r'$\mathcal{V}_{%s}(\rho$) %s'%(i, S[j]), fontsize=20)
-                axes[j, i].set_title('%.2f'%results[j][i], fontsize = 20)
-                if i == 0:
-                    axes[j, i].legend(fontsize = 25)
+                axes[j, i].set_ylabel(r'$\mathcal{V}_{%s}(\rho$) %s'%(i, S[j]), fontsize=25)
+
                 if j == 1:
-                    axes[j, i].set_xlabel(r'$\rho$', fontsize=20)
-                    
+                    axes[j, i].set_xlabel(r'$\rho$', fontsize=25)
+
+                axes[j, i].legend(title = 'OF = %.2f'%results[j][i], fontsize = 30, frameon=False, title_fontsize=30)
+
         plt.tight_layout()
         if savedir:
             plt.savefig(savedir, format = save_format)
-            
-    
+ 
     def reproject_to_fullsky(self, ):
         
         '''

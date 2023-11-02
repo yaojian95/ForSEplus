@@ -222,25 +222,35 @@ class post_training(object):
         S = ['Q', 'U']
         for i in range(3):
             for j in range(2):
+                
+                axes[j, i].ticklabel_format(axis='y', style='sci', scilimits=(4, 4))
+
+                if i == 0:
+                    label_nn = r'$\tilde{m}^{%s, 5^{\circ}}_{3^\prime}$'%S[j]
+                    label_ii = r'$\tilde{m}^{I, 5^{\circ}}_{3^\prime}$'
+                else:
+                    label_nn = None
+                    label_ii = None
+                    
                 f_nn = f_nn_all[j][i]; f_t = f_i[i];
                 
                 axes[j, i].fill_between(rhos_Y, 
                                      np.mean(f_nn, axis=0)-np.std(f_nn, axis=0), 
                                      np.mean(f_nn, axis=0)+np.std(f_nn, axis=0), 
-                                     lw=1, label=r'$m_{ss}^{NN, %s}$'%S[j], alpha=0.5, color='#F87217')
+                                     lw=1, label = label_nn, alpha=0.5, color='#F87217')
                 axes[j, i].plot(rhos_Y, np.mean(f_nn, axis=0), lw=3, ls='--', color='#D04A00')
                 axes[j, i].fill_between(rhos_Y, 
                                      np.mean(f_t, axis=0)-np.std(f_t, axis=0), 
                                      np.mean(f_t, axis=0)+np.std(f_t, axis=0), 
-                                     lw=2, label = r'$m_{ss}^{real, I}$', edgecolor='black', facecolor='None')
+                                     lw=2, label = label_ii, edgecolor='black', facecolor='None')
                 axes[j, i].plot(rhos_Y, np.mean(f_t, axis=0), lw=2, ls='--', color='black')
-                axes[j, i].set_ylabel(r'$\mathcal{V}_{%s}(\rho$) %s'%(i, S[j]), fontsize=20)
-                axes[j, i].set_title('%.2f'%results[j][i], fontsize = 20)
-                if i == 0:
-                    axes[j, i].legend(fontsize = 25)
+                axes[j, i].set_ylabel(r'$\mathcal{V}_{%s}(\rho$) %s'%(i, S[j]), fontsize=25)
+
                 if j == 1:
-                    axes[j, i].set_xlabel(r'$\rho$', fontsize=20)
+                    axes[j, i].set_xlabel(r'$\rho$', fontsize=25)
                     
+                axes[j, i].legend(title = 'OF = %.2f'%results[j][i], fontsize = 30, frameon=False, title_fontsize=30)
+                
         plt.tight_layout()
         if savedir:
             plt.savefig(savedir, format = 'pdf')
