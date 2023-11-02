@@ -314,7 +314,7 @@ class post_training(object):
         
         pass
     
-    def power_spectra_patch(self, n, lmax = 1000, w22_file = "w22_flat_320_320.fits", mask_path = 'mask_320*320.npy', plot = True, return_cls = False, save_dir = False):
+    def power_spectra_patch(self, n, lmax = 1000, w22_file = "w22_flat_320_320.fits", mask_path = 'mask_320*320.npy', plot = True, return_cls = False, save_path = False):
         
         '''
         plot EE/BB power spectra for each flat patch of sky. For Large scales only, Large scales with gaussian small scales; 
@@ -372,8 +372,8 @@ class post_training(object):
 
             axes[0].legend(fontsize = 15)
 
-            if save_dir:
-                plt.savefig(save_dir, format = 'pdf')
+            if save_path:
+                plt.savefig(save_path, format = 'pdf')
             
         if return_cls:
             return cls_all

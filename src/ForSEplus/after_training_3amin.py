@@ -257,7 +257,7 @@ class post_training(object):
             
         return fig
         
-    def combine_to_20by20(self, mapQ, mapU, maps = 'ss_norm', save_dir = False):
+    def combine_to_20by20(self, mapQ, mapU, maps = 'ss_norm', save_path = False):
         '''
         Recompose 5°x5° maps together to form 20°x20° maps.
         Both for normalized small scales and small scales only maps. 
@@ -359,11 +359,11 @@ class post_training(object):
             self.NN_20by20_Q_ss = maps_big_3Q;
             self.NN_20by20_U_ss = maps_big_3U;            
         
-        if save_dir:
-            np.save(save_dir[0], maps_big_3Q)
-            np.save(save_dir[1], maps_big_3U)
+        if save_path:
+            np.save(save_path[0], maps_big_3Q)
+            np.save(save_path[1], maps_big_3U)
 
-    def plot_maps_modify(self, Nico_20amin, maps_out_3_348, NNmap_corr_348, m = 36, n = 4, save_dir = False):
+    def plot_maps_modify(self, Nico_20amin, maps_out_3_348, NNmap_corr_348, m = 36, n = 4, save_path = False):
 
         '''
         map visualization; maps at 20 amin; output from NN; renormalize the NN output and combine with the large scales
@@ -388,8 +388,8 @@ class post_training(object):
             cax.yaxis.set_ticks_position('right')
 
             plt.text(1.25, 0.5, r'$\mu$K', rotation='vertical', transform=axes[l][2].transAxes)
-        if save_dir:
-            plt.savefig(save_dir, format = 'pdf')
+        if save_path:
+            plt.savefig(save_path, format = 'pdf')
             
         return fig
     
@@ -443,7 +443,7 @@ class post_training(object):
             
         return w22
     
-    def power_spectra_patch(self, Ls_80Q, Ls_80U, Ls_12Q, Ls_12U, GaussQ, GaussU, NN_combined_Q, NN_combined_U, N, lmax, mask_320, mask_1280, w22_320, w22_1280, save_dir = False):
+    def power_spectra_patch(self, Ls_80Q, Ls_80U, Ls_12Q, Ls_12U, GaussQ, GaussU, NN_combined_Q, NN_combined_U, N, lmax, mask_320, mask_1280, w22_320, w22_1280, save_path = False):
         
         '''
         plot EE/BB power spectra for each flat patch with area 20x20deg2 and shape (174, 1280, 1280), which is recomposed from 5x5deg^2 patches. 
@@ -487,7 +487,7 @@ class post_training(object):
             axes[i].set_xlabel(r'Multipole $\ell$', fontsize=18)
             axes[i].set_ylabel(r'$C_\ell$ [$\mu K^2$]', fontsize=18)
         axes[0].legend(fontsize = 15)
-        if save_dir:
-            plt.savefig(save_dir, format = 'pdf')
+        if save_path:
+            plt.savefig(save_path, format = 'pdf')
             
         return fig
