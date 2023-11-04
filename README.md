@@ -14,6 +14,15 @@
 
 ## Installations
 
-- pymaster
+First thing to do is to install the dependencies. 
 
+- pymaster
+The installation of pymaster is acutally not a easy task since it has a lot of other depencencies. 
 - tensorflow
+
+### from source
+    pip install -e .
+
+### from pip
+    pip install forseplus
+    
