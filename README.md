@@ -13,16 +13,14 @@
 - numba (only to accelearte the calculation of Minkowski functionals for a given patch): http://numba.pydata.org/
 
 ## Installations
+We assume you alrealy your own python virtual environment. 
+The first thing to do is to install the dependencies. Take a look at `install_dependencies.sh` file.
 
-First thing to do is to install the dependencies. 
-
-- pymaster
-The installation of pymaster is acutally not a easy task since it has a lot of other depencencies. 
-- tensorflow
+Then you have two ways to install this package. 
 
 ### from source
-    pip install -e .
+    (venv) $ python -m pip install -e . --user
 
 ### from pip
-    pip install forseplus
+    (venv) $ python -m pip install ForSEplus --user
     

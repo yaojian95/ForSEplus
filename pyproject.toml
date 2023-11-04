@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ForSEplus"
-version = "1.0.0"
+version = "1.0.0-pre"
 authors = [
     {name = "Jian Yao", email = "jyao@sissa.it"},
 ]
@@ -30,4 +30,4 @@ keywords = ["feed", "reader", "tutorial"]
 #]
 
 [project.urls]
-Homepage = "https://github.com/realpython/reader"
+Homepage = "https://github.com/yaojian95/ForSEplus"
