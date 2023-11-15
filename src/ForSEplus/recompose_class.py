@@ -41,7 +41,7 @@ class recom(object):
         self.nside_out = np.int_(nside_in)
         size_patch = pixel_size.to(u.deg)*self.Npix
 
-        self.lon, self.lat =get_lonlat_adaptive(size_patch, overlap)
+        self.lon, self.lat = get_lonlat_adaptive(size_patch, overlap)
         
         self.xinds_yinds = np.load(xy_inds_file, allow_pickle=True)
         self.index_sphere = np.load(index_sphere_file, allow_pickle=True)
@@ -52,11 +52,11 @@ class recom(object):
             patches174 = np.load(patches174_file)
         else:
             patches174 = patches174_file
-        newmap =np.zeros(hp.nside2npix((self.nside_out)) )
+        newmap =np.zeros(hp.nside2npix((self.nside_out)))
 
         i  = 0
         s = time.time()
-        for p, phi, theta  in zip (patches174, self.lon, self.lat)  :
+        for p, phi, theta in zip(patches174, self.lon, self.lat)  :
 
             header = set_header(phi, theta , self.sizedeg.value, self.Npix )
             input_data = (p*self.apoflat ,header )

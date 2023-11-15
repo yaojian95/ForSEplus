@@ -1,22 +1,41 @@
+import os
+
+# os.environ[
+#     "OMP_NUM_THREADS"
+# ] = "64"  # for jupyter.nersc.gov otherwise the notebook only uses 2 cores
+
+# import matplotlib.pyplot as plt
+# %matplotlib inline
+
+# import matplotlib as mpl
+# mpl.rc('image', cmap='coolwarm')
+
+# import seaborn as sns
+
+# sns.set_context("talk")
+# # sns.set()
+# sns.set_style("ticks")
+
 import numpy as np
 import healpy as hp
 
 import logging
 log = logging.getLogger("healpy")
-
 log.setLevel(logging.ERROR)
+
+import time 
 
 from ForSEplus.my_forse_class import forse_my
 from ForSEplus.utility import rescale_input, correct_EB, from_12to13, from_12to20
 from ForSEplus.recompose_class import recom
-
 from ForSEplus.after_training_12amin import post_training as post_training_12
 from ForSEplus.after_training_3amin import post_training as post_training_3
 
 import tensorflow as tf
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
+print(physical_devices)
+for g in range(len(physical_devices)):
+    tf.config.experimental.set_memory_growth(physical_devices[g], True)
 
 dir_data = '/global/cfs/cdirs/sobs/www/users/ForSE/NN_datautils/datasets/'
 # ss_I = np.load(dir_data+'GNILC_Thr12_Qlr80_20x20deg_Npix320_full_sky_adaptive.npy', allow_pickle=True)[0, 0:174]
@@ -65,7 +84,7 @@ print('Generating input random noise with model SNR = %s...'%1)
 
 verbose = False
 
-for i in range(60):
+for i in range(1, 100):
     noise_1_12 = np.random.uniform(-1, 1, (174, 320, 320))
     noise_2_12 = np.random.uniform(-1, 1, (174, 320, 320))
 
@@ -85,7 +104,11 @@ for i in range(60):
     if verbose == True:
         print('12amin: Renormalize patches...')
     output12 = post_training_12(NNout_Q_12[:,:,:,0] , NNout_U_12[:,:,:,0], ss_I, Ls_Q80amin, Ls_U80amin, MF = False)
-    output12.normalization(gauss_ss_ps_12, gauss_ss_mean_std_12, mask_path = 'mask_320*320.npy')
+    save_dir_12 = '/pscratch/sd/j/jianyao/forse_output/Random_training_files/FIX_MF/Complete/12amin_norm/'
+    norm_Q12amin = 'NN_out_Q_12amin_from_12amin_physical_units_20x20_320_%03d.npy'%(i)
+    norm_U12amin = 'NN_out_U_12amin_from_12amin_physical_units_20x20_320_%03d.npy'%(i)
+        
+    output12.normalization(gauss_ss_ps_12, gauss_ss_mean_std_12, mask_path = '/global/homes/j/jianyao/ForSEplus_github/src/ForSEplus/mask_320x320.npy', save_path = [save_dir_12 + norm_Q12amin, save_dir_12 + norm_U12amin])
 
     # output12.plot_MF()
         # dir_12 = '/pscratch/sd/j/jianyao/forse_output/Random_training_files/FIX_MF/2_random_12amin_renormalized/New_realizations_1/'
@@ -110,26 +133,29 @@ for i in range(60):
     if verbose == True:
         print('3amin: renormalize patches ...')
     output3 = post_training_3(NNout_Q, NNout_U, ss_I, Ls_13aminQ, Ls_13aminU, MF = False)
-    output3.normalization(gauss_ss_ps_3, gauss_ss_mean_std_3, mask_path = 'mask_320*320.npy')
-    output3.combine_to_20by20(output3.NNmapQ_corr, output3.NNmapU_corr, maps = 'ss_norm')
+    output3.normalization(gauss_ss_ps_3, gauss_ss_mean_std_3, mask_path = '/global/homes/j/jianyao/ForSEplus_github/src/ForSEplus/mask_320x320.npy')
+    norm_Q3amin = 'NN_out_Q_3amin_from_20amin_physical_units_20x20_1280_%03d.npy'%(i)
+    norm_U3amin = 'NN_out_U_3amin_from_20amin_physical_units_20x20_1280_%03d.npy'%(i)
+    save_dir_3 = '/pscratch/sd/j/jianyao/forse_output/Random_training_files/FIX_MF/Complete/3amin_norm/'
+    output3.combine_to_20by20(output3.NNmapQ_corr, output3.NNmapU_corr, maps = 'ss_norm', save_path=[save_dir_3 + norm_Q3amin, save_dir_3 + norm_U3amin])
     # output3.combine_to_20by20(NNout_Q.reshape(174,49,320,320), NNout_U.reshape(174,49,320,320), maps = 'ss')
     # test = output3.plot_MF(patch_N = 3, savedir=False)
 
-    if verbose == True:
-        print('3amin: reproject to full sky ...')
-    full_Q = recom_3.recompose_fast(output3.NN_20by20_Q_norm)
-    full_U = recom_3.recompose_fast(output3.NN_20by20_U_norm) 
+#     if verbose == True:
+#         print('3amin: reproject to full sky ...')
+#     full_Q = recom_3.recompose_fast(output3.NN_20by20_Q_norm)
+#     full_U = recom_3.recompose_fast(output3.NN_20by20_U_norm) 
 
-    maps_3amin = correct_EB(full_Q, full_U)
+#     maps_3amin = correct_EB(full_Q, full_U)
 
-    del output3
-    end = time.time()
+#     del output3
+#     end = time.time()
 
-    save_full_dir = '/pscratch/sd/j/jianyao/forse_output/Random_training_files/FIX_MF/5_New_3amin_model_full_sky_EB_fixed/'
-    save_full_Q = save_full_dir + 'Random_3amin_full_Q_%03d.fits'%(i)
-    save_full_U = save_full_dir + 'Random_3amin_full_U_%03d.fits'%(i)
+#     save_full_dir = '/pscratch/sd/j/jianyao/forse_output/Random_training_files/FIX_MF/5_New_3amin_model_full_sky_EB_fixed/'
+#     save_full_Q = save_full_dir + 'Random_3amin_full_Q_%03d.fits'%(i)
+#     save_full_U = save_full_dir + 'Random_3amin_full_U_%03d.fits'%(i)
 
-    hp.write_map(save_full_Q, maps_3amin[0], overwrite=True)
-    hp.write_map(save_full_U, maps_3amin[1], overwrite=True)
+#     hp.write_map(save_full_Q, maps_3amin[0], overwrite=True)
+#     hp.write_map(save_full_U, maps_3amin[1], overwrite=True)
 
 print('Time cost %.02f'%((end - start)/60))
