@@ -60,6 +60,9 @@ model_U_12amin = '/pscratch/sd/j/jianyao/forse_output/Random_model_PySM/model_al
 model_Q_3amin =  '/pscratch/sd/j/jianyao/forse_output/Random_model_PySM/model_3amin_696_patches_Q85'
 model_U_3amin =  '/pscratch/sd/j/jianyao/forse_output/Random_model_PySM/model_3amin_696_patches_U396'
 
+model_Q_det_3amin = '/pscratch/sd/j/jianyao/forse_output/Random_model_PySM/model_det_3amin_Q154'
+model_U_det_3amin = '/pscratch/sd/j/jianyao/forse_output/Random_model_PySM/model_det_3amin_U256'
+
 start = time.time()
 print('Loading models')
 model_Q = tf.keras.models.load_model(model_Q_12amin)
