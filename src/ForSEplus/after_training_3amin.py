@@ -4,7 +4,7 @@ from matplotlib.lines import Line2D
 import healpy as hp
 import pymaster as nmt
 
-from .utility import rescale_min_max, compute_intersection, get_functionals_fix # fix the bug of calculating the MFs
+from .utility import from_12toXX, rescale_min_max, compute_intersection, get_functionals_fix # fix the bug of calculating the MFs
 
 ### load output (small scales only at 3amin) from the neural network 
 # :shape: (174*49, 320, 320)
@@ -15,38 +15,45 @@ class post_training(object):
     ----------
     
     All processes after the training.
-    ss_I: intensity small scales 
-    Ls_Q/U:  input training files for the NN, shape:(174*49, 320, 320) in units of uK.
+    ss_I: intensity small scales
     patch_id: number between 0-173; ## k = 0;if k not k
     '''
     
-    def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_20amin, Ls_U_20amin, MF = True, patch_id = False, fix_MF = True):
-        
-        if patch_id is not False:
-            assert NNout_Q.shape == (49, 320, 320, 1), "shape should be (49, 320, 320, 1)"
-            
-            self.NNout_Q = NNout_Q.reshape(1,49,320,320);
-            self.NNout_U = NNout_U.reshape(1,49,320,320);
-
-            self.thr = ss_I; 
-            self.Ls_Q = Ls_Q_20amin.reshape(1,49,320,320)
-            self.Ls_U = Ls_U_20amin.reshape(1,49,320,320)
-            self.patch_id = patch_id
-        
-        else:    
-            self.NNout_Q = NNout_Q.reshape(174,49,320,320);
-            self.NNout_U = NNout_U.reshape(174,49,320,320);
-
-            self.thr = ss_I; # intensity small scales at 12amin or 3amin
-            self.Ls_Q = Ls_Q_20amin.reshape(174,49,320,320)
-            self.Ls_U = Ls_U_20amin.reshape(174,49,320,320)
-            self.patch_id = patch_id
-            
+    def __init__(self, ss_I, MF = True, patch_id = False, fix_MF = True):
+                    
+        self.thr = ss_I; # intensity small scales at 12amin or 3amin
+        self.patch_id = patch_id
         self.fix_MF = fix_MF
         
         if MF:
             self.MF_I = self.get_one_MF(self.thr, npatches = 348, patch_N = False)
-
+            
+    def import_NNout(self, NNout, stokes = 'Q'):
+        '''
+        Parameters
+        ----------
+        NNout_Q/U: ndarray
+            small scales from NN, with shape (174*49, 320, 320)  
+        stokes: Q or U; 
+        '''
+        if self.patch_id is not False:
+            assert NNout.shape == (49, 320, 320, 1), "shape should be (49, 320, 320, 1)"
+            
+            if stokes == 'Q':
+                self.NNout_Q = NNout.reshape(1, 49, 320, 320)
+                
+            elif stokes == 'U':
+                self.NNout_U = NNout.reshape(1, 49, 320, 320)
+            
+        else:
+            assert NNout.shape == (174*49, 320, 320, 1), "shape should be (174*49, 320, 320, 1)" 
+            
+            if stokes == 'Q':
+                self.NNout_Q = NNout.reshape(174, 49, 320, 320)
+                
+            elif stokes == 'U':
+                self.NNout_U = NNout.reshape(174, 49, 320, 320)           
+            
     def first_normalization(self, gauss_ss_mean_std):
         '''
         Normalize the small scales w.r.t. Gaussian case in the map level;
@@ -80,23 +87,21 @@ class post_training(object):
 
         return maps_out_3Q, maps_out_3U            
 
-    def normalization(self, gauss_ss_ps, gauss_ss_mean_std,  mask_path = 'mask_320x320.npy', lmin = 40*14, lmax = 3500):
+    def normalization(self, gauss_ss_ps, gauss_ss_mean_std, Ls_Q, Ls_U, mask_path = 'mask_320x320.npy', lmin = 40*14, lmax = 3500):
         '''
         Normalize the small scales w.r.t. Gaussian case in the power spectra level and multiply with the large scales to get a full-resolution maps, after the first normalization.
         
         Parameters
         ----------
-        
-        maps_out_3Q/U: small scales after the first normalization; With shape: (174, 49, 320, 320);
-        gauss_ss_ps: power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape: (2, 174, 49, 1, 25).
-        Nico_20amin_Q/U: large scales, same as the input for the training; with shape (174,49,320,320).
+        gauss_ss_ps: power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU. With shape: (2, 174, 49, 1, 25).
+        Ls_Q, Ls_U: large scales at 12 arcmin from ForSE+S12 (normalized) used to normalize the small scales. Will be smoothed to 13 arcminute and divided to subpatches. With shape: (174,320,320); If patch_id is True, With shape (1, 320, 320)
         
         Returns
         -------
         
         full resolution maps with physical units.
         '''
-        maps_out_3Q, maps_out_3U = self.first_normalization(gauss_ss_mean_std)
+        maps_out_3Q, maps_out_3U = self.first_normalization(gauss_ss_mean_std)   
         
         Lx = np.radians(20.)
         Ly = np.radians(20.)
@@ -120,13 +125,18 @@ class post_training(object):
             gauss_ss_mean_std_in = gauss_ss_mean_std[:, self.patch_id:(self.patch_id+1), :]
             gauss_ss_ps_in = gauss_ss_ps[:, self.patch_id:(self.patch_id+1), :]
             
+            assert Ls_Q.shape == (1, 320, 320), 'For only_one patch, input Ls_Q and Ls_U should have only one patch as the patch_id, with shape (1, 320, 320)'
+            Ls_Q13 = from_12toXX(Ls_Q, XX = 13, only_one = True).reshape(1,49,320,320); Ls_U13 = from_12toXX(Ls_U, XX = 13, only_one = True).reshape(1,49,320,320)
+            
         else:
             N_patch = 174
             gauss_ss_mean_std_in = gauss_ss_mean_std
             gauss_ss_ps_in = gauss_ss_ps
             
-        NNmapQ_corr = np.ones((N_patch, 49, 320, 320))
-        NNmapU_corr = np.ones((N_patch, 49, 320, 320))
+            Ls_Q13 = from_12toXX(Ls_Q, XX = 13).reshape(174,49,320,320); Ls_U13 = from_12toXX(Ls_U, XX = 13).reshape(174,49,320,320)
+            
+        self.NNmapQ_corr = np.ones((N_patch, 49, 320, 320))
+        self.NNmapU_corr = np.ones((N_patch, 49, 320, 320))
 
         for i in range(N_patch):
             for j in range(49):
@@ -139,10 +149,8 @@ class post_training(object):
                 cl_NN_uncoupledU = w00.decouple_cell(cl_NN_coupledU)
 
                 ell_s = int(lmin/40)
-                NNmapQ_corr[i,j]=((maps_out_3Q[i,j]-np.mean(maps_out_3Q[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledQ[0][ell_s:]/gauss_ss_ps[0,i,j][0][ell_s:]))+ gauss_ss_mean_std_in[0][i, j])*self.Ls_Q[i, j] 
-                NNmapU_corr[i,j]=((maps_out_3U[i,j]-np.mean(maps_out_3U[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledU[0][ell_s:]/gauss_ss_ps[1,i,j][0][ell_s:]))+ gauss_ss_mean_std_in[2][i, j])*self.Ls_U[i, j]
-        
-        self.NNmapQ_corr, self.NNmapU_corr = NNmapQ_corr, NNmapU_corr
+                self.NNmapQ_corr[i,j]=((maps_out_3Q[i,j]-np.mean(maps_out_3Q[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledQ[0][ell_s:]/gauss_ss_ps[0,i,j][0][ell_s:]))+ gauss_ss_mean_std_in[0][i, j])*Ls_Q13[i, j] 
+                self.NNmapU_corr[i,j]=((maps_out_3U[i,j]-np.mean(maps_out_3U[i,j]))/np.sqrt(np.mean(cl_NN_uncoupledU[0][ell_s:]/gauss_ss_ps[1,i,j][0][ell_s:]))+ gauss_ss_mean_std_in[2][i, j])*Ls_U13[i, j]
     
     def get_one_MF(self, input_maps, npatches = 348, patch_N = False):
         '''
@@ -342,26 +350,22 @@ class post_training(object):
                 maps_msk_3U[i,j+28,:,:] = maps_ren2_3U[i,j+28,:,:]*mask_cc
 
         # Recompose 20°x20° maps together
-        maps_big_3Q = np.zeros([N_patch,1280,1280])
-        maps_big_3U = np.zeros([N_patch,1280,1280])
+        self.NN_20by20_Q_norm = np.zeros([N_patch,1280,1280])
+        self.NN_20by20_U_norm = np.zeros([N_patch,1280,1280])
 
         for i in range(N_patch): 
             for j in range(0,1120,160):
                 for k in range(0,1120,160):
-                    maps_big_3Q[i,j:(j+320),k:(k+320)] += maps_msk_3Q[i,int(j/160)*7+int(k/160),:,:]
-                    maps_big_3U[i,j:(j+320),k:(k+320)] += maps_msk_3U[i,int(j/160)*7+int(k/160),:,:]
-
-        if maps == 'ss_norm':
-            self.NN_20by20_Q_norm = maps_big_3Q;
-            self.NN_20by20_U_norm = maps_big_3U;
+                    self.NN_20by20_Q_norm[i,j:(j+320),k:(k+320)] += maps_msk_3Q[i,int(j/160)*7+int(k/160),:,:]
+                    self.NN_20by20_U_norm[i,j:(j+320),k:(k+320)] += maps_msk_3U[i,int(j/160)*7+int(k/160),:,:]
             
-        elif maps == 'ss':
+        if maps == 'ss':  # for test only; should not be used in practice.
             self.NN_20by20_Q_ss = maps_big_3Q;
             self.NN_20by20_U_ss = maps_big_3U;            
         
         if save_path:
-            np.save(save_path[0], maps_big_3Q)
-            np.save(save_path[1], maps_big_3U)
+            np.save(save_path[0], self.NN_20by20_Q_norm)
+            np.save(save_path[1], self.NN_20by20_U_norm)
 
     def plot_maps_modify(self, Nico_20amin, maps_out_3_348, NNmap_corr_348, m = 36, n = 4, save_path = False):
 

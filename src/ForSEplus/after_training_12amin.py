@@ -12,15 +12,12 @@ from .utility import rescale_min_max, compute_intersection, get_functionals_fix 
 class post_training(object):
 
     
-    def __init__(self, NNout_Q, NNout_U, ss_I, Ls_Q_80amin, Ls_U_80amin, MF = True, patch_id = False, fix_MF = True):
+    def __init__(self, ss_I, Ls_Q_80amin, Ls_U_80amin, MF = True, patch_id = False, fix_MF = True):
         '''
         All processes after the training.
 
         Parameters
         ----------
-
-        NNout_Q/U: ndarray
-            small scales from NN, with shape (174, 320, 320)
         ss_I: ndarray
             intensity small scales 
         Ls_Q/U:  ndarray
@@ -32,29 +29,48 @@ class post_training(object):
         '''        
         
         if patch_id is not False:
-            assert NNout_Q.shape == (1, 320, 320, 1), "shape should be (320, 320, 1)"
             
-            self.NNout_Q = np.copy(NNout_Q).reshape(1, 320, 320);
-            self.NNout_U = np.copy(NNout_U).reshape(1, 320, 320);
-
-            self.thr = ss_I; # intensity small scales at 12amin or 3amin
             self.Ls_Q = Ls_Q_80amin[patch_id].reshape(1, 320, 320)
             self.Ls_U = Ls_U_80amin[patch_id].reshape(1, 320, 320)
-            self.patch_id = patch_id
 
         else:
-            self.NNout_Q = np.copy(NNout_Q);
-            self.NNout_U = np.copy(NNout_U);
-            self.thr = ss_I; # intensity small scales at 12amin or 3amin
+            
             self.Ls_Q = Ls_Q_80amin
             self.Ls_U = Ls_U_80amin
-            self.patch_id = patch_id
             
+        self.thr = ss_I; # intensity small scales at 12amin or 3amin
+        self.patch_id = patch_id
         self.fix_MF = fix_MF
         
         if MF:
             self.MF_I = self.get_one_MF(self.thr, npatches = 174, patch_N = False)
             
+    def import_NNout(self, NNout, stokes = 'Q'):
+        '''
+        Parameters
+        ----------
+        NNout_Q/U: ndarray
+            small scales from NN, with shape (174, 320, 320)  
+        stokes: Q or U; 
+        '''
+        if self.patch_id is not False:
+            assert NNout.shape == (1, 320, 320, 1), "shape should be (1, 320, 320, 1)"
+
+            if stokes == 'Q':
+                self.NNout_Q = NNout.reshape(1, 320, 320)
+                
+            elif stokes == 'U':
+                self.NNout_U = NNout.reshape(1, 320, 320)
+            
+        else:
+            assert NNout.shape == (174, 320, 320, 1), "shape should be (174, 320, 320, 1)"
+            
+            if stokes == 'Q':
+                self.NNout_Q = NNout.reshape(174, 320, 320)
+                
+            elif stokes == 'U':
+                self.NNout_U = NNout.reshape(174, 320, 320)    
+          
     def first_normalization(self, gauss_ss_mean_std):
         '''
         Normalize the small scales w.r.t. Gaussian case in the map level;
@@ -99,8 +115,6 @@ class post_training(object):
         Parameters
         ----------
         
-        maps_out_12Q/U:ndarray
-            small scales after the first normalization; With shape: (174, 320, 320);
         gauss_ss_ps: ndarray
             power spectra for each patch of small scales of Gaussian realization; 2 in 1: cl_QQ and cl_UU; with shape: (2, 174, 1, 25).
         Ls_Q/U: ndarray
@@ -138,8 +152,8 @@ class post_training(object):
             gauss_ss_mean_std_in = gauss_ss_mean_std
             gauss_ss_ps_in = gauss_ss_ps
             
-        NNmapQ_corr = np.ones((N_patch, 320, 320))
-        NNmapU_corr = np.ones((N_patch, 320, 320))
+        self.NNmapQ_corr = np.ones((N_patch, 320, 320))
+        self.NNmapU_corr = np.ones((N_patch, 320, 320))
         
         if ss_only:
             NNmapQ_corr_ssonly = np.ones((N_patch, 320, 320))
@@ -161,18 +175,15 @@ class post_training(object):
                 NNmapQ_corr_ssonly[i] = ((newQ)-np.mean(newQ)+gauss_ss_mean_std_in[0][i])
                 NNmapU_corr_ssonly[i] = ((newU)-np.mean(newU)+gauss_ss_mean_std_in[2][i])
                 
-            NNmapQ_corr[i] = ((newQ)-np.mean(newQ)+gauss_ss_mean_std_in[0][i])*self.Ls_Q[i]
-            NNmapU_corr[i] = ((newU)-np.mean(newU)+gauss_ss_mean_std_in[2][i])*self.Ls_U[i]
-            
-        self.NNmapQ_corr, self.NNmapU_corr = NNmapQ_corr, NNmapU_corr
+            self.NNmapQ_corr[i] = ((newQ)-np.mean(newQ)+gauss_ss_mean_std_in[0][i])*self.Ls_Q[i]
+            self.NNmapU_corr[i] = ((newU)-np.mean(newU)+gauss_ss_mean_std_in[2][i])*self.Ls_U[i]
         
         if ss_only:
             self.NNmapQ_corr_ssonly, self.NNmapU_corr_ssonly = NNmapQ_corr_ssonly, NNmapU_corr_ssonly
-        # return NNmapQ_corr, NNmapU_corr
     
         if save_path:
-            np.save(save_path[0], NNmapQ_corr) # .replace('U', '')
-            np.save(save_path[1], NNmapU_corr)
+            np.save(save_path[0], self.NNmapQ_corr) # .replace('U', '')
+            np.save(save_path[1], self.NNmapU_corr)
             
     def get_one_MF(self, input_maps, npatches = 174, patch_N = False):
         '''
