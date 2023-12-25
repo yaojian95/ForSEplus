@@ -14,7 +14,7 @@
 
 ## Installations
 We assume you alrealy your own python virtual environment. 
-The first thing to do is to install the dependencies. Take a look at `install_dependencies.sh` file.
+The first thing to do is to install the dependencies and the main difficulty is to install the $Namaster$ package. If you are a NERSC user, we prepared a `install_dependencies.sh` file for you. 
 
 Then you have two ways to install this package. 
 
