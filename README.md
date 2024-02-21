@@ -14,7 +14,7 @@
 
 ## Installations
 We assume you alrealy your own python virtual environment. 
-The first thing to do is to install the dependencies and the main difficulty is to install the $Namaster$ package. If you are a NERSC user, we prepared a `install_dependencies.sh` file for you. 
+The first thing to do is to install the dependencies and the main difficulty is to install the `Namaster` package. If you are a NERSC user, we prepared a `install_dependencies.sh` file for you. 
 
 Then you have two ways to install this package. 
 
@@ -23,4 +23,8 @@ Then you have two ways to install this package.
 
 ### from pip
     (venv) $ python -m pip install ForSEplus --user
+    
+## Memory needed
+- only 12amin: CPU 16GB, GPU 10G
+- also go to 3amin: CPU 65GB, GPU (On NERSC Perlmutter, this will exceed the memory limit (64GB) on login node, so you may open a Shared GPU node or submit the job to a compute node.)
     
