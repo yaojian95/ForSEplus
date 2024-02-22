@@ -2,10 +2,10 @@ TODO
 ====
 - change path to some environment variable like os.environ['Forse_plus_data']
 - change verbose to log
-- add recomposition to full sky for 12amin
+- add recomposition to full sky for 12amin (Done)
 - treate Q and U separately!!! will save up to half of the memory used
-- change float6 to float32!!
-- correct_EB also consumes a lo of memory
+- change float64 to float32!! (Done)
+- correct_EB also consumes a lot of memory
 
 
 2023-12-3 Peak RAM: 64GB
