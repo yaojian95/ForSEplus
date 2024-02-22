@@ -39,7 +39,8 @@ Then intialize a instance to generate maps:
     fp = forseplus(dir_data = '/pscratch/sd/j/jianyao/ForSE_plus_data/', 
             return_12 = True,
             go_3 = True,
-            correct_EB = False)
+            correct_EB = False, 
+            seed = None)
 
 and run:
 
@@ -49,14 +50,14 @@ You can choose to return sotchastic maps at 12 arcmin only (`return_12 = True, g
 
 If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Yao et al. to artificially tune the Cl_EE/Cl_BB = 2 for the generated small scales. Otherwise, Cl_EE/Cl_BB = 1. Refer to Section 4.1 of Yao et al. for more details. 
 
-If you want to generate many realizations, just put the `fp.run()` inside a loop. 
+`seed` parameter defines the random seed to generate random component which are added to the fixed, observed large scales. If you want to generate many realizations, just put the `fp.run()` inside a loop and make sure `seed = None`.
 
-## Memory needed (Peak memory) and time cost (with `correct_EB =False`, test on Perlmutter Jupyter Exclusive GPU node)
+## Memory needed (Peak memory) and time cost (with `correct_EB =False`, test on Perlmutter Jupyter login node)
 
 |       Case       |  CPU  | GPU |   Time   |
 | :--------------: | :---: | :-: | :------: |
 |   only 12amin    |  16GB | 10G | ~15 secs |
-| also go to 3amin | 66GB* | 18G | ~5 mins  |
+| also go to 3amin | 63.62GB* | 18G | ~5 mins  |
 
-\* On NERSC Perlmutter, this will exceed the memory limit (64GB) on login node, so you may open a Exclusive GPU node or submit the job to a compute node.
+\* This number is after a careful optimization which doesn't exceed the memory limit (64GB) on Perlmutter login node:-).  However if you have other notebooks running, there will be a 'kernel restarting' error, so you may open a Exclusive GPU node or submit the job to a compute node.
     

@@ -20,7 +20,8 @@ class forseplus:
         return_12 = False,
         go_3 = False,
         correct_EB = False, 
-        plot_MF = False):
+        plot_MF = False,
+        seed = None):
         
         '''
         Parameters
@@ -31,7 +32,7 @@ class forseplus:
         go_3: Bool; If False, will only generate stochastic maps at 12 arcmin;
         correct_EB: Bool; If True, apply the E/B ratio correction proposed in Yao et al. 
         plot_MF: Bool; If True, will also plot the MF overlapping fractions between generated maps and the ground-truth maps, as shown in Yao et al.
-
+        seed: Int; generate the realization of the particular seed
         Return
         ------
         list of arrays.
@@ -87,13 +88,17 @@ class forseplus:
             
         self.plot_MF = plot_MF
         self.correct_EB = correct_EB
+        self.seed = seed
     
-    def run_12(self, return_12, plot_MF = False, correct_EB = False):
+    def run_12(self, return_12):
         
+        if self.seed is not None:
+            np.random.seed(self.seed)
+            
         self.output12.import_NNout(self.model_Q.predict(rescale_input([self.Ls_Q80amin], random_noise = [np.random.uniform(-1, 1, (174, 320, 320))])), stokes = 'Q')
         self.output12.import_NNout(self.model_U.predict(rescale_input([self.Ls_U80amin], random_noise = [np.random.uniform(-1, 1, (174, 320, 320))])), stokes = 'U')
         
-        if plot_MF:
+        if self.plot_MF:
             test = self.output12.plot_MF()
             
         self.output12.normalization(self.gauss_ss_ps_12, self.gauss_ss_mean_std_12, mask_path = self.dir_data + 'masks/mask_320x320.npy')       
@@ -103,7 +108,7 @@ class forseplus:
             full_U_12 = self.recom_12.recompose_fast(self.output12.NNmapU_corr) 
             maps_12amin = np.array((full_Q_12, full_U_12))
         
-            if correct_EB:
+            if self.correct_EB:
                 print('12amin: correct the E/B ratio')
                 maps_12amin = correct_EB(full_Q_12, full_U_12, reso = '12amin')
 
@@ -111,8 +116,11 @@ class forseplus:
         
         return 0
     
-    def run_3(self, plot_MF = False, correct_EB = False):
-        
+    def run_3(self):
+
+        if self.seed is not None:
+            np.random.seed(self.seed)
+            
         # 6.5G # 6.5G
         self.output3.import_NNout(self.model_Q_3.predict(rescale_input([from_12toXX(self.output12.NNmapQ_corr, XX = 20)], random_noise = [np.random.uniform(-1, 1, (174*49, 320, 320))])), stokes = 'Q')
         self.output3.import_NNout(self.model_U_3.predict(rescale_input([from_12toXX(self.output12.NNmapU_corr, XX = 20)], random_noise = [np.random.uniform(-1, 1, (174*49, 320, 320))])), stokes = 'U')
@@ -122,14 +130,14 @@ class forseplus:
 
         self.output3.combine_to_20by20(self.output3.NNmapQ_corr, self.output3.NNmapU_corr, maps = 'ss_norm')
         
-        if plot_MF:
+        if self.plot_MF:
             test = self.output3.plot_MF(patch_N = 3, savedir=False)
 
         full_Q = self.recom_3.recompose_fast(self.output3.NN_20by20_Q_norm)
         full_U = self.recom_3.recompose_fast(self.output3.NN_20by20_U_norm)
         maps_3amin = np.array((full_Q, full_U))
         
-        if correct_EB:
+        if self.correct_EB:
             print('3amin: correct the E/B ratio')
             maps_3amin = correct_EB(full_Q, full_U, reso = '3amin') # takes about 4 mins.
 
@@ -140,11 +148,11 @@ class forseplus:
         To generate realizations of maps at 12 arcmin and 3 arcmin. `run_12` is run first whose results are the input of `run_3`.
         '''
 
-        maps_12amin = self.run_12(self.return_12, plot_MF = self.plot_MF, correct_EB = self.correct_EB)
+        maps_12amin = self.run_12(self.return_12)
         
         if self.go_3:
         
-            maps_3amin = self.run_3(plot_MF = self.plot_MF, correct_EB = self.correct_EB)
+            maps_3amin = self.run_3()
 
             # hp.write_map(dir_data + '3amin_full/Random_3amin_full_Q_%03d.fits'%(i), maps_3amin[0], overwrite=True)
             # hp.write_map(dir_data + '3amin_full/Random_3amin_full_U_%03d.fits'%(i), maps_3amin[1], overwrite=True)
