@@ -14,20 +14,20 @@
 - numba (only to accelearte the calculation of Minkowski functionals for a given patch): http://numba.pydata.org/
 
 We assume you alrealy have your own python virtual environment. 
-The first thing to do is to install the dependencies and the main difficulty is to install the `Namaster` package. If you are a NERSC user, we prepared a `install_dependencies.sh` file for you. 
+The first thing to do is to install the dependencies and the main difficulty is to install the `Namaster` package, which has its own dependencies. You can install it with `conda` and if you want to install `Namaster` dependencies from source codes, we prepared a [install_dependencies.sh](install_dependencies.sh) file for you. 
 
 Then you have two ways to install this package. 
 
 ## from source
 Download the source code, then 
 
-    (venv) $ python -m pip install -e . --user
+    (venv) $ python -m pip install . --user
 
 ## from pip (not updated with the latest source code yet)
     (venv) $ python -m pip install ForSEplus --user
 
 # Ancillary data 
-The zipped complete ancillary data can be downloaded at ... (13GB in total after decompression). Then decompress the files into a directory, whose path should be given to `dir_data` when running the pipeline. 
+The zipped complete ancillary data can be downloaded at ... (9.4GB in total after decompression). Then decompress the files into a directory, whose path should be given to `dir_data` when running the pipeline. If you are on NERSC, you can use `dir_data = /pscratch/sd/j/jianyao/ForSE_plus_data_32/`, which I already open the permission to all. 
 
 # Usage
 Once installed, import the `forseplus` as:
@@ -36,7 +36,7 @@ Once installed, import the `forseplus` as:
     
 Then intialize a instance to generate maps:
 
-    fp = forseplus(dir_data = '/pscratch/sd/j/jianyao/ForSE_plus_data/', 
+    fp = forseplus(dir_data = '/pscratch/sd/j/jianyao/ForSE_plus_data_32/', 
             return_12 = True,
             go_3 = True,
             correct_EB = False, 
@@ -52,7 +52,7 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 
 `seed` parameter defines the random seed to generate random component which are added to the fixed, observed large scales. If you want to generate many realizations, just put the `fp.run()` inside a loop and make sure `seed = None`.
 
-## Memory needed (Peak memory) and time cost (with `correct_EB =False`, test on Perlmutter Jupyter login node)
+## Memory needed (Peak memory) and time cost (with `correct_EB = False`, test on Perlmutter Jupyter login node)
 
 |       Case       |  CPU  | GPU |   Time   |
 | :--------------: | :---: | :-: | :------: |
