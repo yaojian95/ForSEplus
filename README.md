@@ -52,8 +52,11 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 If you want to generate many realizations, just put the `fp.run()` inside a loop. 
 
 ## Memory needed (Peak memory) and time cost (test on Perlmutter Jupyter Exclusive GPU node)
-- only 12amin: CPU 16GB, GPU 10G; ~15 secs
-- also go to 3amin: CPU 66GB*, GPU 18G; ~5 mins
 
-* (On NERSC Perlmutter, this will exceed the memory limit (64GB) on login node, so you may open a Exclusive GPU node or submit the job to a compute node.)
+|       Case       |  CPU  | GPU |   Time   |
+| :--------------: | :---: | :-: | :------: |
+|   only 12amin    |  16GB | 10G | ~15 secs |
+| also go to 3amin | 66GB* | 18G | ~5 mins  |
+
+\* On NERSC Perlmutter, this will exceed the memory limit (64GB) on login node, so you may open a Exclusive GPU node or submit the job to a compute node.
     
