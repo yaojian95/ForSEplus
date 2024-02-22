@@ -257,7 +257,8 @@ class post_training(object):
                 if j == 1:
                     axes[j, i].set_xlabel(r'$\rho$', fontsize=25)
                     
-                axes[j, i].legend(title = 'OF = %.2f'%results[j][i], fontsize = 30, frameon=False, title_fontsize=30)
+                if i == 0:    
+                    axes[j, i].legend(title = 'OF = %.2f'%results[j][i], fontsize = 30, frameon=False, title_fontsize=30)
                 
         plt.tight_layout()
         if savedir:
