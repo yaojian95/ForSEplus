@@ -27,7 +27,7 @@ Download the source code, then
     (venv) $ python -m pip install ForSEplus --user
 
 # Ancillary data 
-The zipped complete ancillary data can be downloaded [here](https://drive.google.com/file/d/1dqRQBc2832HpQHQx6dQzkwTkT71kSQiw/view?usp=sharing) (4G, 9.4GB after decompression). Then decompress the files into a directory, whose path should be given to `dir_data` when running the pipeline. If you are on NERSC, you can use `dir_data = /pscratch/sd/j/jianyao/ForSE_plus_data_32/`, which I already open the permission to all. 
+The zipped complete ancillary data can be downloaded [here](https://drive.google.com/file/d/1dqRQBc2832HpQHQx6dQzkwTkT71kSQiw/view?usp=sharing) (4GB, 9.4GB after decompression). Then decompress the files into a directory, whose path should be given to `dir_data` when running the pipeline. If you are on NERSC, you can use `dir_data = /pscratch/sd/j/jianyao/ForSE_plus_data_32/`, which I already open the permission to all. 
 
 # Usage
 Once installed, import the `forseplus` as:
@@ -56,8 +56,8 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 
 |       Case       |  CPU  | GPU |   Time   |
 | :--------------: | :---: | :-: | :------: |
-|   only 12amin    |  16GB | 10G | ~15 secs |
-| also go to 3amin | 63.62GB* | 18G | ~5 mins  |
+|   only 12amin    |  16GB | 10GB | ~15 secs |
+| also go to 3amin | 63.62GB* | 18GB | ~5 mins  |
 
 \* This number is after a careful optimization which doesn't exceed the memory limit (64GB) on Perlmutter login node:-).  However if you have other notebooks running, there will be a 'kernel restarting' error, so you may open a Exclusive GPU node or submit the job to a compute node.
     
