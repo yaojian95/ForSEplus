@@ -1,6 +1,6 @@
 # ForSEplus
 
-- Simulate **polarized non-Gaussian** thermal dust emission at **353GHz**.
+- Simulate **stochastic, polarized(QU), non-Gaussian** thermal dust emission at **353GHz** up to 3 arcminutes.
 - plus version of https://github.com/ai4cmb/ForSE.
 
 - If you want to use the generated maps directly, we also offer 500 realizations of maps at url...
