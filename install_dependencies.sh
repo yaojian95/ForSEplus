@@ -61,9 +61,11 @@ pip install numba --user
 
 ## Below is option.
 ###################### generate a jupyter kernel  call my_forse, which has pymaster installed ###############################
-python -m ipykernel install --user --name my_forse --display-name my_forse
 
-cd $HOME/.local/share/jupyter/kernels/my_forse
+kernel_name="my_forse"
+python -m ipykernel install --user --name $kernel_name --display-name $kernel_name
+
+cd $HOME/.local/share/jupyter/kernels/$kernel_name
 file=kernel.json
 
 sed -i '3d' $file
@@ -73,7 +75,7 @@ sed -i '4i \  \"python",' $file
 file="kernel-helper.sh"
 echo "#!/bin/bash" >> $file
 echo "module load tensorflow" >> $file
-echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$my_home//cfitsio/lib:$my_home/gsl/lib:$my_home/fftw/lib" >> $file
+echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$my_home/cfitsio/lib:$my_home/gsl/lib:$my_home/fftw/lib" >> $file
 echo "exec \"\$@\"" >> $file
 
 chmod u+x kernel-helper.sh
