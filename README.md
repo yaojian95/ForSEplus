@@ -27,7 +27,7 @@ Download the source code, then
     (venv) $ python -m pip install ForSEplus --user
 
 # Ancillary data 
-The zipped complete ancillary data can be downloaded at ... (9.4GB in total after decompression). Then decompress the files into a directory, whose path should be given to `dir_data` when running the pipeline. If you are on NERSC, you can use `dir_data = /pscratch/sd/j/jianyao/ForSE_plus_data_32/`, which I already open the permission to all. 
+The zipped complete ancillary data can be downloaded [here](https://drive.google.com/file/d/1dqRQBc2832HpQHQx6dQzkwTkT71kSQiw/view?usp=sharing) (4G, 9.4GB after decompression). Then decompress the files into a directory, whose path should be given to `dir_data` when running the pipeline. If you are on NERSC, you can use `dir_data = /pscratch/sd/j/jianyao/ForSE_plus_data_32/`, which I already open the permission to all. 
 
 # Usage
 Once installed, import the `forseplus` as:
