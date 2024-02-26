@@ -1,9 +1,9 @@
 # ForSEplus
 
-- Simulate **stochastic, polarized(QU), non-Gaussian** thermal dust emission at **353GHz** up to 3 arcminutes.
+- Simulate **stochastic, polarized(QU), non-Gaussian** thermal dust emission at **353GHz** up to **3 arcminutes**.
 - plus version of https://github.com/ai4cmb/ForSE.
 
-- If you want to use the generated maps directly, we also offer 500 realizations of maps at url...
+- If you want to use the generated maps directly, we also offer some realizations of maps at url...
 
 # Installations
 ## Dependencies  
@@ -61,5 +61,5 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 |   only 12amin    |  16GB | 10GB | ~15 secs |
 | also go to 3amin | 63.62GB* | 18GB | ~5 mins  |
 
-\* This number is after a careful optimization which doesn't exceed the memory limit (64GB) on Perlmutter login node:-).  However if you have other notebooks running, there will be a 'kernel restarting' error caused by the memory limit, so you may open a Exclusive GPU node or submit the job to a compute node (which of course needs allocation hours, which is a bit troublesome(っ◞‸◟ c), but we will continue to optimize the memory usage during the running).
+\* This number is after a careful optimization which doesn't exceed the memory limit (64GB) on Perlmutter login node:-).  However if you have other notebooks running, there will be a 'kernel restarting' error caused by the memory limit, so you may open an Exclusive GPU node or submit the job to a compute node (which of course needs allocation hours, which is a bit troublesome(っ◞‸◟ c), but we will continue to optimize the memory usage during the running).
     
