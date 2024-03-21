@@ -1,7 +1,7 @@
 # ForSEplus
 
-<img src="snr_10.gif"/>
-
+<img src="snr_1.gif"/>
+*Different realizations of small scales at 12 arcminutes in the second column.*
 - Simulate **stochastic, polarized(QU), non-Gaussian** thermal dust emission at **353GHz** up to **3 arcminutes**.
 - plus version of https://github.com/ai4cmb/ForSE.
 
