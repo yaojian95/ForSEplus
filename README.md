@@ -1,5 +1,7 @@
 # ForSEplus
 
+<img src="snr_10.gif"/>
+
 - Simulate **stochastic, polarized(QU), non-Gaussian** thermal dust emission at **353GHz** up to **3 arcminutes**.
 - plus version of https://github.com/ai4cmb/ForSE.
 
