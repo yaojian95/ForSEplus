@@ -356,6 +356,34 @@ def get_functionals_fix(im , nevals= 32):
     return rhos, f,u,chi
 
 def compute_intersection(x, cont1, cont2, npt=10000):
+    
+    """
+    Compute the ratio of the area of intersection between two sets of curves to the total area spanned by both sets of curves.
+    Each set of curves include two curves, indicating the ymins and ymaxs respectively. For example, each set can include +1\sigma and 
+    -1 \sigma curves.
+
+    Parameters:
+    -----------
+    x (array-like): The x-values corresponding to the curves.
+    cont1 (tuple): Tuple containing two arrays representing the first set of curves. 
+                   The first array represents the minimum y-values of the curves, 
+                   and the second array represents the maximum y-values.
+    cont2 (tuple): Tuple containing two arrays representing the second curve. 
+                   The first array represents the minimum y-values of the curve, 
+                   and the second array represents the maximum y-values.
+    npt (int, optional): Number of random points to generate for estimating the intersection area. 
+                         Defaults to 10000.
+
+    Returns:
+    --------
+    float: The ratio of the area of intersection between the two sets of curves to the total area spanned by both sets of curves.
+
+    Algorithm:
+    This function estimates the intersection area ratio using the Monte Carlo method. 
+    It generates random points within the y-bounds of the curves and checks if they fall within each curve and the intersection. 
+    The ratio of the area of intersection to the total area spanned by both curves is then computed based on the counts of points.
+
+    """
     ymin1 = cont1[0]
     ymax1 = cont1[1]
     ymin2 = cont2[0]
