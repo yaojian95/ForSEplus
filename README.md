@@ -11,12 +11,16 @@
 # Installations
 ## Dependencies  
 
-- Astropy: https://www.astropy.org
-- Healpy: https://healpy.readthedocs.io/en/latest/
-- Tensorflow: https://www.tensorflow.org
-- Namaster (to compute power spectra to normalize the small scales from neural networks): https://namaster.readthedocs.io/en/latest/
-- reproject (only to perform projection from Healpix maps to flat patches and viceversa): https://pypi.org/project/reproject/
-- numba (only to accelearte the calculation of Minkowski functionals for a given patch): http://numba.pydata.org/
+[![astropy](https://img.shields.io/badge/-astropy-blue)](https://www.astropy.org)
+[![healpy](https://img.shields.io/badge/-healpy-blue)](https://healpy.readthedocs.io/en/latest/)
+[![tensorflow](https://img.shields.io/badge/-tensorflow-blue)](https://www.tensorflow.org)
+[![Namaster](https://img.shields.io/badge/-Namaster-blue)](https://namaster.readthedocs.io/en/latest/)
+[![reproject](https://img.shields.io/badge/-reproject-blue)](https://pypi.org/project/reproject/)
+[![numba](https://img.shields.io/badge/-numba-blue)](http://numba.pydata.org/)
+
+- Namaster: to compute power spectra to normalize the small scales from neural networks
+- reproject: only needed to perform projection from Healpix maps to flat patches and vice versa
+- numba: only needed to accelearte the calculation of Minkowski functionals for a given patch
 
 We assume you alrealy have your own python virtual environment. 
 The first thing to do is to install the dependencies and the main difficulty is to install the `Namaster` package, which has its own dependencies. You can install it with `conda` and if you want to install `Namaster` dependencies from source codes, we prepared a [install_dependencies.sh](install_dependencies.sh) file for you. 
