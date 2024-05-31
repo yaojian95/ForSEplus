@@ -51,11 +51,13 @@ Then intialize a instance to generate maps:
             correct_EB = False, 
             seed = None)
 
-and run:
+You can choose to return sotchastic maps at 12 arcmin only (`return_12 = True, go_3 = False`), or maps at 3 arcmin only (`return_12 = False, go_3 = True`), or both (`return_12 = True, go_3 = True`), though in any case maps at 12 arcmin will be generated since 12arcmin maps will be the input to generate maps at 3arcmin. 
+
+Then you can run:
 
     maps_12amin, maps_3amin = fp.run()
     
-You can choose to return sotchastic maps at 12 arcmin only (`return_12 = True, go_3 = False`), or maps at 3 arcmin only (`return_12 = False, go_3 = True`), or both (`return_12 = True, go_3 = True`), though in any case maps at 12 arcmin will be generated since 12arcmin maps will be the input to generate maps at 3arcmin. QU Maps in `uK_CMB` units at 12amin will be (2, 12\*2048\*\*2), 3amin will be (2, 12*4096\*\*2).
+to obtain QU Maps, which will be in `uK_CMB` units. Returned QU maps at 12amin will be (2, 12\*2048\*\*2), 3amin will be (2, 12*4096\*\*2).
 
 If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Yao et al. to artificially tune the Cl_EE/Cl_BB = 2 for the generated small scales. Otherwise, Cl_EE/Cl_BB = 1. Refer to Section 4.1 of Yao et al. for more details. 
 
