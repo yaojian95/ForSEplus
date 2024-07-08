@@ -71,4 +71,27 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 | also go to 3amin | 63.62GB* | 18GB | ~5 mins  |
 
 \* This number is after a careful optimization which doesn't exceed the memory limit (64GB) on Perlmutter login node:-).  However if you have other notebooks running, there will be a 'kernel restarting' error caused by the memory limit, so you may open an Exclusive GPU node or submit the job to a compute node (which of course needs allocation hours, which is a bit troublesome(っ◞‸◟ c), but we will continue to optimize the memory usage during the running).
+
+# Citation
+
+[![doi](https://img.shields.io/badge/-doi-cyan)](https://doi.org/10.1051/0004-6361/202449827)
+
+    @ARTICLE{2021ApJ...911...42K,
+           author = {{Krachmalnicoff}, Nicoletta and {Puglisi}, Giuseppe},
+            title = "{ForSE: A GAN-based Algorithm for Extending CMB Foreground Models to Subdegree Angular Scales}",
+          journal = {\apj},
+         keywords = {Cosmic microwave background radiation, Neural networks, Diffuse radiation, 322, 1933, 383, Astrophysics - Cosmology and Nongalactic Astrophysics, Astrophysics - Instrumentation and Methods for Astrophysics},
+             year = 2021,
+            month = apr,
+           volume = {911},
+           number = {1},
+              eid = {42},
+            pages = {42},
+              doi = {10.3847/1538-4357/abe71c},
+    archivePrefix = {arXiv},
+           eprint = {2011.02221},
+     primaryClass = {astro-ph.CO},
+           adsurl = {https://ui.adsabs.harvard.edu/abs/2021ApJ...911...42K},
+          adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+    }
     
