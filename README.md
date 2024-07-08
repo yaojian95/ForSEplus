@@ -74,7 +74,7 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 
 # Citation
 
-[![doi](https://img.shields.io/badge/-doi-cyan)](https://doi.org/10.1051/0004-6361/202449827)
+[![DOI:<10.1051/0004-6361/202449827>](http://img.shields.io/badge/DOI-<10.1051/0004-6361/202449827>-<B31B1B>.svg)](<https://doi.org/10.1051/0004-6361/202449827>)
 
     @ARTICLE{2021ApJ...911...42K,
            author = {{Krachmalnicoff}, Nicoletta and {Puglisi}, Giuseppe},
