@@ -76,6 +76,24 @@ If set `correct_EB = True`, it will apply the E/B ratio correction proposed in Y
 
 [![DOI:10.1051/0004-6361/202449827](http://img.shields.io/badge/DOI-10.1051/0004--6361/202449827-B31B1B.svg)](https://doi.org/10.1051/0004-6361/202449827)
 
+    @ARTICLE{2024A&A...686A.290Y,
+           author = {{Yao}, Jian and {Krachmalnicoff}, Nicoletta and {Foschi}, Marianna and {Puglisi}, Giuseppe and {Baccigalupi}, Carlo},
+            title = "{FORSE+: Simulating non-Gaussian CMB foregrounds at 3 arcmin in a stochastic way based on a generative adversarial network}",
+          journal = {\aap},
+         keywords = {methods: data analysis, cosmic background radiation, diffuse radiation, Astrophysics - Cosmology and Nongalactic Astrophysics, Astrophysics - Instrumentation and Methods for Astrophysics},
+             year = 2024,
+            month = jun,
+           volume = {686},
+              eid = {A290},
+            pages = {A290},
+              doi = {10.1051/0004-6361/202449827},
+    archivePrefix = {arXiv},
+           eprint = {2406.14519},
+     primaryClass = {astro-ph.CO},
+           adsurl = {https://ui.adsabs.harvard.edu/abs/2024A&A...686A.290Y},
+          adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+    }
+
     @ARTICLE{2021ApJ...911...42K,
            author = {{Krachmalnicoff}, Nicoletta and {Puglisi}, Giuseppe},
             title = "{ForSE: A GAN-based Algorithm for Extending CMB Foreground Models to Subdegree Angular Scales}",
